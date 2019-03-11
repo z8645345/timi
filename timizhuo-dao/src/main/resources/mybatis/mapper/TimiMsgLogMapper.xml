@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.timi.timizhuo.dao.mapper.TimiMsgLogMapper">
+  <resultMap id="BaseResultMap" type="com.timi.timizhuo.dao.model.TimiMsgLog">
+
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="msg_type" jdbcType="VARCHAR" property="msgType" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.timi.timizhuo.dao.model.TimiMsgLog">
+    <result column="msg" jdbcType="LONGVARCHAR" property="msg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, msg_type, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    msg
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from timi_msg_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="findLastMsg" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from timi_msg_log
+    order by create_time desc limit 1
+  </select>
+
+  <select id="findAll" resultMap="ResultMapWithBLOBs">
+    select * from timi_msg_log t1 join timi_user t2 on (t1.user_id=t2.user_id) order by t1.create_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from timi_msg_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+    insert into timi_msg_log (id, user_id, msg_type, msg
+      )
+    values (uuid(), #{userId,jdbcType=VARCHAR}, #{msgType,jdbcType=VARCHAR},
+      #{msg,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+    insert into timi_msg_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="msgType != null">
+        msg_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="msg != null">
+        msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msg != null">
+        #{msg,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+    update timi_msg_log
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null">
+        msg_type = #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msg != null">
+        msg = #{msg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+    update timi_msg_log
+    set user_id = #{userId,jdbcType=VARCHAR},
+      msg_type = #{msgType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      msg = #{msg,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+    update timi_msg_log
+    set user_id = #{userId,jdbcType=VARCHAR},
+      msg_type = #{msgType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

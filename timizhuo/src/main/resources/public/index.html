@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge，chrome=1">
+		<title>婷迷</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta name="author" content="design by www.22vd.com">
+		<link href="css/animate.min.css" rel="stylesheet">
+		<link href="font/iconfont.css" rel="stylesheet">
+		<link href="css/global.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+		<link href="css/teachers.css" rel="stylesheet">
+		<!--<link rel="shortcut icon" href="images/favicon.ico">-->
+	</head>
+
+	<body id="app">
+		<!-- head start -->
+		<header class="header header-top headroom headroom--pinned headroom--top" id="header">
+			<div class="container">
+				<h1><a href="index.html" class="logo pull-left"><img src="images/logo.jpg" width="156" height="48" alt="Timi"></a><small class="pull-left">Timi 粉丝网<br>
+      Donghai Xiangma Trade Co., Ltd.</small></h1>
+				<nav class="nav pull-right">
+					<ul class="nav-bar list-unstyled pull-left" id="nav">
+						<li class="active">
+							<a href="index.html" class="hover">网站首页</a>
+						</li>
+						<li>
+							<a href="huodong.html">最新活动</a>
+						</li>
+						<li>
+							<a href="weibo.html">微博动态</a>
+						</li>
+						<li>
+							<a href="xiangce.html">最新相册</a>
+						</li>
+						<li>
+							<a href="shipin.html">最新视频</a>
+						</li>
+						<li>
+							<a href="luntan.html">论坛区域</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<!-- head End -->
+		<!-- banner start -->
+		<div class="text-center" style="position: relative;">
+			<ul class="rslides list-unstyled rslides1">
+				<li id="rslides1_s0">
+					<div class="banner" style="background-image: url(images/timi-01.jpg);">
+					</div>
+				</li>
+				<li id="rslides1_s1">
+					<div class="banner" style="background-image:url(images/timi-04.jpg)">
+					</div>
+				</li>
+				<li id="rslides1_s2">
+					<div class="banner" style="background-image:url(images/timi-07.jpg)">
+					</div>
+				</li>
+			</ul>
+			<a href="index.html" class="rslides_nav rslides1_nav prev">Previous</a>
+			<a href="index.html" class="rslides_nav rslides1_nav next">Next</a>
+		</div>
+		<!-- banner End -->
+		<!-- 活动 start -->
+		<section class="case sx-padding" id="timiShow">
+			<div class="container">
+				<h2 class="f-title wow animated fadeInUp animated">最新活动 Product display<a class="more-a" href="weibo.html">更多</a></h2>
+				<hr style="margin-bottom: 30px; border-bottom: 1px solid #bbb;">
+				<div class="row">
+					<div class="neirong container huodong-list" id="demo" v-for="show in shows">
+						<article class="ny-news clearfix wow animated fadeInUp animated">
+							<figure class="pull-left y-m50">
+								<a href="#" target="_blank">
+									<div class="weibo-img">
+										<p v-bind:style="show.showImgs"></p>
+									</div>
+								</a>
+							</figure>
+							<h1 class="nr-h20"><a href="#" target="_blank">{{ show.showTitle }}</a></h1>
+							<p class="shuoming x-m30">{{ show.showDetail }}</p>
+							<p>
+								<a href="#" class="btn-success" target="_blank">详 细 →</a>
+								<small class="time"><span class=" iconfont icon-time"></span>{{ show.showTime }}</small>
+								<small class="guanzhu"><span class=" iconfont icon-time"></span>{{ show.showAddress }}</small>
+							</p>
+						</article>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 活动 end -->
+		<!-- 微博 start -->
+		<section class="case sx-padding" id="timiWeibo">
+			<div class="container">
+				<h2 class="f-title wow animated fadeInUp animated">微博动态 Product display<a class="more-a" href="weibo.html">更多</a></h2>
+				<hr style="margin-bottom: 30px; border-bottom: 1px solid #bbb;">
+				<div class="row">
+					<div class="neirong container" id="demo">
+						<article class="ny-news clearfix wow animated fadeInUp animated">
+							<div class="weibo-list">
+								<ul>
+									<li v-for="weibo in weibos">
+										<a v-bind:href="weibo.originalTextUrl" target="_blank">
+											<div class="weibo-main">
+												<div class="weibo-user"><img v-bind:src="weibo.timiPic" /></div>
+												<div class="weibo-wenben">
+													<h2>卓依婷</h2>
+													<h3><span> {{ weibo.createdAt }}</span>&nbsp;来自&nbsp;<span>iPhone X</span></h3>
+													<p> {{ weibo.weiboText }} </p>
+													<div class="weibo-img-list weibo-img-list-1 ">
+														<ul>
+															<li v-for="weiboPic in weibo.weiboPics">
+																<div class="weibo-img">
+																	<p v-bind:style="weiboPic"></p>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+
+						</article>
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 微博 end -->
+		<!-- 相册 start -->
+		<section class="case sx-padding" id="demo">
+			<div class="container">
+				<h2 class="f-title wow animated fadeInUp animated">最新相册 Product display<a class="more-a" href="weibo.html">更多</a></h2>
+				<hr <hr style="margin-bottom: 30px; border-bottom: 1px solid #bbb;">
+				<div class="row">
+					<div class="teachers_banner">
+						<div class="container clearfix teachers_b">
+							<div class="slide xiangce-list " id="slide">
+								<ul>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="xiangce-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+												</div>
+												<div class="xiangce-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3>贡献人：&nbsp;<span>某某某</span></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+								</ul>
+								<div class="arrow">
+									<div class="prev">
+										<</div>
+											<div class="next">></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</section>
+		<!-- 相册 end -->
+		<!-- 视频 start -->
+		<section class="case sx-padding" id="demo">
+			<div class="container">
+				<h2 class="f-title wow animated fadeInUp animated">热门视频 Product display<a class="more-a" href="weibo.html">更多</a></h2>
+				<hr <hr style="margin-bottom: 30px; border-bottom: 1px solid #bbb;">
+				<div class="row">
+					<div class="neirong container" id="demo">
+						<article class="ny-news clearfix wow animated fadeInUp animated">
+							<div class="shipin-list shipin-list">
+								<ul>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<div class="shipin-main">
+												<div class="weibo-img">
+													<p style="background-image: url(images/t1.jpg);"></p>
+													<div class="mengban-div"><span class="iconfont icon-time"></span></div>
+													<div class="jianyao-div">
+														<p><span class="iconfont icon-time"></span><span>2018-10-10 20:00</span></p>
+														<p><span class="iconfont icon-time"></span><span>04:20</span></p>
+													</div>
+												</div>
+												<div class="shipin-wenben">
+													<p title="谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴">谢谢每到一个地方就有你们的跟随，也谢谢没在现场的朋友也守在微博等我😉晚安啦😴</p>
+													<h3><p><span class="iconfont icon-shoucang2"></span><span>100</span></p><p><span class="iconfont icon-tuanduicankaoxian-"></span><span>100</span></p><p>贡献人：&nbsp;<span>某某某</span></p></h3>
+												</div>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</article>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 视频 end -->
+		<!-- 论坛 start -->
+		<section class="case sx-padding" id="demo">
+			<div class="container">
+				<h2 class="f-title wow animated fadeInUp animated">论坛帖子  Product display<a class="more-a" href="weibo.html">更多</a></h2>
+				<hr <hr style="margin-bottom: 30px; border-bottom: 1px solid #bbb;">
+				<div class="row">
+					<div class="neirong container" id="demo">
+						<article class="ny-news clearfix wow animated fadeInUp animated">
+							<h1 class="nr-h5"><a href="/news/gongsi/50.html" target="_blank">卓依婷宿迁粉丝见面会圆满成功</a></h1>
+							<h3 class="nr-h5"><span> 2018年8月5日 16:53</span>&emsp;&emsp;作者：<span>某某某</span></h3>
+							<p class="shuoming">迈向品牌之路...... 这一刻也许来得太迟，也许正当时！ 互联网给了我们太多的机会，也给了我们太多的无奈！ 品牌之路是艰辛的、是漫长的，迈出这一步需要有超常人的勇气！ 上象做...</p>
+							<div class="weibo-img-list weibo-img-list-3">
+								<ul>
+									<li>
+										<div class="weibo-img">
+											<p style="background-image: url(images/t1.jpg);"></p>
+										</div>
+									</li>
+									<li>
+										<div class="weibo-img">
+											<p style="background-image: url(images/t2.jpg);"></p>
+										</div>
+									</li>
+									<li>
+										<div class="weibo-img">
+											<p style="background-image: url(images/t2.jpg);"></p>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<p>
+								<a href="#" class="btn-success" target="_blank">详 细 →</a>
+								<small class="time"><span class=" iconfont icon-pinglun"></span>2739</small>
+								<small class="guanzhu"><span class=" iconfont icon-time"></span>2015-11-10</small>
+							</p>
+						</article>
+						<article class="ny-news clearfix wow animated fadeInUp animated">
+							<h1 class="nr-h5"><a href="/news/gongsi/50.html" target="_blank">卓依婷宿迁粉丝见面会圆满成功</a></h1>
+							<h3 class="nr-h5"><span> 2018年8月5日 16:53</span>&emsp;&emsp;作者：<span>某某某</span></h3>
+							<p class="shuoming">迈向品牌之路...... 这一刻也许来得太迟，也许正当时！ 互联网给了我们太多的机会，也给了我们太多的无奈！ 品牌之路是艰辛的、是漫长的，迈出这一步需要有超常人的勇气！ 上象做...</p>
+							<div class="weibo-img-list weibo-img-list-3">
+								<ul>
+									<li>
+										<div class="weibo-img">
+											<p style="background-image: url(images/t1.jpg);"></p>
+										</div>
+									</li>
+									<li>
+										<div class="weibo-img">
+											<p style="background-image: url(images/t2.jpg);"></p>
+										</div>
+									</li>
+									<li>
+										<div class="weibo-img">
+											<p style="background-image: url(images/t2.jpg);"></p>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<p>
+								<a href="#" class="btn-success" target="_blank">详 细 →</a>
+								<small class="time"><span class=" iconfont icon-pinglun"></span>2739</small>
+								<small class="guanzhu"><span class=" iconfont icon-time"></span>2015-11-10</small>
+							</p>
+						</article>
+
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- 论坛 end -->
+		<!-- footer start -->
+		<footer style="background-image: url(images/2014092185736673.jpg);" class="pingpu-bg" id="yy">
+			<div id="demo" class="footer container sx-padding">
+				<div class="clearfix wow animated fadeIn">
+					<section class="bianju">
+						<h3>联系我们 Contact US</h3>
+					</section>
+				</div>
+			</div>
+			<div class="foot">
+				<div class="container clearfix">
+					<p class="copy pull-left">
+						<a href="index.html" target="_blank"></a>
+					</p>
+				</div>
+			</div>
+		</footer>
+		<!-- footer end -->
+		<!-- jQuery start -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/wow.min.js"></script>
+		<script>
+			wow = new WOW({
+				animateClass: 'animated',
+				offset: 100
+			});
+			wow.init();
+		</script>
+		<!-- header up start -->
+		<script src="js/headroom.min.js"></script>
+		<script src="js/jquery.headroom.js"></script>
+		<script>
+			$("#header").headroom();
+		</script>
+		<!-- banner start -->
+		<script type="text/javascript" src="js/jiaodiantu.js"></script>
+		<script type="text/javascript" src="js/nav.hover.js"></script>
+		<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+		<script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+		<!--相册-->
+		<script>
+			$(function() {
+
+				/*图片位置数据*/
+				var datas = [{
+						'z-index': 6,
+						opacity: 1,
+						width: 600,
+						height: 500,
+						top: 80,
+						left: 0
+					},
+					{
+						'z-index': 4,
+						opacity: 0.6,
+						width: 500,
+						height: 400,
+						top: 120,
+						left: -400
+					},
+					{
+						'z-index': 3,
+						opacity: 0.4,
+						width: 400,
+						height: 300,
+						top: 50,
+						left: -500
+					},
+					{
+						'z-index': 3,
+						opacity: 0.2,
+						width: 300,
+						height: 200,
+						top: -10,
+						left: -150
+					},
+					{
+						'z-index': 2,
+						opacity: 0.2,
+						width: 200,
+						height: 100,
+						top: -60,
+						left: 200
+					},
+					{
+						'z-index': 3,
+						opacity: 0.2,
+						width: 300,
+						height: 200,
+						top: -10,
+						left: 550
+					},
+					{
+						'z-index': 3,
+						opacity: 0.4,
+						width: 400,
+						height: 300,
+						top: 50,
+						left: 600
+					},
+					{
+						'z-index': 4,
+						opacity: 0.6,
+						width: 500,
+						height: 400,
+						top: 120,
+						left: 400
+					},
+				]
+				move();
+
+				function move() {
+					/*图片分布*/
+					for(var i = 0; i < datas.length; i++) {
+						var data = datas[i];
+						$('#slide ul li').eq(i).css('z-index', data['z-index']);
+						$('#slide ul li').eq(i).stop().animate(data, 1200);
+					}
+				}
+
+				/*左箭头事件*/
+				$('.prev').on('click', function() {
+					var last = datas.pop();
+					datas.unshift(last);
+
+					move();
+				})
+
+				/*右箭头事件处理函数*/
+				function nextYewu() {
+					var first = datas.shift();
+					datas.push(first);
+					move();
+				}
+				/*右箭头事件*/
+				$('.next').on('click', nextYewu);
+
+				/*自动播放*/
+				var timer = setInterval(function() {
+					nextYewu();
+				}, 50000);
+				/*鼠标进入slide显示箭头,清除自动播放*/
+				$('#slide').on({
+					mouseenter: function() {
+						$('.arrow').css('display', 'block');
+						clearInterval(timer);
+					},
+					mouseleave: function() {
+						$('.arrow').css('display', 'none');
+						/*鼠标离开时自动播放*/
+						clearInterval(timer);
+						timer = setInterval(function() {
+							nextYewu();
+						}, 50000)
+					}
+				})
+
+			});
+            var timiShow = new Vue({
+                el: '#timiShow',
+                data: {
+                    shows: []
+                },
+                mounted(){
+                    this.loadShow();
+                },
+                methods:{
+					loadShow: function () {
+                        this.$http.post('/timizhuo/show/findAll',{pageNum : 1,pageSize : 2},{emulateJSON:true}).then(function(res){
+                            $.each(res.data.data.list, function() {
+                                this.showImgs = "background-image: url("+ this.showImgs +");"
+                            });
+                            timiShow.$data.shows = res.data.data.list;
+                        },function(res){
+                            alert("系统异常");
+                        });
+                    },
+                }
+            });
+            var timiWeibo = new Vue({
+                el: '#timiWeibo',
+                data: {
+                    weibos: []
+                },
+                mounted(){
+                    this.loadWeibo();
+                },
+                methods:{
+                    loadWeibo: function() {
+                        this.$http.post('/timizhuo/weibo/findAll',{pageNum : 1,pageSize : 2},{emulateJSON:true}).then(function(res){
+                            var weibos = [];
+                            $.each(res.data.data.list, function() {
+                                var weiboPics = [];
+                                if (this.originalPics != null) {
+                                    var originalPics = this.originalPics.split(';');
+                                    $.each(originalPics, function() {
+                                        weiboPics.push("background-image: url("+ this +");");
+                                    });
+								}
+                                var weibo = {"timiPic":this.timiPic,"createdAt":this.createdAt,"originalTextUrl":this.originalTextUrl,"weiboText":this.weiboText,"weiboPics":weiboPics};
+                                weibos.push(weibo);
+                            });
+                            timiWeibo.$data.weibos = weibos;
+                        },function(res){
+                            alert("系统异常");
+                        });
+                    }
+                }
+            });
+		</script>
+	</body>
+
+</html>

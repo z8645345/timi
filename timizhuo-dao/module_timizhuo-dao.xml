@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_timizhuo-dao" default="compile.module.timizhuo-dao">
+  <dirname property="module.timizhuo-dao.basedir" file="${ant.file.module_timizhuo-dao}"/>
+  
+  <property name="module.jdk.home.timizhuo-dao" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.timizhuo-dao" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.timizhuo-dao" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.timizhuo-dao" value="-encoding UTF-8 -source 5 -target 1.5 ${compiler.args}"/>
+  
+  <property name="timizhuo-dao.output.dir" value="${module.timizhuo-dao.basedir}/target/classes"/>
+  <property name="timizhuo-dao.testoutput.dir" value="${module.timizhuo-dao.basedir}/target/test-classes"/>
+  
+  <path id="timizhuo-dao.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="timizhuo-dao.module.production.classpath">
+    <path refid="${module.jdk.classpath.timizhuo-dao}"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:unknown.classpath"/>
+    <path refid="library.maven:_com.ruijc:spring-boot-starter-mybatis:3.2.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.2.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.22.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.11.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.11.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.4.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.1.classpath"/>
+    <path refid="library.maven:_com.ruijc:util:3.1.0.classpath"/>
+    <path refid="library.maven:_com.ruijc:base:3.2.0.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.17.classpath"/>
+  </path>
+  
+  <path id="timizhuo-dao.runtime.production.module.classpath">
+    <pathelement location="${timizhuo-dao.output.dir}"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:unknown.classpath"/>
+    <path refid="library.maven:_com.ruijc:spring-boot-starter-mybatis:3.2.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.2.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.22.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.17.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.11.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.11.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.4.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.1.classpath"/>
+    <path refid="library.maven:_com.ruijc:util:3.1.0.classpath"/>
+    <path refid="library.maven:_com.ruijc:base:3.2.0.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.17.classpath"/>
+  </path>
+  
+  <path id="timizhuo-dao.module.classpath">
+    <path refid="${module.jdk.classpath.timizhuo-dao}"/>
+    <pathelement location="${timizhuo-dao.output.dir}"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:unknown.classpath"/>
+    <path refid="library.maven:_com.ruijc:spring-boot-starter-mybatis:3.2.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.2.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.22.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.17.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.11.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.11.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.4.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.1.classpath"/>
+    <path refid="library.maven:_com.ruijc:util:3.1.0.classpath"/>
+    <path refid="library.maven:_com.ruijc:base:3.2.0.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.17.classpath"/>
+  </path>
+  
+  <path id="timizhuo-dao.runtime.module.classpath">
+    <pathelement location="${timizhuo-dao.testoutput.dir}"/>
+    <pathelement location="${timizhuo-dao.output.dir}"/>
+    <path refid="library.maven:_mysql:mysql-connector-java:unknown.classpath"/>
+    <path refid="library.maven:_com.ruijc:spring-boot-starter-mybatis:3.2.2.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-context:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-aop:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-expression:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-autoconfigure:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-logging:1.5.2.release.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-classic:1.1.11.classpath"/>
+    <path refid="library.maven:_ch.qos.logback:logback-core:1.1.11.classpath"/>
+    <path refid="library.maven:_org.slf4j:slf4j-api:1.7.22.classpath"/>
+    <path refid="library.maven:_org.slf4j:jcl-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:jul-to-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.slf4j:log4j-over-slf4j:1.7.24.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-core:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.yaml:snakeyaml:1.17.classpath"/>
+    <path refid="library.maven:_org.springframework.boot:spring-boot-starter-jdbc:1.5.2.release.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-jdbc:8.5.11.classpath"/>
+    <path refid="library.maven:_org.apache.tomcat:tomcat-juli:8.5.11.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-jdbc:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-beans:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.springframework:spring-tx:4.3.7.release.classpath"/>
+    <path refid="library.maven:_org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:1.3.0.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis:3.4.4.classpath"/>
+    <path refid="library.maven:_org.mybatis:mybatis-spring:1.3.1.classpath"/>
+    <path refid="library.maven:_com.ruijc:util:3.1.0.classpath"/>
+    <path refid="library.maven:_com.ruijc:base:3.2.0.classpath"/>
+    <path refid="library.maven:_com.alibaba:fastjson:1.2.17.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.timizhuo-dao">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.timizhuo-dao">
+    <patternset refid="excluded.from.module.timizhuo-dao"/>
+  </patternset>
+  
+  <path id="timizhuo-dao.module.sourcepath">
+    <dirset dir="${module.timizhuo-dao.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="timizhuo-dao.module.test.sourcepath">
+    <dirset dir="${module.timizhuo-dao.basedir}">
+      <include name="src/test/java"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.timizhuo-dao" depends="compile.module.timizhuo-dao.production,compile.module.timizhuo-dao.tests" description="Compile module timizhuo-dao"/>
+  
+  <target name="compile.module.timizhuo-dao.production" depends="register.custom.compilers" description="Compile module timizhuo-dao; production classes">
+    <mkdir dir="${timizhuo-dao.output.dir}"/>
+    <javac2 destdir="${timizhuo-dao.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.timizhuo-dao}/javac">
+      <compilerarg line="${compiler.args.timizhuo-dao}"/>
+      <bootclasspath refid="timizhuo-dao.module.bootclasspath"/>
+      <classpath refid="timizhuo-dao.module.production.classpath"/>
+      <src refid="timizhuo-dao.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.timizhuo-dao"/>
+    </javac2>
+    
+    <copy todir="${timizhuo-dao.output.dir}">
+      <fileset dir="${module.timizhuo-dao.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.timizhuo-dao.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.timizhuo-dao.tests" depends="register.custom.compilers,compile.module.timizhuo-dao.production" description="compile module timizhuo-dao; test classes" unless="skip.tests">
+    <mkdir dir="${timizhuo-dao.testoutput.dir}"/>
+    <javac2 destdir="${timizhuo-dao.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.timizhuo-dao}/javac">
+      <compilerarg line="${compiler.args.timizhuo-dao}"/>
+      <bootclasspath refid="timizhuo-dao.module.bootclasspath"/>
+      <classpath refid="timizhuo-dao.module.classpath"/>
+      <src refid="timizhuo-dao.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.timizhuo-dao"/>
+    </javac2>
+    
+    <copy todir="${timizhuo-dao.testoutput.dir}">
+      <fileset dir="${module.timizhuo-dao.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.timizhuo-dao" description="cleanup module">
+    <delete dir="${timizhuo-dao.output.dir}"/>
+    <delete dir="${timizhuo-dao.testoutput.dir}"/>
+  </target>
+</project>

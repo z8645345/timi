@@ -1,0 +1,205 @@
+/*css resets*/
+* {margin:0; padding:0;outline: none; -webkit-box-sizing: border-box; box-sizing: border-box;}
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+	outline: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+	color:#333;
+	font-size: 14px;
+	font-family: Arial, Tahoma, sans-serif;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+ol,
+ul,
+li{
+	list-style: none;
+}
+
+blockquote,
+q {
+	quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none;
+}
+
+strong {
+	font-weight: bold;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+img {
+	border: 0;
+	max-width: 100%;
+	height: auto;
+}
+i {font-style: normal;}
+a {
+	text-decoration: none;
+}
+a:link, a:visited {text-decoration: none;}
+a:hover, a:active {text-decoration: none;}
+/*
+@media all and (max-width: 320px) { 
+	html {
+		font-size: 42px;
+	}
+}
+@media all and (min-width: 320px) {
+	html {
+		font-size: 42px;
+	}
+}
+@media all and (min-width: 360px) {
+	html {
+		font-size: 48px;
+	}
+}
+@media all and (min-width: 375px) {
+	html {
+		font-size: 50px;
+	}
+}
+@media all and (min-width: 380px) {
+	html {
+		font-size: 51px;
+	}
+}
+@media all and (min-width: 414px) {
+	html {
+		font-size: 55px;
+	}
+}
+@media all and (min-width: 600px) {
+	html {
+		font-size: 80px;
+	}
+}
+@media all and (min-width: 640px) {
+	html {
+		font-size: 85px;
+	}
+}
+@media all and (min-width: 680px) {
+	html {
+		font-size: 90px;
+	}
+}
+
+@media all and (min-width: 768px) {
+	html {
+		font-size: 102px
+	}
+}*/

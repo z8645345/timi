@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.timi.timizhuo.dao.mapper.SinaWeiboDao" >
+	<resultMap id="SinaWeiboResultMap" type="com.timi.timizhuo.dao.model.TimiSinaWeibo" >
+		<id column="WEIBO_ID" property="weiboId" jdbcType="VARCHAR" />
+    	<result column="TIMI_PIC" property="timiPic" jdbcType="VARCHAR" />
+    	<result column="WEIBO_FROM" property="weiboFrom" jdbcType="VARCHAR" />
+    	<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    	<result column="ORIGINAL_TEXT_URL" property="originalTextUrl" jdbcType="VARCHAR" />
+    	<result column="WEIBO_TEXT" property="weiboText" jdbcType="VARCHAR" />
+    	<result column="THUMBNAIL_PICS" property="thumbnailPics" jdbcType="VARCHAR" />
+    	<result column="BMIDDLE_PICS" property="bmiddlePics" jdbcType="VARCHAR" />
+    	<result column="ORIGINAL_PICS" property="originalPics" jdbcType="VARCHAR" />
+    	<result column="WEIBO_VEDIO" property="weiboVedio" jdbcType="VARCHAR" />
+    	<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 插入一条新浪微博信息 -->
+  	<insert id="insert" parameterType="SinaWeiboModel">
+		INSERT INTO TIMI_SINA_WEIBO (
+			WEIBO_ID,
+			TIMI_PIC, 
+			WEIBO_FROM,
+			CREATED_AT, 
+			ORIGINAL_TEXT_URL,
+			WEIBO_TEXT, 
+			THUMBNAIL_PICS,
+			BMIDDLE_PICS,
+			ORIGINAL_PICS,
+			WEIBO_VEDIO
+		) VALUES ( 
+			UUID(), 
+			#{timiPic}, 
+			#{weiboFrom},
+			#{createdAt},
+			#{originalTextUrl},
+			#{weiboText}, 
+			#{thumbnailPics},
+			#{bmiddlePics},
+			#{originalPics},
+			#{weiboVedio}
+		)
+	</insert>
+	
+	<!-- 根据发文时间查询最新的一条微博信息 -->
+	<select id="findNewestWeibo" resultMap="SinaWeiboResultMap">
+		SELECT 
+			WEIBO_ID,
+			TIMI_PIC, 
+			WEIBO_FROM,
+			CREATED_AT, 
+			ORIGINAL_TEXT_URL,
+			WEIBO_TEXT, 
+			THUMBNAIL_PICS,
+			BMIDDLE_PICS,
+			ORIGINAL_PICS,
+			WEIBO_VEDIO,
+			CREATE_TIME,
+			UPDATE_TIME
+		FROM TIMI_SINA_WEIBO ORDER BY CREATED_AT DESC limit 1
+	</select>
+	
+</mapper>

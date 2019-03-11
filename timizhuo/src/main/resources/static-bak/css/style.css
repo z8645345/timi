@@ -1,0 +1,79 @@
+/** PC */
+* {
+    box-sizing: border-box;
+	padding :0;
+	margin: 0;
+}
+
+#index {
+	max-width:100%;
+	height:1071px;
+	background-image: url(../images/timi-01.jpg);
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+body {
+	background:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533553549506&di=d14a07ee9b5f532686e4b51e23c2afb7&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fback_pic%2Fqk%2Fback_origin_pic%2F00%2F01%2F67%2F3f3b0cf6661f7f2448888d1feae2cbc7.jpg);
+/*     background-size:100% 100%; */
+/*     background-repeat:no-repeat; */
+}
+
+#nav {
+	margin: auto
+}
+
+#nav>li {
+	display:inline;
+	
+}
+
+.bodyImg {
+	max-width: 100%;
+	height: auto;
+}
+
+.bodyImg-3 {
+	max-width: 33%;
+	height: auto;
+}
+
+.video-div-left {
+	float: left;
+	width: 45%;
+	height: auto;
+}
+
+.video-div-right {
+	float: right;
+	width: 45%;
+	height: auto;
+}
+
+video {
+	width: 100%;
+	height: auto;
+}
+
+.i-video {
+	width: 50%;
+	height: auth;
+}
+
+.bottom {
+	margin-top: 100px;
+}
+
+.carousel-caption {
+	font-size: 1em;
+}
+
+.clearfix {
+	background-color: 	rgb(255,255,255) ;
+}
+
+/** ÊÖ»ú */
+@media only screen and (max-device-width: 400px) {
+	.carousel-caption {
+		font-size: 0.5em;
+	}
+}
