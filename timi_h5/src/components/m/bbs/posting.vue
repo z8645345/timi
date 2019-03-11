@@ -6,8 +6,18 @@
         <div style="position: fixed; top: 0.5rem; right: 0.5rem; font-size: 16px">发布</div>
       </header>
       <div>
-        <div contenteditable="true" style="height: 2.7rem">
-          <span style="position: absolute ;color: rgb(217, 217, 217)">来吧，分享你与依婷的故事…</span>
+        <div id="context" contenteditable="true" style="height: auto; min-height: 5rem" @focus="hideDefault" @blur="showDefauls">
+          <div></div>
+          <span v-if="isShowDefauls" style="position: absolute ;color: rgb(217, 217, 217)">来吧，分享你与依婷的故事…</span>
+        </div><div style="border: rgb(217, 217, 217) dashed 1px;
+                          width: 5rem;
+                          height: 5rem;
+                          line-height: 5rem;
+                          text-align: center;
+                          font-size: 5rem;
+                          color: rgb(217, 217, 217);
+                          font-weight: 200;">
+        +
         </div>
       </div>
     </div>
@@ -15,7 +25,23 @@
 
 <script>
   export default {
-    name: 'posting'
+    name: 'posting',
+    data () {
+      return {
+        isShowDefauls: true
+      }
+    },
+    methods: {
+      hideDefault: function () {
+        this.isShowDefauls = false;
+      },
+      showDefauls: function () {
+        var context = document.getElementById("context").innerText;
+        if (context == null || context == '') {
+          this.isShowDefauls = true;
+        }
+      }
+    }
   }
 </script>
 
