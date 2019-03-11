@@ -11,6 +11,5 @@
     <modules>
         <module>timizhuo-dao</module>
         <module>timizhuo</module>
-        <module>timizhuo-task</module>
     </modules>
 </project>
