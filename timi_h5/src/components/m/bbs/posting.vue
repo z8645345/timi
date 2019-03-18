@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div style="margin-left: 0.5rem; margin-right: 0.5rem; ">
       <header style="width: 100%; margin-top: 0.5rem; margin-bottom: 0.5rem">
         <i class="aui-iconfont aui-icon-close" style="position: fixed; top: 0.5rem; left: 0.5rem; font-size: 20px"></i>
@@ -6,6 +7,7 @@
         <div style="position: fixed; top: 0.5rem; right: 0.5rem; font-size: 16px">发布</div>
       </header>
       <div>
+        <input v-if="isShowTitle" type="text" placeholder="加个标题哟~" v-model="forum.forumTitle">
         <div id="context" contenteditable="true" style="height: auto; min-height: 5rem" @focus="hideDefault" @blur="showDefauls">
           <div></div>
           <span v-if="isShowDefauls" style="position: absolute ;color: rgb(217, 217, 217)">来吧，分享你与依婷的故事…</span>
@@ -18,21 +20,18 @@
             <div class="aui-col-xs-4" @click="addImg">
               <img src="http://timizhuo.cn/add_img.png">
             </div>
-            <!--<div @click="addImg" class="aui-col-xs-4" style="border: rgb(217, 217, 217) dashed 1px;-->
-                          <!--width: 10rem;-->
-                          <!--height: 10rem;-->
-                          <!--line-height: 10rem;-->
-                          <!--text-align: center;-->
-                          <!--font-size: 10rem;-->
-                          <!--color: rgb(217, 217, 217);-->
-                          <!--font-weight: 100;">-->
-              <!--+-->
-            <!--</div>-->
           </div>
         </div>
         <input type="file" id="change" accept="image" @change="change" style="display: none">
+
       </div>
     </div>
+    <div class="aui-bar-tab" style="width: 100%; height: 2rem; line-height: 2rem">
+      <span @click="showTitle" style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem;">{{titleTip}}</span>
+      <span style="margin-left: 1rem; font-size: 1rem padding-left: 0.5rem;padding-right: 0.5rem">#</span>
+      <span style="margin-left: 1rem; font-size: 1rem padding-left: 0.5rem;padding-right: 0.5rem">@</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -44,7 +43,15 @@
         picValue: '',
         url: '',
         imgs: [
-        ]
+        ],
+        isShowTitle: false,
+        titleTip: '添加标题',
+        forum: {
+          forumTitle: '',
+          forumContent: '',
+          imageUrl: '',
+          friendIds: ''
+        }
       }
     },
     methods: {
@@ -76,6 +83,15 @@
           url = window.webkitURL.createObjectURL(file) ;
         }
         return url ;
+      },
+      showTitle: function () {
+        if (this.isShowTitle) {
+          this.isShowTitle = false;
+          this.titleTip = '添加标题';
+        } else {
+          this.isShowTitle = true;
+          this.titleTip = '取消标题';
+        }
       }
     }
   }
