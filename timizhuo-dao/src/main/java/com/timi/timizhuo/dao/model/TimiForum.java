@@ -36,6 +36,9 @@ public class TimiForum implements Serializable {
     /**发帖时间*/
     private Date postedTime;
 
+    /**用户图片地址*/
+    private String userImageUrl;
+
     private Date createTime;
     private Date updateTime;
 }

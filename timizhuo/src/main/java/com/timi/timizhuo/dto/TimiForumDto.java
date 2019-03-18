@@ -1,5 +1,6 @@
 package com.timi.timizhuo.dto;
 
+import com.timi.timizhuo.common.DateUtil;
 import lombok.Data;
 
 import java.util.Date;
@@ -43,7 +44,36 @@ public class TimiForumDto extends BaseDto  {
     /**发帖时间*/
     private Date postedTime;
 
+    /**用户图片地址*/
+    private String userImageUrl;
 
     private Date createTime;
     private Date updateTime;
+
+/******************业务处理字段*********************************/
+    private Long postedTimeLong;
+
+    private Long createTimeLong;
+
+    private String createTimeStr;
+
+    private String postedTimeStr;
+
+
+
+    public Long getPostedTimeLong() {
+        return getPostedTime().getTime();
+    }
+
+    public Long getCreateTimeLong() {
+        return getCreateTime().getTime();
+    }
+
+    public String getCreateTimeStr() {
+        return DateUtil.format(getCreateTime());
+    }
+
+    public String getPostedTimeStr() {
+        return DateUtil.format(getPostedTime());
+    }
 }
