@@ -75,4 +75,14 @@ public class Constant {
 	 * 用户不存在
 	 */
 	public static final String USER_NOT_EXIST = "用户不存在";
+
+	/**
+	 * 标题不能为空
+	 */
+	public static final String TITLE_NOT_NULL = "标题不能为空";
+
+	/**
+	 * 内容不能为空
+	 */
+	public static final String CONTENT_NOT_NULL="内容不能为空";
 }
