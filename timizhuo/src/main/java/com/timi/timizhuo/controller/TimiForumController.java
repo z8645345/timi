@@ -92,7 +92,7 @@ public class TimiForumController extends  BaseController{
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
-        return JSONUtils.toJosnString(responseData, "yyyy--MM--dd HH:mm");
+        return JSONUtils.toJosnString(responseData, "yyyy-MM-dd HH:mm");
     }
 
     /**
@@ -111,7 +111,7 @@ public class TimiForumController extends  BaseController{
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
-        return JSONUtils.toJosnString(responseData, "yyyy--MM--dd HH:mm");
+        return JSONUtils.toJosnString(responseData, "yyyy-MM-dd HH:mm");
     }
 
     private void setPostedTimeLong(List<TimiForumDto> pageInfo) {

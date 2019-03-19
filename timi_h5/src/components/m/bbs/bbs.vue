@@ -28,24 +28,10 @@
       <!--置顶精华帖开始-->
       <div class="roof-placement aui-content aui-margin-b-10">
         <ul class="aui-list">
-          <li class="aui-list-item">
+          <li class="aui-list-item" v-for="forum in stick">
             <div class="aui-list-item-inner aui-swipe-handle roof-placement-title">
             <span class="max-rows1" style="-webkit-box-orient: vertical; display: -webkit-box;">
-              <span class="label">置顶</span>【天使之约】卓依婷2019年1月份演出行程预告。卓依婷2019年1月份演出行程预告。
-            </span>
-            </div>
-          </li>
-          <li class="aui-list-item">
-            <div class="aui-list-item-inner aui-swipe-handle roof-placement-title" >
-            <span class="max-rows1" style="-webkit-box-orient: vertical; display: -webkit-box;">
-              <span class="label">置顶</span>【天使之约】卓依婷2019年1月份演出行程预告。
-            </span>
-            </div>
-          </li>
-          <li class="aui-list-item" tapmode>
-            <div class="aui-list-item-inner aui-swipe-handle roof-placement-title">
-            <span class="max-rows1" style="-webkit-box-orient: vertical; display: -webkit-box;">
-              <span class="label">置顶</span>【天使之约】卓依婷2019年1月份演出行程预告。
+              <span class="label">置顶</span>{{forum.forumTitle}}
             </span>
             </div>
           </li>
@@ -422,6 +408,7 @@
     },
     data () {
       return {
+        stick: []
       }
     },
     mounted () {
@@ -430,15 +417,24 @@
         triggerDistance: 100
       },function(ret){
         if(ret.status=="success"){
-          alert(1)
           setTimeout(function(){
-
             pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
           },1500)
         }
-      })
+      });
+      this.loadStickData();
     },
     methods: {
+      loadStickData: function () {
+        var app = this;
+        app.post('/timizhuo/forum/findForumByStick', {}, function (res) {
+          if (res.data.code == '200') {
+            app.stick = res.data.data;
+          }
+        }, function (err) {
+
+        });
+      }
     }
   }
 </script>
@@ -485,6 +481,7 @@
 
   .roof-placement .label {
     color: rgb(58, 103, 168);
+    padding-right: 0.5rem;
   }
   .roof-placement-title {
     font-size: 0.6rem;

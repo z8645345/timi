@@ -47,7 +47,7 @@
         </javaClientGenerator>
 
         <!-- 相关表的配置 -->
-        <table tableName="timi_forum" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        <table tableName="timi_reply" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>
 </generatorConfiguration>

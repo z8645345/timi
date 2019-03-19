@@ -62,7 +62,7 @@
                     <configurationFile>D:\dev\timi_project\timi\timizhuo-dao\src\main\resources\mybatis-generator-config.xml</configurationFile>
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
-                    <skip>true</skip>
+                    <!--<skip>true</skip>-->
                 </configuration>
                 <executions>
                     <execution>

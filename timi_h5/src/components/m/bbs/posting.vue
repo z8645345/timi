@@ -2,7 +2,7 @@
   <div>
     <div style="margin-left: 0.5rem; margin-right: 0.5rem; ">
       <header style="width: 100%; margin-top: 0.5rem; margin-bottom: 0.5rem">
-        <i class="aui-iconfont aui-icon-close" style="position: fixed; top: 0.5rem; left: 0.5rem; font-size: 20px"></i>
+        <i @click="back" class="aui-iconfont aui-icon-close" style="position: fixed; top: 0.5rem; left: 0.5rem; font-size: 20px"></i>
         <div style="text-align: center; font-size: 16px">发布帖子到婷迷论坛</div>
         <div @click="push" style="position: fixed; top: 0.5rem; right: 0.5rem; font-size: 16px">发布</div>
       </header>
@@ -107,7 +107,14 @@
         var toast = new auiToast();
         app.post('/timizhuo/forum/addForum', this.forum, function (res) {
           if (res.data.code == '200') {
-            alert("发布成功");
+            var dialog = new auiDialog();
+            dialog.alert({
+              title: "提示",
+              msg: "发布成功",
+              buttons:['确定']
+            },function(ret){
+              app.$router.push({name:'bbs'});
+            })
           } else {
             var dialog = new auiDialog();
             dialog.alert({
@@ -159,6 +166,9 @@
         },function(ret){
           console.log(ret);
         });
+      },
+      back: function () {
+        this.$router.back(-1);
       }
     }
   }
