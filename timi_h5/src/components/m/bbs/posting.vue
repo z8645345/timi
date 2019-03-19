@@ -4,12 +4,11 @@
       <header style="width: 100%; margin-top: 0.5rem; margin-bottom: 0.5rem">
         <i class="aui-iconfont aui-icon-close" style="position: fixed; top: 0.5rem; left: 0.5rem; font-size: 20px"></i>
         <div style="text-align: center; font-size: 16px">发布帖子到婷迷论坛</div>
-        <div style="position: fixed; top: 0.5rem; right: 0.5rem; font-size: 16px">发布</div>
+        <div @click="push" style="position: fixed; top: 0.5rem; right: 0.5rem; font-size: 16px">发布</div>
       </header>
       <div>
-        <input v-if="isShowTitle" type="text" placeholder="加个标题哟~" v-model="forum.forumTitle">
+        <input id="forumTitle" v-if="isShowTitle" type="text" placeholder="加个标题哟~" v-model="forum.forumTitle">
         <div id="context" contenteditable="true" style="height: auto; min-height: 5rem" @focus="hideDefault" @blur="showDefauls">
-          <div></div>
           <span v-if="isShowDefauls" style="position: absolute ;color: rgb(217, 217, 217)">来吧，分享你与依婷的故事…</span>
         </div>
         <div class="aui-card-list-content">
@@ -70,8 +69,10 @@
       change (e) {
         let files = e.target.files || e.dataTransfer.files;
         if (!files.length) return;
+        this.loading("上传中……");
         this.picValue = files[0];
-        this.imgs.push(this.getObjectURL(this.picValue))
+        var a = new FileReader();
+        this.uploadImg();
       },
       getObjectURL (file) {
         var url = null ;
@@ -91,7 +92,73 @@
         } else {
           this.isShowTitle = true;
           this.titleTip = '取消标题';
+          setTimeout(()=>document.getElementById("forumTitle").focus(), 10);
         }
+      },
+      push: function () {
+        this.forum.forumContent = document.getElementById("context").innerHTML;
+        var imageUrl = '';
+        this.imgs.forEach((img)=> {
+          imageUrl += img + ',';
+        });
+        this.forum.imageUrl = imageUrl.substring(0, imageUrl.length - 1);
+        var app = this;
+        this.loading("正在发布……")
+        var toast = new auiToast();
+        app.post('/timizhuo/forum/addForum', this.forum, function (res) {
+          if (res.data.code == '200') {
+            alert("发布成功");
+          } else {
+            var dialog = new auiDialog();
+            dialog.alert({
+              title: "提示",
+              msg: res.data.message,
+              buttons:['确定']
+            },function(ret){
+              app.$router.push({name:'login'});
+            })
+          }
+          toast.hide();
+        }, function (err) {
+          toast.hide();
+        });
+
+        alert(this.forum.imageUrl);
+      },
+      uploadImg: function () {
+        var app = this;
+        lrz(this.picValue, {
+          width: 800 //设置压缩参数
+        }).then(function (rst) {
+          /* 处理成功后执行 */
+          rst.formData.append('base64img', rst.base64); // 添加额外参数
+          var data = {
+            base64: rst.base64,
+            namespaceType: 2
+          }
+          var toast = new auiToast();
+          app.post('/timizhuo/qiniu/uploadImg', data, function (res) {
+            if (res.data.code == '200') {
+              app.imgs.push(res.data.data);
+            }
+            toast.hide();
+          }, function (err) {
+            toast.hide();
+          });
+        }).catch(function (err) {
+          /* 处理失败后执行 */
+        }).always(function () {
+          /* 必然执行 */
+        });
+      },
+      loading: function (msg) {
+        var toast = new auiToast();
+        toast.loading({
+          title:msg,
+          duration:2000
+        },function(ret){
+          console.log(ret);
+        });
       }
     }
   }

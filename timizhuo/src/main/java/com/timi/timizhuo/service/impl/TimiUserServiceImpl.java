@@ -15,6 +15,7 @@ import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.service.TimiUserService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import com.timi.timizhuo.util.Md5Utils;
+import com.timi.timizhuo.util.QiniuUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -51,22 +52,8 @@ public class TimiUserServiceImpl implements TimiUserService {
             return serviceResponseData;
         }
         String base64Str = timiUserDto.getHeaderImage().substring(timiUserDto.getHeaderImage().indexOf(",")+1);
-        String accessKey = "UpK4eYeeehxZYpW3Nt7zN0F5pjILYTExaSwFU73H";
-        String secretKey = "tL_yLv_mQUsxdRvla9F0K2MUnf9cffKEDhezOSBI";
-        String bucket = "timizhuo";
-
-        Configuration cfg = new Configuration(Zone.zone2());
-        UploadManager uploadManager = new UploadManager(cfg);
-
-        String key = UUID.randomUUID().toString() + ".jpg";
-        byte[] uploadBytes = this.transformBase64(base64Str);
-        ByteArrayInputStream byteInputStream=new ByteArrayInputStream(uploadBytes);
-        Auth auth = Auth.create(accessKey, secretKey);
-        String upToken = auth.uploadToken(bucket);
-        Response response = uploadManager.put(byteInputStream,key,upToken,null, null);
-        //解析上传成功的结果
-        DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-        timiUserDto.setPic("http://pkkwm1pvb.bkt.clouddn.com/" + putRet.key);
+        String imgUrl = QiniuUploadUtils.imgUpload(base64Str, QiniuUploadUtils.NamespaceEnums.USER_PIC, timiUserDto.getUsername());
+        timiUserDto.setPic(imgUrl);
         timiUserDto.setPassword(Md5Utils.encoderByMd5(timiUserDto.getPassword()));
         TimiUser timiUser = new TimiUser();
         BeanConvertUtils.convert(timiUserDto, timiUser);
@@ -115,16 +102,5 @@ public class TimiUserServiceImpl implements TimiUserService {
         serviceResponseData.setSuccess();
         serviceResponseData.setData(resultDto);
         return serviceResponseData;
-    }
-
-    private byte[] transformBase64(String str) {
-        BASE64Decoder decode = new BASE64Decoder();
-        byte[] b = null;
-        try {
-            b = decode.decodeBuffer(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return b;
     }
 }

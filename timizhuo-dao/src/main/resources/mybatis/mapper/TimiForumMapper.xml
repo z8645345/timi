@@ -90,7 +90,7 @@
       reply_count, stick, stick_group, 
       forum_type, user_id, user_name, 
       user_image_url, forum_content)
-    values (#{forumId,jdbcType=VARCHAR}, #{forumTitle,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
+    values (uuid(), #{forumTitle,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR},
       #{friendIds,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{postedTime,jdbcType=TIMESTAMP}, #{readCount,jdbcType=BIGINT}, #{likeCount,jdbcType=BIGINT}, 
       #{replyCount,jdbcType=BIGINT}, #{stick,jdbcType=BOOLEAN}, #{stickGroup,jdbcType=TINYINT},

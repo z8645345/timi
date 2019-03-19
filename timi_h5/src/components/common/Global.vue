@@ -3,8 +3,8 @@
 </template>
 
 <script>
-  // const serviceHost = 'http://192.168.99.177:9000'
-  const serviceHost = 'http://www.timizhuo.cn:9000'
+  const serviceHost = 'http://localhost:9000'
+  // const serviceHost = 'http://www.timizhuo.cn:9000'
   var homeApp;
   var userHomeApp;
   var photoApp;

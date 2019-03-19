@@ -52,28 +52,4 @@ public class TimiForumDto extends BaseDto  {
 
 /******************业务处理字段*********************************/
     private Long postedTimeLong;
-
-    private Long createTimeLong;
-
-    private String createTimeStr;
-
-    private String postedTimeStr;
-
-
-
-    public Long getPostedTimeLong() {
-        return getPostedTime().getTime();
-    }
-
-    public Long getCreateTimeLong() {
-        return getCreateTime().getTime();
-    }
-
-    public String getCreateTimeStr() {
-        return DateUtil.format(getCreateTime());
-    }
-
-    public String getPostedTimeStr() {
-        return DateUtil.format(getPostedTime());
-    }
 }

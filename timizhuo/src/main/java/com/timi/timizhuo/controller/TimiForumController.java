@@ -6,6 +6,7 @@ import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.dto.TimiForumDto;
 import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.service.TimiForumService;
+import com.timi.timizhuo.util.JSONUtils;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class TimiForumController extends  BaseController{
      * @return
      */
     @PostMapping("/addForum")
-    public ResponseData findAll(@RequestBody TimiForumDto timiForumDto , HttpServletRequest request) {
+    public ResponseData findAll(TimiForumDto timiForumDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         log.info("forum  addForum  timiForumDto :{}",timiForumDto );
         try {
@@ -56,7 +57,14 @@ public class TimiForumController extends  BaseController{
                 return responseData;
             }
             TimiUserDto timiUserDto = getLoginUser(request);
+            if (timiUserDto == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.FORUM_USER_NOT_LOGIN);
+                return responseData;
+            }
             timiForumDto.setUserId(timiUserDto.getUserId());
+            timiForumDto.setUserName(timiUserDto.getNickname());
+            timiForumDto.setUserImageUrl(timiUserDto.getPic());
             boolean b = this.timiForumService.addForum(timiForumDto);
             if (!b){
                 responseData.setFial();
@@ -77,18 +85,19 @@ public class TimiForumController extends  BaseController{
      * @return
      */
     @PostMapping("/findForum")
-    public ResponseData findForum(@RequestBody TimiForumDto timiForumDto) {
+    public String findForum(@RequestBody TimiForumDto timiForumDto) {
         log.info("forum findForum  request :{}",timiForumDto);
         ResponseData responseData = new ResponseData();
         try {
             PageInfo<TimiForumDto> pageInfo = this.timiForumService.findPage(timiForumDto);
+            setPostedTimeLong(pageInfo.getList());
             responseData.setData(pageInfo);
         } catch (Exception e) {
             log.error("forum findForum error ", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
-        return responseData;
+        return JSONUtils.toJosnString(responseData, "yyyy--MM--dd HH:mm");
     }
 
     /**
@@ -96,18 +105,26 @@ public class TimiForumController extends  BaseController{
      * @return
      */
     @PostMapping("/findForumByStick")
-    public ResponseData findForumByStick() {
+    public String findForumByStick() {
         ResponseData responseData = new ResponseData();
         try {
-            List<TimiForumDto> pageInfo = this.timiForumService.findForumByStick();
-            responseData.setData(pageInfo);
+            List<TimiForumDto> list = this.timiForumService.findForumByStick();
+            setPostedTimeLong(list);
+            responseData.setData(list);
         } catch (Exception e) {
             log.error("forum findForum error ", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
-        return responseData;
+        return JSONUtils.toJosnString(responseData, "yyyy--MM--dd HH:mm");
     }
 
+    private void setPostedTimeLong(List<TimiForumDto> pageInfo) {
+        pageInfo.forEach(timiForumDto -> {
+            if (timiForumDto.getPostedTime() != null) {
+                timiForumDto.setPostedTimeLong(timiForumDto.getPostedTime().getTime());
+            }
+        });
+    }
 
 }
