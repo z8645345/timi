@@ -46,11 +46,6 @@ public class TimiForumController extends  BaseController{
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            if (StringUtil.isBlank(timiForumDto.getForumTitle())) {
-                responseData.setFial();
-                responseData.setMessage(Constant.TITLE_NOT_NULL);
-                return responseData;
-            }
             if (StringUtil.isBlank(timiForumDto.getForumContent())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.CONTENT_NOT_NULL);
