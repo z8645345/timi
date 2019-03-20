@@ -14,8 +14,8 @@
 
     <!--tab栏开始-->
     <div class="aui-tab" id="tab">
-      <div class="aui-tab-item aui-active">全部</div>
-      <div class="aui-tab-item">精华</div>
+      <div class="aui-tab-item aui-active" @click="loaddAll">全部</div>
+      <div class="aui-tab-item" @click="loadJin">精华</div>
       <div class="aui-tab-item"></div>
       <div class="aui-tab-item"></div>
       <div class="aui-tab-item"></div>
@@ -40,327 +40,36 @@
       <!--置顶精华帖结束-->
 
       <section class="aui-content">
-        <div class="aui-card-list">
+        <div class="aui-card-list" v-for="forum in list">
           <div class="aui-card-list-header aui-card-list-user">
             <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
+              <img :src="forum.userImageUrl" class="aui-img-round">
             </div>
             <div class="aui-card-list-user-name">
-              <div class="aui-text-info">丁小酷同学</div>
+              <div class="aui-text-info">{{forum.userName}}</div>
               <div class="aui-font-size-14 text-light">#比帅</div>
             </div>
             <div class="aui-card-list-user-info text-light">31分钟前</div>
           </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
+          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;" v-html="forum.forumContent">
           </div>
           <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
+            <div class="aui-row aui-row-padded" v-for="imgs in forum.imgRows">
+              <div :class="imgs.colsNum" v-for="img in imgs.cols" :style="img.imgStyle">
+                <!--<div :style="img.imgStyle"></div>-->
+                <img :src="img.src" class="img-list">
               </div>
             </div>
           </div>
           <div class="aui-card-list-footer text-light aui-font-size-14">
             <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
+              <i class="aui-iconfont aui-icon-display"></i> {{forum.readCount}}
             </div>
             <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
+              <i class="aui-iconfont aui-icon-comment"></i> {{forum.replyCount}}
             </div>
             <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">董小星</div>
-              <div class="aui-font-size-14 text-light">#比帅</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-12">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">蛋蛋的圈圈</div>
-              <div class="aui-font-size-14 text-light">#最美的人</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-6">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-6">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">丁小酷同学</div>
-              <div class="aui-font-size-14 text-light">#比帅</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">董小星</div>
-              <div class="aui-font-size-14 text-light">#比帅</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-12">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">蛋蛋的圈圈</div>
-              <div class="aui-font-size-14 text-light">#最美的人</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-6">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-6">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">丁小酷同学</div>
-              <div class="aui-font-size-14 text-light">#比帅</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-4">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">董小星</div>
-              <div class="aui-font-size-14 text-light">#比帅</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-12">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list">
-          <div class="aui-card-list-header aui-card-list-user">
-            <div class="aui-card-list-user-avatar">
-              <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-            </div>
-            <div class="aui-card-list-user-name">
-              <div class="aui-text-info">蛋蛋的圈圈</div>
-              <div class="aui-font-size-14 text-light">#最美的人</div>
-            </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
-          </div>
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-            依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded">
-              <div class="aui-col-xs-6">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-              <div class="aui-col-xs-6">
-                <img src="../../../assets/images/timi.jpg">
-              </div>
-            </div>
-          </div>
-          <div class="aui-card-list-footer text-light aui-font-size-14">
-            <div>
-              <i class="aui-iconfont aui-icon-display"></i> 888
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-comment"></i> 666
-            </div>
-            <div>
-              <i class="aui-iconfont aui-icon-laud"></i> 888
+              <i class="aui-iconfont aui-icon-laud"></i> {{forum.likeCount}}
             </div>
           </div>
         </div>
@@ -408,21 +117,33 @@
     },
     data () {
       return {
-        stick: []
+        page: {
+          forumType: null,
+          pageNum: 0,
+          pageSize: 10
+        },
+        stick: [],
+        list: []
       }
     },
     mounted () {
+
+      var app = this;
       var pullRefresh = new auiPullToRefresh({
         container: document.querySelector('.aui-refresh-content'),
         triggerDistance: 100
       },function(ret){
         if(ret.status=="success"){
-          setTimeout(function(){
+          app.loadStickData();
+          app.page.pageNum = 0;
+          app.list = [];
+          app.loadListData(function () {
             pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
-          },1500)
+          });
         }
       });
       this.loadStickData();
+      this.loadListData(this.scroll());
     },
     methods: {
       loadStickData: function () {
@@ -433,6 +154,100 @@
           }
         }, function (err) {
 
+        });
+      },
+      loaddAll: function() {
+        this.page.forumType = null;
+        this.loadListData();
+      },
+      loadJin: function() {
+        alert(1);
+        this.page.forumType = 1;
+        this.loadListData();
+      },
+      loadListData: function (cellBack) {
+        var app = this;
+        app.page.pageNum++;
+        app.post('/timizhuo/forum/findForum', app.page, function (res) {
+          if (res.data.code == '200') {
+            res.data.data.list.forEach((forumDTO)=> {
+              if (forumDTO.imageUrl != null && forumDTO.imageUrl != '') {
+                forumDTO.imagesUrl = forumDTO.imageUrl.split(",");
+                forumDTO.imgRows = app.getImgRows(forumDTO.imagesUrl);
+              }
+              app.list.push(forumDTO);
+            });
+          }
+          setTimeout(()=>cellBack(), 100);
+        }, function (err) {
+          setTimeout(()=>cellBack(), 100);
+        });
+      },
+      getImgRows: function(imgs) {
+        var num;
+        var imagesHeight;
+        var colsNum;
+        if (imgs.length == 1) {
+          num = 1;
+          imagesHeight = 500;
+          colsNum = 12;
+        } else if (imgs.length == 2 || imgs.length == 4) {
+          num = 2;
+          imagesHeight = 170;
+          colsNum = 6;
+        } else {
+          num = 3;
+          imagesHeight = 120;
+          colsNum = 4
+        }
+        var imgRows = [];
+        var cols = [];
+        if (imgs.length > 1) {
+          for (var i = 1; i <= imgs.length; i ++) {
+            var img = {
+              imgStyle: {
+                height: imagesHeight + 'px'
+              },
+              src: imgs[i-1]
+            }
+            cols.push(img);
+            if (i % num == 0) {
+              var imgs1 = {
+                colsNum: 'aui-col-xs-' + colsNum,
+                cols: cols
+              }
+              imgRows.push(imgs1);
+              cols = [];
+            }
+          }
+        } else {
+          var img = {
+            imgStyle: {
+            },
+            src: imgs[0]
+          }
+          cols.push(img);
+          if (i % num == 0) {
+            var imgs1 = {
+              colsNum: 'aui-col-xs-' + colsNum,
+              cols: cols
+            }
+            imgRows.push(imgs1);
+            cols = [];
+          }
+        }
+
+        return imgRows;
+      },
+      scroll: function () {
+        var app = this;
+        var scroll = new auiScroll({
+          listen:true,
+          distance:0 //判断到达底部的距离，isToBottom为true
+        },function(ret){
+          if(ret.isToBottom){
+            app.loadListData();
+          }
         });
       }
     }
@@ -521,5 +336,11 @@
     margin-left: -0.6rem;
     margin-top: -0.6rem;
     z-index: 11;
+  }
+
+  .img-list {
+    width:100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>

@@ -68,6 +68,7 @@
     <include refid="Base_Column_List" />
     from timi_forum
     <include refid="Blob_Column_List" />
+    order by posted_time desc
   </select>
 
 
@@ -86,14 +87,13 @@
     -->
     insert into timi_forum (forum_id, forum_title, image_url, 
       friend_ids, create_time, update_time, 
-      posted_time, read_count, like_count, 
-      reply_count, stick, stick_group, 
+      posted_time,
+      stick, stick_group,
       forum_type, user_id, user_name, 
       user_image_url, forum_content)
     values (uuid(), #{forumTitle,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR},
       #{friendIds,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{postedTime,jdbcType=TIMESTAMP}, #{readCount,jdbcType=BIGINT}, #{likeCount,jdbcType=BIGINT}, 
-      #{replyCount,jdbcType=BIGINT}, #{stick,jdbcType=BOOLEAN}, #{stickGroup,jdbcType=TINYINT},
+      #{postedTime,jdbcType=TIMESTAMP}, #{stick,jdbcType=BOOLEAN}, #{stickGroup,jdbcType=TINYINT},
       #{forumType,jdbcType=TINYINT}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
       #{userImageUrl,jdbcType=VARCHAR}, #{forumContent,jdbcType=LONGVARCHAR})
   </insert>

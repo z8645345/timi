@@ -80,7 +80,7 @@ public class TimiForumController extends  BaseController{
      * @return
      */
     @PostMapping("/findForum")
-    public String findForum(@RequestBody TimiForumDto timiForumDto) {
+    public String findForum(TimiForumDto timiForumDto) {
         log.info("forum findForum  request :{}",timiForumDto);
         ResponseData responseData = new ResponseData();
         try {
