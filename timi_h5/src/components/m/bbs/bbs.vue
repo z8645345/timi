@@ -13,14 +13,16 @@
     <!--横幅结束-->
 
     <!--tab栏开始-->
-    <div class="aui-tab" id="tab">
-      <div class="aui-tab-item aui-active" @click="loaddAll">全部</div>
-      <div class="aui-tab-item" @click="loadJin">精华</div>
-      <div class="aui-tab-item"></div>
-      <div class="aui-tab-item"></div>
-      <div class="aui-tab-item"></div>
-      <div class="aui-tab-item"></div>
-      <div class="tabDiv"></div>
+    <div class="tab-parent">
+    <div class="aui-tab" id="tab" style="width: 40%">
+      <div class="aui-tab-item aui-active">全部</div>
+      <div class="aui-tab-item" >精华</div>
+      <!--<div class="aui-tab-item"></div>-->
+      <!--<div class="aui-tab-item"></div>-->
+      <!--<div class="aui-tab-item"></div>-->
+      <!--<div class="aui-tab-item"></div>-->
+      <!--<div class="tabDiv"></div>-->
+    </div>
     </div>
     <!--tab栏结束-->
 
@@ -127,25 +129,41 @@
       }
     },
     mounted () {
-
+      this.auiPullToRefresh();
       var app = this;
-      var pullRefresh = new auiPullToRefresh({
-        container: document.querySelector('.aui-refresh-content'),
-        triggerDistance: 100
+      var apiready = function(){
+        api.parseTapmode();
+      }
+      var tab = new auiTab({
+        element:document.getElementById("tab"),
       },function(ret){
-        if(ret.status=="success"){
-          app.loadStickData();
-          app.page.pageNum = 0;
-          app.list = [];
-          app.loadListData(function () {
-            pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
-          });
+        if (ret.index == 1) {
+          app.loaddAll();
+        } else if (ret.index == 2) {
+          app.loadJin();
         }
       });
+
       this.loadStickData();
       this.loadListData(this.scroll());
     },
     methods: {
+      auiPullToRefresh: function() {
+        var app = this;
+        var pullRefresh = new auiPullToRefresh({
+          container: document.querySelector('.aui-refresh-content'),
+          triggerDistance: 100
+        },function(ret){
+          if(ret.status=="success"){
+            app.loadStickData();
+            app.page.pageNum = 0;
+            app.list = [];
+            app.loadListData(function () {
+              pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
+            });
+          }
+        });
+      },
       loadStickData: function () {
         var app = this;
         app.post('/timizhuo/forum/findForumByStick', {}, function (res) {
@@ -158,11 +176,14 @@
       },
       loaddAll: function() {
         this.page.forumType = null;
+        this.list = [];
+        this.page.pageNum = 0;
         this.loadListData();
       },
       loadJin: function() {
-        alert(1);
         this.page.forumType = 1;
+        this.list = [];
+        this.page.pageNum = 0;
         this.loadListData();
       },
       loadListData: function (cellBack) {
@@ -292,6 +313,12 @@
     margin-top: 0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    z-index: 12;
+  }
+
+  .tab-parent {
+    background-color: #fff;
+    z-index: 11;
   }
 
   .roof-placement .label {
