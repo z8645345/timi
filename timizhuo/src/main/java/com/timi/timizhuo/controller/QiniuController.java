@@ -8,6 +8,7 @@ import com.timi.timizhuo.dto.TimiForumDto;
 import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.util.QiniuUploadUtils;
 import jodd.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,10 @@ public class QiniuController extends BaseController {
     public ResponseData uploadImg(QiniuUploadImgDto qiniuUploadImgDto) {
         ResponseData responseData = new ResponseData();
         try {
-            String url = QiniuUploadUtils.imgUpload(qiniuUploadImgDto.getBase64(), QiniuUploadUtils.NamespaceEnums.getNamespaceByType(qiniuUploadImgDto.getNamespaceType()), UUIDUtils.uuid());
+            if (StringUtils.isEmpty(qiniuUploadImgDto.getImgName())) {
+                qiniuUploadImgDto.setImgName(UUIDUtils.uuid());
+            }
+            String url = QiniuUploadUtils.imgUpload(qiniuUploadImgDto.getBase64(), QiniuUploadUtils.NamespaceEnums.getNamespaceByType(qiniuUploadImgDto.getNamespaceType()), qiniuUploadImgDto.getImgName());
             responseData.setData(url);
             responseData.setSuccess();
         } catch (Exception e) {

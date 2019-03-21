@@ -15,4 +15,6 @@ public class QiniuUploadImgDto implements Serializable {
     private String base64;
 
     private Integer namespaceType;
+
+    private String imgName;
 }
