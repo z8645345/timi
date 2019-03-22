@@ -14,6 +14,7 @@ const mLogin = r => require(['../components/m/user/login.vue'],r);
 const mUserHome = r => require(['../components/m/user/user-home.vue'],r);
 const mBbs = r => require(['../components/m/bbs/bbs.vue'],r);
 const mPosting = r => require(['../components/m/bbs/posting.vue'],r);
+const mDetail = r => require(['../components/m/bbs/detail.vue'],r);
 const mChatroom = r => require(['../components/m/chatroom/chatroom.vue'],r);
 
 
@@ -33,6 +34,7 @@ var mRoutes = [
   {path: '/user-home', name: 'userHome', component: mUserHome}, // 手机用户主页
   {path: '/bbs', name: 'bbs', component: mBbs}, // 手机论坛页
   {path: '/posting', name: 'posting', component: mPosting}, // 手机论坛发帖页
+  {path: '/detail', name: 'detail', component: mDetail}, // 手机论坛帖子详情页
   {path: '/chatroom', name: 'chatroom', component: mChatroom} // 手机聊天室页
 ];
 
