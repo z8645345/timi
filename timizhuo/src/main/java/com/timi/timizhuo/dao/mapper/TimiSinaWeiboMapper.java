@@ -1,6 +1,5 @@
 package com.timi.timizhuo.dao.mapper;
 
-import com.timi.timizhuo.dao.model.TimiImages;
 import com.timi.timizhuo.dao.model.TimiSinaWeibo;
 
 import java.util.List;

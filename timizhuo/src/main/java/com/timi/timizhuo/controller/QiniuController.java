@@ -1,6 +1,5 @@
 package com.timi.timizhuo.controller;
 
-import com.ruijc.util.UUIDUtils;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.dto.QiniuUploadImgDto;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * @Description 对七牛云操作的controller
@@ -30,7 +30,7 @@ public class QiniuController extends BaseController {
         ResponseData responseData = new ResponseData();
         try {
             if (StringUtils.isEmpty(qiniuUploadImgDto.getImgName())) {
-                qiniuUploadImgDto.setImgName(UUIDUtils.uuid());
+                qiniuUploadImgDto.setImgName(UUID.randomUUID().toString());
             }
             String url = QiniuUploadUtils.imgUpload(qiniuUploadImgDto.getBase64(), QiniuUploadUtils.NamespaceEnums.getNamespaceByType(qiniuUploadImgDto.getNamespaceType()), qiniuUploadImgDto.getImgName());
             responseData.setData(url);

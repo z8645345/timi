@@ -233,14 +233,16 @@
     </div>
     <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
       <div>我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷</div>
-      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
+      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem;">
     </div>
 
     <div v-if="!isShowcontext" style="height: 1.6rem"></div>
     <div @click="showcontext" v-if="!isShowcontext" style="position: fixed ;bottom:0; background-color: #fff; width: 100%; height: 2rem; line-height: 2rem; padding-left: 0.5rem">
       <span style="color: rgb(217, 217, 217)" v-html="contextTips"></span>
     </div>
-    <div contenteditable="true" id="context" :style="contextStyle" @blur="contextBlur"></div>
+    <div contenteditable="true" id="context" :style="contextStyle" style="background-color: #fff; line-height: 1.5rem" @blur="contextBlur" @input="contextInput">
+      <span style="color: rgb(217, 217, 217)">说说你的看法……</span>
+    </div>
   </div>
 </template>
 
@@ -251,8 +253,9 @@
         return {
           forum: {},
           isShowcontext: false,
+          havaContexg: false,
           contextStyle : 'display: none',
-          contextTips : '说说你的看法'
+          contextTips : '说说你的看法……',
         }
       },
       mounted: function(){
@@ -282,10 +285,18 @@
         contextBlur: function () {
           this.contextStyle = 'display: none';
           this.isShowcontext=false;
-          if (document.getElementById("context").innerHTML == '') {
+          if (!this.havaContexg) {
             this.contextTips ='说说你的看法';
           } else {
             this.contextTips ='[草稿内容待发送]';
+          }
+        },
+        contextInput: function () {
+          alert(document.getElementById("context").innerHTML)
+          if(document.getElementById("context").innerHTML=='') {
+
+            this.isShowcontext = false;
+            document.getElementById("context").innerHTML='<span style="color: rgb(217, 217, 217)">说说你的看法……</span>';
           }
         }
       }
