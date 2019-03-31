@@ -1,8 +1,8 @@
 package com.timi.timizhuo.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.timi.timizhuo.dao.mapper.TimiMsgLogMapper;
-import com.timi.timizhuo.dao.model.TimiMsgLog;
+import com.timi.timizhuo.mapper.TimiMsgLogMapper;
+import com.timi.timizhuo.entity.TimiMsgLog;
 import com.timi.timizhuo.dto.TimiMsgLogDTO;
 import com.timi.timizhuo.service.TimiMsgLogService;
 import com.timi.timizhuo.util.BeanConvertUtils;

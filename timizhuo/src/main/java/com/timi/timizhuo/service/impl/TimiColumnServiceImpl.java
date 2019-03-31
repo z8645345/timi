@@ -1,7 +1,7 @@
 package com.timi.timizhuo.service.impl;
 
-import com.timi.timizhuo.dao.mapper.TimiColumnMapper;
-import com.timi.timizhuo.dao.model.TimiColumn;
+import com.timi.timizhuo.mapper.TimiColumnMapper;
+import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.dto.TimiColumnDto;
 import com.timi.timizhuo.service.TimiColumnService;
 import com.timi.timizhuo.util.BeanConvertUtils;

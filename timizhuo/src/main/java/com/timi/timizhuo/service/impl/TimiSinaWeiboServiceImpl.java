@@ -2,8 +2,8 @@ package com.timi.timizhuo.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dao.mapper.TimiSinaWeiboMapper;
-import com.timi.timizhuo.dao.model.TimiSinaWeibo;
+import com.timi.timizhuo.mapper.TimiSinaWeiboMapper;
+import com.timi.timizhuo.entity.TimiSinaWeibo;
 import com.timi.timizhuo.dto.TimiSinaWeiboDto;
 import com.timi.timizhuo.service.TimiSinaWeiboService;
 import com.timi.timizhuo.util.BeanConvertUtils;

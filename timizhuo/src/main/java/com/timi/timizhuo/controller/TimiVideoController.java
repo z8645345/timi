@@ -5,7 +5,6 @@ import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.common.UserRocordEnum;
-import com.timi.timizhuo.dao.model.TimiUserRecord;
 import com.timi.timizhuo.dto.TimiColumnDto;
 import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.dto.TimiUserRecordDto;

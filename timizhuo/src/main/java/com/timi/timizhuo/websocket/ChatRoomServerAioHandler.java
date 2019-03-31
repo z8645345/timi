@@ -1,11 +1,9 @@
 package com.timi.timizhuo.websocket;
 
 import com.alibaba.fastjson.JSONObject;
-import com.timi.timizhuo.controller.BaseController;
-import com.timi.timizhuo.dao.mapper.TimiMsgLogMapper;
-import com.timi.timizhuo.dao.model.TimiMsgLog;
+import com.timi.timizhuo.mapper.TimiMsgLogMapper;
+import com.timi.timizhuo.entity.TimiMsgLog;
 import com.timi.timizhuo.dto.TimiUserDto;
-import com.timi.timizhuo.service.TimiMsgLogService;
 import com.timi.timizhuo.util.JSONUtils;
 import com.timi.timizhuo.util.SpringUtil;
 import org.apache.commons.lang3.ObjectUtils;
@@ -14,19 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.tio.core.Aio;
 import org.tio.core.ChannelContext;
-import org.tio.core.GroupContext;
-import org.tio.core.exception.AioDecodeException;
-import org.tio.core.intf.Packet;
 import org.tio.http.common.HttpRequest;
 import org.tio.http.common.HttpResponse;
-import org.tio.server.intf.ServerAioHandler;
 import org.tio.websocket.common.WsRequest;
 import org.tio.websocket.common.WsResponse;
 import org.tio.websocket.common.WsSessionContext;
 import org.tio.websocket.server.handler.IWsMsgHandler;
 
-import javax.annotation.Resource;
-import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.Objects;
 

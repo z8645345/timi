@@ -1,19 +1,17 @@
 package com.timi.timizhuo.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import com.timi.timizhuo.common.ColumnEnum;
-import com.timi.timizhuo.dao.mapper.TimiColumnMapper;
-import com.timi.timizhuo.dao.mapper.TimiImagesMapper;
-import com.timi.timizhuo.dao.mapper.TimiSinaWeiboMapper;
-import com.timi.timizhuo.dao.model.TimiColumn;
-import com.timi.timizhuo.dao.model.TimiImages;
-import com.timi.timizhuo.dao.model.TimiSinaWeibo;
+import com.timi.timizhuo.mapper.TimiColumnMapper;
+import com.timi.timizhuo.mapper.TimiImagesMapper;
+import com.timi.timizhuo.mapper.TimiSinaWeiboMapper;
+import com.timi.timizhuo.entity.TimiColumn;
+import com.timi.timizhuo.entity.TimiImages;
+import com.timi.timizhuo.entity.TimiSinaWeibo;
 import com.timi.timizhuo.dto.TimiColumnDto;
 import com.timi.timizhuo.dto.TimiImagesDto;
-import com.timi.timizhuo.dto.TimiShowDto;
 import com.timi.timizhuo.response.DateData;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiImagesService;
@@ -22,9 +20,7 @@ import com.timi.timizhuo.util.DateUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.unit.DataUnit;
 
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 

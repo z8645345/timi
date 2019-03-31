@@ -1,15 +1,12 @@
 package com.timi.timizhuo.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.timi.timizhuo.common.ColumnEnum;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.dao.mapper.TimiColumnMapper;
-import com.timi.timizhuo.dao.mapper.TimiVideoMapper;
-import com.timi.timizhuo.dao.model.TimiColumn;
-import com.timi.timizhuo.dao.model.TimiImages;
-import com.timi.timizhuo.dao.model.TimiVideo;
+import com.timi.timizhuo.mapper.TimiColumnMapper;
+import com.timi.timizhuo.mapper.TimiVideoMapper;
+import com.timi.timizhuo.entity.TimiColumn;
+import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.dto.TimiColumnDto;
-import com.timi.timizhuo.dto.TimiImagesDto;
 import com.timi.timizhuo.dto.TimiVideoDto;
 import com.timi.timizhuo.response.DateData;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;

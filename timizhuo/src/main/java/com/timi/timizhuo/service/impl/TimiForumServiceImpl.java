@@ -2,8 +2,8 @@ package com.timi.timizhuo.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dao.mapper.TimiForumMapper;
-import com.timi.timizhuo.dao.model.TimiForum;
+import com.timi.timizhuo.mapper.TimiForumMapper;
+import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.dto.TimiForumDto;
 import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.util.BeanConvertUtils;

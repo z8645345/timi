@@ -2,8 +2,8 @@ package com.timi.timizhuo.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dao.mapper.TimiShowMapper;
-import com.timi.timizhuo.dao.model.TimiShow;
+import com.timi.timizhuo.mapper.TimiShowMapper;
+import com.timi.timizhuo.entity.TimiShow;
 import com.timi.timizhuo.dto.TimiShowDto;
 import com.timi.timizhuo.service.TimiShowService;
 import com.timi.timizhuo.util.BeanConvertUtils;

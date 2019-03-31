@@ -1,29 +1,16 @@
 package com.timi.timizhuo.service.impl;
 
-import com.google.gson.Gson;
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.dao.mapper.TimiUserMapper;
-import com.timi.timizhuo.dao.model.TimiUser;
+import com.timi.timizhuo.mapper.TimiUserMapper;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.service.TimiUserService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import com.timi.timizhuo.util.Md5Utils;
 import com.timi.timizhuo.util.QiniuUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Decoder;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.UUID;
 
 /**
  * @Description 婷迷用户service实现类

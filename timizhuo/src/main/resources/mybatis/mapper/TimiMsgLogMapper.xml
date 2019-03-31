@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.timi.timizhuo.dao.mapper.TimiMsgLogMapper">
-  <resultMap id="BaseResultMap" type="com.timi.timizhuo.dao.model.TimiMsgLog">
+<mapper namespace="com.timi.timizhuo.mapper.TimiMsgLogMapper">
+  <resultMap id="BaseResultMap" type="com.timi.timizhuo.entity.TimiMsgLog">
 
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
@@ -11,7 +11,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.timi.timizhuo.dao.model.TimiMsgLog">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.timi.timizhuo.entity.TimiMsgLog">
     <result column="msg" jdbcType="LONGVARCHAR" property="msg" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -45,14 +45,14 @@
     delete from timi_msg_log
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+  <insert id="insert" parameterType="com.timi.timizhuo.entity.TimiMsgLog">
     insert into timi_msg_log (id, user_id, msg_type, msg
       )
     values (uuid(), #{userId,jdbcType=VARCHAR}, #{msgType,jdbcType=VARCHAR},
       #{msg,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+  <insert id="insertSelective" parameterType="com.timi.timizhuo.entity.TimiMsgLog">
     insert into timi_msg_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -95,7 +95,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+  <update id="updateByPrimaryKeySelective" parameterType="com.timi.timizhuo.entity.TimiMsgLog">
     update timi_msg_log
     <set>
       <if test="userId != null">
@@ -116,7 +116,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.timi.timizhuo.entity.TimiMsgLog">
     update timi_msg_log
     set user_id = #{userId,jdbcType=VARCHAR},
       msg_type = #{msgType,jdbcType=VARCHAR},
@@ -125,7 +125,7 @@
       msg = #{msg,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.timi.timizhuo.dao.model.TimiMsgLog">
+  <update id="updateByPrimaryKey" parameterType="com.timi.timizhuo.entity.TimiMsgLog">
     update timi_msg_log
     set user_id = #{userId,jdbcType=VARCHAR},
       msg_type = #{msgType,jdbcType=VARCHAR},

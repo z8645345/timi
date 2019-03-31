@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("classpath:config/mybatis.properties")
 @PropertySource("classpath:config/datasource.properties")
 @PropertySource("classpath:config/redis.properties")
-@MapperScan("com.timi.timizhuo.dao.mapper")
+@MapperScan("com.timi.timizhuo.mapper")
 public class App {
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);

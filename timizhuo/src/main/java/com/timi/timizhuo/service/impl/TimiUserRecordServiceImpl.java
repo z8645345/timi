@@ -1,12 +1,11 @@
 package com.timi.timizhuo.service.impl;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.common.UserRocordEnum;
-import com.timi.timizhuo.dao.mapper.TimiUserRecordMapper;
-import com.timi.timizhuo.dao.mapper.TimiVideoMapper;
-import com.timi.timizhuo.dao.model.TimiUserRecord;
-import com.timi.timizhuo.dao.model.TimiVideo;
+import com.timi.timizhuo.mapper.TimiUserRecordMapper;
+import com.timi.timizhuo.mapper.TimiVideoMapper;
+import com.timi.timizhuo.entity.TimiUserRecord;
+import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.dto.TimiUserRecordDto;
 import com.timi.timizhuo.service.TimiUserRecordService;
