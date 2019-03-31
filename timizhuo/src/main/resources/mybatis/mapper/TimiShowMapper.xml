@@ -18,7 +18,7 @@
     create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from timi_show
     where show_id = #{showId,jdbcType=VARCHAR}
@@ -28,12 +28,12 @@
     where show_id = #{showId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.timi.timizhuo.entity.TimiShow" >
-    insert into timi_show (show_id, show_title, show_time, 
-      show_address, show_detail, show_imgs, 
+    insert into timi_show (show_id, show_title, show_time,
+      show_address, show_detail, show_imgs,
       show_video, create_time, update_time
       )
-    values (#{showId,jdbcType=VARCHAR}, #{showTitle,jdbcType=VARCHAR}, #{showTime,jdbcType=TIMESTAMP}, 
-      #{showAddress,jdbcType=VARCHAR}, #{showDetail,jdbcType=VARCHAR}, #{showImgs,jdbcType=VARCHAR}, 
+    values (#{showId,jdbcType=VARCHAR}, #{showTitle,jdbcType=VARCHAR}, #{showTime,jdbcType=TIMESTAMP},
+      #{showAddress,jdbcType=VARCHAR}, #{showDetail,jdbcType=VARCHAR}, #{showImgs,jdbcType=VARCHAR},
       #{showVideo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>

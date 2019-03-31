@@ -1,13 +1,14 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.common.UserRocordEnum;
-import com.timi.timizhuo.mapper.TimiUserRecordMapper;
-import com.timi.timizhuo.mapper.TimiVideoMapper;
-import com.timi.timizhuo.entity.TimiUserRecord;
-import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.dto.TimiUserRecordDto;
+import com.timi.timizhuo.entity.TimiUserRecord;
+import com.timi.timizhuo.entity.TimiVideo;
+import com.timi.timizhuo.mapper.TimiUserRecordMapper;
+import com.timi.timizhuo.mapper.TimiVideoMapper;
 import com.timi.timizhuo.service.TimiUserRecordService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.List;
  * @Date 2018/12/17 001712:57
  */
 @Service
-public class TimiUserRecordServiceImpl implements TimiUserRecordService {
+public class TimiUserRecordServiceImpl extends ServiceImpl<TimiUserRecordMapper, TimiUserRecord> implements TimiUserRecordService {
 
     @Autowired
     private TimiUserRecordMapper timiUserRecordMapper;

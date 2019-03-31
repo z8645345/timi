@@ -1,10 +1,11 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.mapper.TimiUserMapper;
-import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.dto.TimiUserDto;
+import com.timi.timizhuo.entity.TimiUser;
+import com.timi.timizhuo.mapper.TimiUserMapper;
 import com.timi.timizhuo.service.TimiUserService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import com.timi.timizhuo.util.Md5Utils;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
  * @Date 2018/12/6 000619:40
  */
 @Service
-public class TimiUserServiceImpl implements TimiUserService {
+public class TimiUserServiceImpl extends ServiceImpl<TimiUserMapper, TimiUser> implements TimiUserService {
 
     @Autowired
     private TimiUserMapper timiUserMapper;

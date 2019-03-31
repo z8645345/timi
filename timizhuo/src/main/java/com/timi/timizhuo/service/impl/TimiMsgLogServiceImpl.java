@@ -1,9 +1,10 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
-import com.timi.timizhuo.mapper.TimiMsgLogMapper;
-import com.timi.timizhuo.entity.TimiMsgLog;
 import com.timi.timizhuo.dto.TimiMsgLogDTO;
+import com.timi.timizhuo.entity.TimiMsgLog;
+import com.timi.timizhuo.mapper.TimiMsgLogMapper;
 import com.timi.timizhuo.service.TimiMsgLogService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
  * @Date 2019/1/8 0008
  */
 @Service("timiMsgLogService")
-public class TimiMsgLogServiceImpl implements TimiMsgLogService {
+public class TimiMsgLogServiceImpl extends ServiceImpl<TimiMsgLogMapper, TimiMsgLog> implements TimiMsgLogService {
 
     @Autowired
     private TimiMsgLogMapper timiMsgLogMapper;

@@ -1,10 +1,11 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.mapper.TimiForumMapper;
-import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.dto.TimiForumDto;
+import com.timi.timizhuo.entity.TimiForum;
+import com.timi.timizhuo.mapper.TimiForumMapper;
 import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class TimiForumServiceImpl implements TimiForumService {
+public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum> implements TimiForumService {
 
 
     @Autowired

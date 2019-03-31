@@ -41,9 +41,13 @@ public class CodeGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-//        String projectPath = System.getProperty("user.dir");
-        String projectPath = "/Users/zengjia/IdeaProjects";
-        gc.setOutputDir(projectPath + "/src/main/java");
+        String projectPath = System.getProperty("user.dir");
+        gc.setOutputDir(projectPath + "/timizhuo/src/main/java");
+        gc.setFileOverride(true);//是否覆盖
+        gc.setActiveRecord(true);
+        gc.setEnableCache(false);// XML 二级缓存
+        gc.setBaseResultMap(true);// XML ResultMap
+        gc.setBaseColumnList(false);// XML columList
         gc.setAuthor("timi");
         gc.setOpen(false);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
@@ -115,7 +119,7 @@ public class CodeGenerator {
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(pc.getModuleName() + "_");
+//        strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

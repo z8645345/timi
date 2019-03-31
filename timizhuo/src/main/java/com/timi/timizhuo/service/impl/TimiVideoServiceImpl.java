@@ -1,13 +1,14 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.mapper.TimiColumnMapper;
-import com.timi.timizhuo.mapper.TimiVideoMapper;
-import com.timi.timizhuo.entity.TimiColumn;
-import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.dto.TimiColumnDto;
 import com.timi.timizhuo.dto.TimiVideoDto;
+import com.timi.timizhuo.entity.TimiColumn;
+import com.timi.timizhuo.entity.TimiVideo;
+import com.timi.timizhuo.mapper.TimiColumnMapper;
+import com.timi.timizhuo.mapper.TimiVideoMapper;
 import com.timi.timizhuo.response.DateData;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiVideoService;
@@ -25,7 +26,7 @@ import java.util.*;
  * @Date 2018/12/2 000215:26
  */
 @Service
-public class TimiVideoServiceImpl implements TimiVideoService {
+public class TimiVideoServiceImpl extends ServiceImpl<TimiVideoMapper, TimiVideo> implements TimiVideoService {
 
     @Autowired
     private TimiVideoMapper timiVideoMapper;

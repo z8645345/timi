@@ -1,17 +1,18 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import com.timi.timizhuo.common.ColumnEnum;
-import com.timi.timizhuo.mapper.TimiColumnMapper;
-import com.timi.timizhuo.mapper.TimiImagesMapper;
-import com.timi.timizhuo.mapper.TimiSinaWeiboMapper;
+import com.timi.timizhuo.dto.TimiColumnDto;
+import com.timi.timizhuo.dto.TimiImagesDto;
 import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiImages;
 import com.timi.timizhuo.entity.TimiSinaWeibo;
-import com.timi.timizhuo.dto.TimiColumnDto;
-import com.timi.timizhuo.dto.TimiImagesDto;
+import com.timi.timizhuo.mapper.TimiColumnMapper;
+import com.timi.timizhuo.mapper.TimiImagesMapper;
+import com.timi.timizhuo.mapper.TimiSinaWeiboMapper;
 import com.timi.timizhuo.response.DateData;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiImagesService;
@@ -30,7 +31,7 @@ import java.util.List;
  * @Date 2018/12/9 000913:45
  */
 @Service
-public class TimiImagesServiceImpl implements TimiImagesService {
+public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiImages> implements TimiImagesService {
 
     @Autowired
     private TimiSinaWeiboMapper timiSinaWeiboMapper;
