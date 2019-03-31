@@ -1,9 +1,10 @@
 package com.timi.timizhuo.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
-import com.timi.timizhuo.dto.TimiSinaWeiboDto;
+import com.timi.timizhuo.entity.TimiSinaWeibo;
 import com.timi.timizhuo.service.TimiSinaWeiboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,16 +26,20 @@ public class TimiSinaWeiboController {
     private TimiSinaWeiboService timiSinaWeiboService;
 
     @PostMapping("/findAll")
-    public ResponseData findAll(TimiSinaWeiboDto timiSinaWeiboDto) {
+    public ResponseData findAll(TimiSinaWeibo timiSinaWeibo) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiSinaWeiboDto == null) {
+            if (timiSinaWeibo == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            PageInfo<TimiSinaWeiboDto> pageInfo = timiSinaWeiboService.findAllByPage(timiSinaWeiboDto);
-            responseData.setData(pageInfo);
+            Page<TimiSinaWeibo> page = new Page<>();
+            page.setCurrent(timiSinaWeibo.getPageNum());
+            page.setSize(timiSinaWeibo.getPageSize());
+            page.setDesc(timiSinaWeibo.getDesc());
+            IPage<TimiSinaWeibo> result = timiSinaWeiboService.page(page);
+            responseData.setData(result);
         } catch (Exception e) {
             logger.error("m:register 查询新浪微博信息失败", e);
             responseData.setFial();

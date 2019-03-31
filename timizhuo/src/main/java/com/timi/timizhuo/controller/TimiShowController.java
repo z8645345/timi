@@ -1,10 +1,11 @@
 package com.timi.timizhuo.controller;
 
 import com.alibaba.druid.util.StringUtils;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
-import com.timi.timizhuo.dto.TimiShowDto;
+import com.timi.timizhuo.entity.TimiShow;
 import com.timi.timizhuo.service.TimiShowService;
 import com.timi.timizhuo.util.JSONUtils;
 import org.slf4j.Logger;
@@ -27,15 +28,18 @@ public class TimiShowController {
     private TimiShowService timiShowService;
 
     @PostMapping("/findAll")
-    public String findAll(TimiShowDto timiShowDto) {
+    public String findAll(TimiShow timiShow) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiShowDto == null) {
+            if (timiShow == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                PageInfo<TimiShowDto> pageInfo = timiShowService.findPage(timiShowDto);
-                responseData.setData(pageInfo);
+                IPage<TimiShow> page = new Page<>();
+                page.setCurrent(timiShow.getPageNum());
+                page.setSize(timiShow.getPageSize());
+                IPage<TimiShow> pageResult = timiShowService.page(page);
+                responseData.setData(pageResult);
             }
         } catch (Exception e) {
             logger.error("m:register 演出活动查询失败", e);
@@ -46,21 +50,21 @@ public class TimiShowController {
     }
 
     @PostMapping("/findById")
-    public String findById(TimiShowDto timiShowDto) {
+    public String findById(TimiShow timiShow) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiShowDto == null) {
+            if (timiShow == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
-            } else if (StringUtils.isEmpty(timiShowDto.getShowId())) {
+            } else if (StringUtils.isEmpty(timiShow.getShowId())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.SHOW_ID_NOT_NULL);
             } else {
-                TimiShowDto timiShowDtoResult = timiShowService.findById(timiShowDto);
-                responseData.setData(timiShowDtoResult);
+                TimiShow result = timiShowService.getById(timiShow.getShowId());
+                responseData.setData(result);
             }
         } catch (Exception e) {
-            logger.error("m:register 根据id演出活动查询失败，showId=" + timiShowDto.getShowId(), e);
+            logger.error("m:register 根据id演出活动查询失败，showId=" + timiShow.getShowId(), e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }

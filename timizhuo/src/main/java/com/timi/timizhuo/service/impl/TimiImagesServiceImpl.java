@@ -1,5 +1,8 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -44,7 +47,7 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
 
     @Override
     public void syncWeiboImages() {
-        List<TimiSinaWeibo> timiSinaWeibos = timiSinaWeiboMapper.findAll();
+        List<TimiSinaWeibo> timiSinaWeibos = timiSinaWeiboMapper.selectList(null);
         for(TimiSinaWeibo timiSinaWeibo : timiSinaWeibos) {
             if (StringUtil.isNotEmpty(timiSinaWeibo.getOriginalPics())) {
                 String columnNo = "WB" +  DateUtils.dateFormat(timiSinaWeibo.getCreatedAt(), "yyyyMMddHHmmss");
@@ -88,10 +91,15 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
 
     @Override
     public List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumnDto timiColumnDto) {
-        PageHelper.startPage(timiColumnDto.getPageNum(), timiColumnDto.getPageSize());
-        TimiColumn timiColumn = new TimiColumn();
-        timiColumn.setColumnType("("+ ColumnEnum.IMAGE.getType() +")");
-        List<TimiColumn> timiColumnList = timiColumnMapper.findByCondition(timiColumn);
+        Page<TimiColumn> page = new Page<>();
+        page.setCurrent(timiColumnDto.getPageNum());
+        page.setSize(timiColumnDto.getPageSize());
+        page.setDesc("create_time");
+        QueryWrapper<TimiColumn> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("column_type", "("+ ColumnEnum.IMAGE.getType() +")");
+        IPage<TimiColumn> pageList = timiColumnMapper.selectPage(page, queryWrapper);
+        List<TimiColumn> timiColumnList = pageList.getRecords();
+
         List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = Lists.newArrayList();
         timiColumnList.forEach(timiColumn1 -> {
             List<TimiImages> timiImages = timiImagesMapper.findByColumnNo(timiColumn1.getColumnNo());

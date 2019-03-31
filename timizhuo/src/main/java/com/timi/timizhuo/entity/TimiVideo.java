@@ -3,10 +3,9 @@ package com.timi.timizhuo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class TimiVideo implements Serializable {
+public class TimiVideo extends BaseEntity {
 
     @TableId(type = IdType.UUID)
     private String id;
