@@ -117,7 +117,7 @@ public class CodeGenerator {
         strategy.setSuperEntityClass("com.timi.timizhuo.entity.BaseEntity");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperControllerClass("ccom.timi.timizhuo.controller.BaseController");
+        strategy.setSuperControllerClass("com.timi.timizhuo.controller.BaseController");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);

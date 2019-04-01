@@ -1,7 +1,5 @@
 package com.timi.timizhuo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.util.Date;
@@ -9,8 +7,6 @@ import java.util.Date;
 @Data
 public class TimiForum extends BaseEntity {
 
-    @TableId(type = IdType.UUID)
-    private String forumId;
     /**标题*/
     private String forumTitle;
     /**内容*/

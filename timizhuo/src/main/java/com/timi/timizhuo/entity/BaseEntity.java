@@ -5,13 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 基础entiry对象，所有entity全部继承这个类
  */
 @Data
-public class BaseEntity<T> {
+public class BaseEntity<T> implements Serializable {
 
     @TableId(type = IdType.UUID)
     private String id;

@@ -4,14 +4,13 @@ import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.dto.TimiForumDto;
-import com.timi.timizhuo.dto.TimiUserDto;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.util.JSONUtils;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,15 +50,15 @@ public class TimiForumController extends  BaseController{
                 responseData.setMessage(Constant.CONTENT_NOT_NULL);
                 return responseData;
             }
-            TimiUserDto timiUserDto = getLoginUser(request);
-            if (timiUserDto == null) {
+            TimiUser timiUser = getLoginUser(request);
+            if (timiUser == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.FORUM_USER_NOT_LOGIN);
                 return responseData;
             }
-            timiForumDto.setUserId(timiUserDto.getUserId());
-            timiForumDto.setUserName(timiUserDto.getNickname());
-            timiForumDto.setUserImageUrl(timiUserDto.getPic());
+            timiForumDto.setUserId(timiUser.getId());
+            timiForumDto.setUserName(timiUser.getNickname());
+            timiForumDto.setUserImageUrl(timiUser.getPic());
             boolean b = this.timiForumService.addForum(timiForumDto);
             if (!b){
                 responseData.setFial();

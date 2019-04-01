@@ -54,7 +54,7 @@
     methods: {
       init: function() {
         var data = {
-          showId: this.$route.query.showId
+          id: this.$route.query.id
         }
         this.axios.post(this.GLOBAL.serviceHost + '/timizhuo/show/findById',this.qs.stringify(data),{
         })

@@ -1,40 +1,26 @@
 package com.timi.timizhuo.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.StringUtil;
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.dto.EmaillDto;
-import com.timi.timizhuo.dto.TimiColumnDto;
-import com.timi.timizhuo.dto.TimiUserDto;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiUserService;
 import com.timi.timizhuo.util.EmaillUtils;
 import com.timi.timizhuo.util.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.util.Base64Utils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import sun.misc.BASE64Decoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -58,41 +44,41 @@ public class TimiUserController extends BaseController {
     private TimiUserService timiUserService;
 
     @PostMapping("/sendEmall")
-    public ResponseData sendEmall(TimiUserDto timiUserDto) {
+    public ResponseData sendEmall(TimiUser timiUser) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiUserDto == null) {
+            if (timiUser == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiUserDto.getUsername())) {
+            if (StringUtils.isEmpty(timiUser.getUsername())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.USERNAME_NOT_NULL);
                 return responseData;
             }
-            TimiUserDto dto = timiUserService.findByUsername(timiUserDto.getUsername());
+            TimiUser dto = timiUserService.getOne(new QueryWrapper<TimiUser>().eq("username", timiUser.getUsername()));
             if (dto != null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.USERNAME_EXIST);
                 return responseData;
             }
-            dto = timiUserService.findByNikename(timiUserDto.getNickname());
+            dto = timiUserService.getOne(new QueryWrapper<TimiUser>().eq("nickname", timiUser.getNickname()));
             if (dto != null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.NICKNAME_EXIST);
                 return responseData;
             }
-            String value = stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUserDto.getUsername()).get();
+            String value = stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUser.getUsername()).get();
             if (StringUtil.isEmpty(value)) {
                 EmaillDto emaillDto = new EmaillDto();
-                emaillDto.setTo(timiUserDto.getUsername());
+                emaillDto.setTo(timiUser.getUsername());
                 emaillDto.setTitle("卓依婷官方粉丝团注册验证码");
                 String checkCode = RandomUtils.digit6();
                 emaillDto.setText("亲爱的timi，你的验证码是" + checkCode + ",有效期10分钟，欢迎加入卓依婷官方粉丝团");
                 EmaillUtils.sendTextMail(emaillDto);
-                stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUserDto.getUsername()).set(checkCode);
-                stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUserDto.getUsername()).expire(10, TimeUnit.MINUTES);
+                stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUser.getUsername()).set(checkCode);
+                stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUser.getUsername()).expire(10, TimeUnit.MINUTES);
             }
         } catch (Exception e) {
             logger.error("m:sendEmall 发送邮箱验证码失败", e);
@@ -103,41 +89,30 @@ public class TimiUserController extends BaseController {
     }
 
     @PostMapping("/register")
-    public ResponseData register(TimiUserDto timiUserDto) {
+    public ResponseData register(TimiUser timiUser) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiUserDto == null) {
+            if (timiUser == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiUserDto.getUsername())) {
+            if (StringUtils.isEmpty(timiUser.getUsername())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.USERNAME_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiUserDto.getPassword())) {
+            if (StringUtils.isEmpty(timiUser.getPassword())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PASSWORD_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiUserDto.getNickname())) {
+            if (StringUtils.isEmpty(timiUser.getNickname())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.NICKNAME_NOT_NULL);
                 return responseData;
             }
-//            if (StringUtils.isEmpty(timiUserDto.getCheckCode())) {
-//                responseData.setFial();
-//                responseData.setMessage(Constant.CHECKCODE_NOT_NULL);
-//                return responseData;
-//            }
-//            String checkCode = stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUserDto.getUsername()).get();
-//            if (!Objects.equals(timiUserDto.getCheckCode(), checkCode)) {
-//                responseData.setFial();
-//                responseData.setMessage(Constant.CHECKCODE_ERROR);
-//                return responseData;
-//            }
-            ServiceResponseData<TimiUserDto> serviceResponseData = timiUserService.register(timiUserDto);
+            ServiceResponseData<TimiUser> serviceResponseData = timiUserService.register(timiUser);
             if (serviceResponseData.isSuccess()) {
                 responseData.setData(serviceResponseData.getData());
             } else {
@@ -153,25 +128,25 @@ public class TimiUserController extends BaseController {
     }
 
     @PostMapping("/login")
-    public ResponseData login(TimiUserDto timiUserDto) {
+    public ResponseData login(TimiUser timiUser) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiUserDto == null) {
+            if (timiUser == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiUserDto.getUsername())) {
+            if (StringUtils.isEmpty(timiUser.getUsername())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.USERNAME_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiUserDto.getPassword())) {
+            if (StringUtils.isEmpty(timiUser.getPassword())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PASSWORD_NOT_NULL);
                 return responseData;
             }
-            ServiceResponseData<TimiUserDto> serviceResponseData = timiUserService.login(timiUserDto);
+            ServiceResponseData<TimiUser> serviceResponseData = timiUserService.login(timiUser);
             if (serviceResponseData.isSuccess()) {
                 String token = UUID.randomUUID().toString();
                 redisTemplate.boundValueOps("USER_TOKEN" + token).set(serviceResponseData.getData());
@@ -203,9 +178,9 @@ public class TimiUserController extends BaseController {
     public ResponseData isLogin(HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         try {
-            TimiUserDto timiUserDto = getLoginUser(request);
-            if (timiUserDto != null) {
-                responseData.setData(timiUserDto);
+            TimiUser timiUser = getLoginUser(request);
+            if (timiUser != null) {
+                responseData.setData(timiUser);
             } else {
                 responseData.setFial();
             }
@@ -229,47 +204,5 @@ public class TimiUserController extends BaseController {
         responseData.setSuccess();
         return responseData;
     }
-
-//    @PostMapping("/fileUpload")
-//    public ResponseData fileUpload(String base64Str) {
-//        base64Str = base64Str.substring(base64Str.indexOf(",")+1);
-//        ResponseData responseData = new ResponseData();
-//        String accessKey = "UpK4eYeeehxZYpW3Nt7zN0F5pjILYTExaSwFU73H";
-//        String secretKey = "tL_yLv_mQUsxdRvla9F0K2MUnf9cffKEDhezOSBI";
-//        String bucket = "timizhuo";
-//
-//        Configuration cfg = new Configuration(Zone.zone2());
-//        UploadManager uploadManager = new UploadManager(cfg);
-//
-//        String key = UUID.randomUUID().toString() + ".jpg";
-//        try {
-//            byte[] uploadBytes = this.transformBase64(base64Str);
-//            ByteArrayInputStream byteInputStream=new ByteArrayInputStream(uploadBytes);
-//            Auth auth = Auth.create(accessKey, secretKey);
-//            String upToken = auth.uploadToken(bucket);
-//            try {
-//                Response response = uploadManager.put(byteInputStream,key,upToken,null, null);
-//                //解析上传成功的结果
-//                DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-//                System.out.println(putRet.key);
-//                responseData.setData("http://pkkwm1pvb.bkt.clouddn.com/" + putRet.key);
-//                System.out.println(putRet.hash);
-//            } catch (QiniuException ex) {
-//                Response r = ex.response;
-//                System.err.println(r.toString());
-//                try {
-//                    System.err.println(r.bodyString());
-//                } catch (QiniuException ex2) {
-//                    //ignore
-//                }
-//            }
-//        } catch (Exception ex) {
-//            responseData.setFial();
-//            responseData.setMessage("图片上传失败");
-//            return responseData;
-//        }
-//        responseData.setSuccess();
-//        return responseData;
-//    }
 
 }

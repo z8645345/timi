@@ -8,9 +8,9 @@ import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.common.UserRocordEnum;
-import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.dto.TimiVideoDto;
 import com.timi.timizhuo.entity.TimiColumn;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.entity.TimiUserRecord;
 import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
@@ -139,17 +139,17 @@ public class TimiVideoController extends BaseController {
     }
 
     private void setUserRecord(List<TimiVideo> timiColumnList, HttpServletRequest request) {
-        TimiUserDto timiUserDto = getLoginUser(request);
-        if (timiUserDto != null) {
-            List<TimiUserRecord> timiUserRecordList = timiUserRecordService.list(new QueryWrapper<TimiUserRecord>().eq("username", timiUserDto.getUsername()));
+        TimiUser timiUser = getLoginUser(request);
+        if (timiUser != null) {
+            List<TimiUserRecord> timiUserRecordList = timiUserRecordService.list(new QueryWrapper<TimiUserRecord>().eq("username", timiUser.getUsername()));
             timiColumnList.forEach(timiVideo -> timiUserRecordList.forEach(timiUserRecord -> checkUserRecord(timiUserRecord, timiVideo)));
         }
     }
 
     private void setUserRecord(TimiVideo timiVideoDto, HttpServletRequest request) {
-        TimiUserDto timiUserDto = getLoginUser(request);
-        if (timiUserDto != null) {
-            List<TimiUserRecord> timiUserRecordList = timiUserRecordService.list(new QueryWrapper<TimiUserRecord>().eq("username", timiUserDto.getUsername()));
+        TimiUser timiUser = getLoginUser(request);
+        if (timiUser != null) {
+            List<TimiUserRecord> timiUserRecordList = timiUserRecordService.list(new QueryWrapper<TimiUserRecord>().eq("username", timiUser.getUsername()));
             timiUserRecordList.forEach(timiUserRecord -> checkUserRecord(timiUserRecord, timiVideoDto));
         }
     }

@@ -1,16 +1,12 @@
 package com.timi.timizhuo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 public class TimiUser extends BaseEntity {
-
-    @TableId(type = IdType.UUID)
-    private String userId;
 
     private String username;
 
@@ -29,6 +25,24 @@ public class TimiUser extends BaseEntity {
     private Date createTime;
 
     private Date updateTime;
+
+    @TableField(exist = false)
+    private String checkCode;
+
+    @TableField(exist = false)
+    private String token;
+
+    @TableField(exist = false)
+    private String headerImage;
+
+    @TableField(exist = false)
+    private String msg;
+
+    @TableField(exist = false)
+    private String msgId;
+
+    @TableField(exist = false)
+    private Integer msgType;
 
     private static final long serialVersionUID = 1L;
 }

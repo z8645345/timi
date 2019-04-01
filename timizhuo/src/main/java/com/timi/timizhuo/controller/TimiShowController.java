@@ -56,15 +56,15 @@ public class TimiShowController {
             if (timiShow == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
-            } else if (StringUtils.isEmpty(timiShow.getShowId())) {
+            } else if (StringUtils.isEmpty(timiShow.getId())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.SHOW_ID_NOT_NULL);
             } else {
-                TimiShow result = timiShowService.getById(timiShow.getShowId());
+                TimiShow result = timiShowService.getById(timiShow.getId());
                 responseData.setData(result);
             }
         } catch (Exception e) {
-            logger.error("m:register 根据id演出活动查询失败，showId=" + timiShow.getShowId(), e);
+            logger.error("m:register 根据id演出活动查询失败，showId=" + timiShow.getId(), e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
