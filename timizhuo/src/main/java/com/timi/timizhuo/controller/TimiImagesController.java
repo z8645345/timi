@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
-import com.timi.timizhuo.dto.TimiColumnDto;
+import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiImages;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiImagesService;
@@ -55,8 +55,7 @@ public class TimiImagesController {
             page.setDesc("create_time");
             QueryWrapper<TimiImages> wrapper = null;
             if (StringUtils.isNotEmpty(timiImages.getColumnNo())) {
-                wrapper = new QueryWrapper();
-                wrapper.eq("column_no", timiImages.getColumnNo());
+                wrapper = new QueryWrapper<TimiImages>().eq("column_no", timiImages.getColumnNo());
             }
             IPage<TimiImages> result = timiImagesService.page(page, wrapper);
             responseData.setData(result);
@@ -69,10 +68,10 @@ public class TimiImagesController {
     }
 
     @PostMapping("/findByColumnLimit")
-    public ResponseData findByColumnLimit(TimiColumnDto timiColumnDto) {
+    public ResponseData findByColumnLimit(TimiColumn timiColumn) {
         ResponseData responseData = new ResponseData();
         try {
-            List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = timiImagesService.findByColumnLimit(timiColumnDto);
+            List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = timiImagesService.findByColumnLimit(timiColumn);
             responseData.setData(findByColumnLimitResDTOS);
         } catch (Exception e) {
             logger.error(Constant.SYSTEM_ERROR,e);

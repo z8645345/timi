@@ -8,7 +8,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.StringUtil;
 import com.timi.timizhuo.common.ColumnEnum;
-import com.timi.timizhuo.dto.TimiColumnDto;
 import com.timi.timizhuo.dto.TimiImagesDto;
 import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiImages;
@@ -77,34 +76,19 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
     }
 
     @Override
-    public PageInfo<TimiImagesDto> findByColumn(TimiImagesDto timiImagesDto) {
-        String columnNo = null;
-        if (timiImagesDto != null) {
-            columnNo = timiImagesDto.getColumnNo();
-        }
-        PageHelper.startPage(timiImagesDto.getPageNum(), timiImagesDto.getPageSize());
-        List<TimiImages> timiImages = timiImagesMapper.findByColumnNo(columnNo);
-        List<TimiImagesDto> list = BeanConvertUtils.convertList(timiImages, TimiImagesDto.class);
-        PageInfo<TimiImagesDto> pageInfo = new PageInfo<>(list);
-        return pageInfo;
-    }
-
-    @Override
-    public List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumnDto timiColumnDto) {
+    public List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumn timiColumn) {
         Page<TimiColumn> page = new Page<>();
-        page.setCurrent(timiColumnDto.getPageNum());
-        page.setSize(timiColumnDto.getPageSize());
+        page.setCurrent(timiColumn.getPageNum());
+        page.setSize(timiColumn.getPageSize());
         page.setDesc("create_time");
-        QueryWrapper<TimiColumn> queryWrapper = new QueryWrapper<>();
         List<String> list = Lists.newArrayList();
         list.add(ColumnEnum.IMAGE.getType());
-        queryWrapper.in("column_type", list);
-        IPage<TimiColumn> pageList = timiColumnMapper.selectPage(page, queryWrapper);
+        IPage<TimiColumn> pageList = timiColumnMapper.selectPage(page, new QueryWrapper<TimiColumn>().in("column_type", list));
         List<TimiColumn> timiColumnList = pageList.getRecords();
 
         List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = Lists.newArrayList();
         timiColumnList.forEach(timiColumn1 -> {
-            List<TimiImages> timiImages = timiImagesMapper.findByColumnNo(timiColumn1.getColumnNo());
+            List<TimiImages> timiImages = timiImagesMapper.selectList(new QueryWrapper<TimiImages>().eq("column_no", timiColumn1.getColumnNo()));
             String year = DateUtils.dateFormat(timiColumn1.getColumnTime(), "yyyy年");
             String data = DateUtils.dateFormat(timiColumn1.getColumnTime(), "MM月dd日");
             List<TimiImagesDto> timiImagesDtoList = BeanConvertUtils.convertList(timiImages, TimiImagesDto.class);
@@ -113,7 +97,7 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
                 DateData dateData = new DateData();
                 dateData.setData(data);
                 dateData.setTitle(timiColumn1.getColumnName());
-                dateData.setImagesDtoList(timiImagesDtoList);
+                dateData.setImagesDtoList(timiImages);
                 dto.getDateData().add(dateData);
             } else {
                 FindByColumnLimitResDTO findByColumnLimitResDTO = new FindByColumnLimitResDTO();
@@ -121,7 +105,7 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
                 DateData dateData = new DateData();
                 dateData.setData(data);
                 dateData.setTitle(timiColumn1.getColumnName());
-                dateData.setImagesDtoList(timiImagesDtoList);
+                dateData.setImagesDtoList(timiImages);
                 List<DateData> dateDataList = new ArrayList<>();
                 dateDataList.add(dateData);
                 findByColumnLimitResDTO.setDateData(dateDataList);

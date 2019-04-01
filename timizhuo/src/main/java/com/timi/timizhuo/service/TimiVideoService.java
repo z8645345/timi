@@ -2,8 +2,8 @@ package com.timi.timizhuo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.dto.TimiColumnDto;
 import com.timi.timizhuo.dto.TimiVideoDto;
+import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 
@@ -17,11 +17,11 @@ import java.util.List;
 public interface TimiVideoService extends IService<TimiVideo> {
     List<TimiVideoDto> findByColumn(TimiVideoDto timiVideoDto);
 
-    List<TimiVideoDto> randomVideo(TimiVideoDto timiVideoDto);
+    List<TimiVideo> randomVideo(TimiVideo timiVideo);
 
     TimiVideoDto findById(TimiVideoDto timiVideoDto);
 
     ServiceResponseData<Long> showVideo(TimiVideoDto timiVideoDto);
 
-    List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumnDto timiColumnDto);
+    List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumn timiColumn);
 }

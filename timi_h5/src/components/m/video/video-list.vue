@@ -67,7 +67,7 @@
     methods: {
       init: function () {
         this.initTab();
-        this.loadVideoList("('1','2')");
+        this.loadVideoList("'1','2'");
       },
       initTab: function () {
         var app = this;

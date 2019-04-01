@@ -1,9 +1,7 @@
 package com.timi.timizhuo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dto.TimiColumnDto;
-import com.timi.timizhuo.dto.TimiImagesDto;
+import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiImages;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 
@@ -17,7 +15,5 @@ import java.util.List;
 public interface TimiImagesService extends IService<TimiImages> {
     void syncWeiboImages();
 
-    PageInfo<TimiImagesDto> findByColumn(TimiImagesDto timiImagesDto);
-
-    List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumnDto timiColumnDto);
+    List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumn timiColumn);
 }
