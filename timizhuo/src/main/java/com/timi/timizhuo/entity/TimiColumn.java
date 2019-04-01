@@ -1,6 +1,7 @@
 package com.timi.timizhuo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -57,6 +58,7 @@ public class TimiColumn extends BaseEntity {
      */
     private Date columnTime;
 
+    @TableField(exist = false)
     private long columnTimeLong;
 
     /**

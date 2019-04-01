@@ -75,6 +75,7 @@ public class TimiImagesController {
             List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = timiImagesService.findByColumnLimit(timiColumnDto);
             responseData.setData(findByColumnLimitResDTOS);
         } catch (Exception e) {
+            logger.error(Constant.SYSTEM_ERROR,e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }

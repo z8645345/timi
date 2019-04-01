@@ -96,7 +96,9 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
         page.setSize(timiColumnDto.getPageSize());
         page.setDesc("create_time");
         QueryWrapper<TimiColumn> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("column_type", "("+ ColumnEnum.IMAGE.getType() +")");
+        List<String> list = Lists.newArrayList();
+        list.add(ColumnEnum.IMAGE.getType());
+        queryWrapper.in("column_type", list);
         IPage<TimiColumn> pageList = timiColumnMapper.selectPage(page, queryWrapper);
         List<TimiColumn> timiColumnList = pageList.getRecords();
 
