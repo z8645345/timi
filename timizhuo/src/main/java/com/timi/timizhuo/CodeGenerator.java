@@ -1,5 +1,6 @@
 package com.timi.timizhuo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -50,6 +51,7 @@ public class CodeGenerator {
         gc.setBaseColumnList(false);// XML columList
         gc.setAuthor("timi");
         gc.setOpen(false);
+        gc.setIdType(IdType.UUID);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
@@ -88,7 +90,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mybatis/mapper/"
+                return projectPath + "/timizhuo/src/main/resources/mybatis/mapper/"
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
@@ -115,7 +117,7 @@ public class CodeGenerator {
         strategy.setSuperEntityClass("com.timi.timizhuo.entity.BaseEntity");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
-        strategy.setSuperControllerClass("ccom.timi.timizhuo.controller.BaseController");
+        strategy.setSuperControllerClass("com.timi.timizhuo.controller.BaseController");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);

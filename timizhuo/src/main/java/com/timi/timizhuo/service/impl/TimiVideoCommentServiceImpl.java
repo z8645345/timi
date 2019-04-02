@@ -1,16 +1,15 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.dto.TimiVideoCommentDto;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.entity.TimiVideoComment;
 import com.timi.timizhuo.mapper.TimiUserMapper;
 import com.timi.timizhuo.mapper.TimiVideoCommentMapper;
 import com.timi.timizhuo.service.TimiVideoCommentService;
-import com.timi.timizhuo.util.BeanConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,10 +49,8 @@ public class TimiVideoCommentServiceImpl extends ServiceImpl<TimiVideoCommentMap
         return new PageInfo<>();
     }
 
-    private void setTimiUser(TimiVideoCommentDto timiVideoCommentDto) {
-        TimiUser timiUser =timiUserMapper.selectByUsername(timiVideoCommentDto.getCommentBy());
-        TimiUserDto timiUserDto = new TimiUserDto();
-        BeanConvertUtils.convert(timiUser, timiUserDto);
-        timiVideoCommentDto.setTimiUserDto(timiUserDto);
+    private void setTimiUser(TimiVideoComment timiVideoComment) {
+        TimiUser timiUser = timiUserMapper.selectOne(new QueryWrapper<TimiUser>().eq("username", timiVideoComment.getCommentBy()));
+        timiVideoComment.setTimiUser(timiUser);
     }
 }

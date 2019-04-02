@@ -1,18 +1,11 @@
 package com.timi.timizhuo.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
 public class TimiShow extends BaseEntity {
-    /**
-     * 演出ID
-     */
-    @TableId(type = IdType.UUID)
-    private String showId;
 
     /**
      * 演出主题

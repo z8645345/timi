@@ -131,7 +131,7 @@
             全部演出活动
           </router-link>
         </li>
-        <router-link v-for="timiShow in timiShows" :to="{ name: 'show', query: { showId: timiShow.showId }}" tag="li" class="aui-list-item">
+        <router-link v-for="timiShow in timiShows" :to="{ name: 'show', query: { id: timiShow.id }}" tag="li" class="aui-list-item">
           <div class="aui-media-list-item-inner">
             <div class="aui-list-item-media" style="width:7rem">
               <img :src="timiShow.imgSrc">
@@ -456,7 +456,7 @@
             res.data.data.records.forEach((showDto)=> {
               var showImgArr = showDto.showImgs.split(';');
               var show = {
-                showId: showDto.showId,
+                id: showDto.id,
                 imgSrc: showImgArr[0],
                 showTitle: showDto.showTitle,
                 showDetail: showDto.showDetail,
