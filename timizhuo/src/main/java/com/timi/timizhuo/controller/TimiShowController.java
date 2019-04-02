@@ -35,10 +35,7 @@ public class TimiShowController {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                IPage<TimiShow> page = new Page<>();
-                page.setCurrent(timiShow.getPageNum());
-                page.setSize(timiShow.getPageSize());
-                IPage<TimiShow> pageResult = timiShowService.page(page);
+                IPage<TimiShow> pageResult = timiShowService.page(new Page<TimiShow>().setCurrent(timiShow.getPageNum()).setSize(timiShow.getPageSize()));
                 responseData.setData(pageResult);
             }
         } catch (Exception e) {

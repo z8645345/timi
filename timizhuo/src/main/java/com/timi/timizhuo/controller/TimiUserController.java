@@ -126,17 +126,6 @@ public class TimiUserController extends BaseController {
                 responseData.setMessage(Constant.NICKNAME_NOT_NULL);
                 return responseData;
             }
-//            if (StringUtils.isEmpty(timiUserDto.getCheckCode())) {
-//                responseData.setFial();
-//                responseData.setMessage(Constant.CHECKCODE_NOT_NULL);
-//                return responseData;
-//            }
-//            String checkCode = stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUserDto.getUsername()).get();
-//            if (!Objects.equals(timiUserDto.getCheckCode(), checkCode)) {
-//                responseData.setFial();
-//                responseData.setMessage(Constant.CHECKCODE_ERROR);
-//                return responseData;
-//            }
             ServiceResponseData<TimiUserDto> serviceResponseData = timiUserService.register(timiUserDto);
             if (serviceResponseData.isSuccess()) {
                 responseData.setData(serviceResponseData.getData());

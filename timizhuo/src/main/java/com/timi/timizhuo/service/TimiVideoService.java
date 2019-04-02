@@ -15,13 +15,10 @@ import java.util.List;
  * @Date 2018/12/2 0002 15:26
  */
 public interface TimiVideoService extends IService<TimiVideo> {
-    List<TimiVideoDto> findByColumn(TimiVideoDto timiVideoDto);
 
     List<TimiVideo> randomVideo(TimiVideo timiVideo);
 
-    TimiVideoDto findById(TimiVideoDto timiVideoDto);
-
-    ServiceResponseData<Long> showVideo(TimiVideoDto timiVideoDto);
+    ServiceResponseData<Long> showVideo(TimiVideo timiVideo);
 
     List<FindByColumnLimitResDTO> findByColumnLimit(TimiColumn timiColumn);
 }

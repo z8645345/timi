@@ -20,15 +20,4 @@ import java.util.List;
 @Service("timiMsgLogService")
 public class TimiMsgLogServiceImpl extends ServiceImpl<TimiMsgLogMapper, TimiMsgLog> implements TimiMsgLogService {
 
-    @Autowired
-    private TimiMsgLogMapper timiMsgLogMapper;
-
-    @Override
-    public List<TimiMsgLogDTO> listAll(TimiMsgLogDTO timiMsgLogDTO) {
-        PageHelper.startPage(timiMsgLogDTO.getPageNum(), timiMsgLogDTO.getPageSize());
-        List<TimiMsgLog> timiMsgLogList = timiMsgLogMapper.findAll();
-        List<TimiMsgLogDTO> timiMsgLogDTOList = BeanConvertUtils.convertList(timiMsgLogList, TimiMsgLogDTO.class);
-        timiMsgLogDTOList.forEach(e -> e.setTimestamp(e.getCreateTime().getTime()));
-        return timiMsgLogDTOList;
-    }
 }
