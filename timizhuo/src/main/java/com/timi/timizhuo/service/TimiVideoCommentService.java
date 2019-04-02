@@ -11,5 +11,5 @@ import com.timi.timizhuo.entity.TimiVideoComment;
  * @Date 2018/12/19 0019 07:28
  */
 public interface TimiVideoCommentService extends IService<TimiVideoComment> {
-    PageInfo<TimiVideoCommentDto> findByVideo(TimiVideoCommentDto timiVideoCommentDto);
+
 }

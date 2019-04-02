@@ -19,17 +19,4 @@ import java.util.List;
 @Service
 public class TimiColumnServiceImpl extends ServiceImpl<TimiColumnMapper, TimiColumn> implements TimiColumnService {
 
-    @Autowired
-    private TimiColumnMapper timiColumnMapper;
-
-    @Override
-    public List<TimiColumnDto> findByColumnType(TimiColumnDto timiColumnDto) {
-        TimiColumn timiColumn = new TimiColumn();
-        BeanConvertUtils.convert(timiColumnDto, timiColumn);
-        List<TimiColumn> timiColumns = timiColumnMapper.findByCondition(timiColumn);
-        for(TimiColumn t : timiColumns) {
-            t.setColumnTimeLong(t.getColumnTime().getTime());
-        }
-        return BeanConvertUtils.convertList(timiColumns, TimiColumnDto.class);
-    }
 }

@@ -259,7 +259,7 @@
 
   var ws_protocol = 'ws'; // ws 或 wss
   // var ip = '192.168.99.50'
-  var ip = 'timizhuo.cn'
+  var ip = 'localhost'
   var port = 6789
 
   var heartbeatTimeout = 5000; // 心跳超时时间，单位：毫秒

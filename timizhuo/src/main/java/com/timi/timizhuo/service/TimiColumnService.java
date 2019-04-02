@@ -13,10 +13,4 @@ import java.util.List;
  */
 public interface TimiColumnService extends IService<TimiColumn> {
 
-    /**
-     * 根据栏目类型查询视频
-     * @param timiColumnDto
-     * @return
-     */
-    List<TimiColumnDto> findByColumnType(TimiColumnDto timiColumnDto);
 }

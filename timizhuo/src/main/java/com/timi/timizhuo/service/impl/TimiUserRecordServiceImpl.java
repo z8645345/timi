@@ -52,10 +52,4 @@ public class TimiUserRecordServiceImpl extends ServiceImpl<TimiUserRecordMapper,
         serviceResponseData.setSuccess();
         return serviceResponseData;
     }
-
-    @Override
-    public List<TimiUserRecordDto> findByUsername(TimiUserDto timiUserDto) {
-        List<TimiUserRecord> timiUserRecordList = timiUserRecordMapper.selectByUsername(timiUserDto.getUsername());
-        return BeanConvertUtils.convertList(timiUserRecordList, TimiUserRecordDto.class);
-    }
 }

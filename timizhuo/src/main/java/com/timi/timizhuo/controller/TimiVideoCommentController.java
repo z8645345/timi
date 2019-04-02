@@ -32,7 +32,7 @@ public class TimiVideoCommentController extends BaseController {
     public ResponseData findByVideo(TimiVideoCommentDto timiVideoCommentDto) {
         ResponseData responseData = new ResponseData();
         try {
-            PageInfo<TimiVideoCommentDto> pageInfo = timiVideoCommentService.findByVideo(timiVideoCommentDto);
+            PageInfo<TimiVideoCommentDto> pageInfo = null;
             responseData.setData(pageInfo);
         } catch (Exception e) {
             logger.error("m:findByVideo 根据视频查询评论失败", e);
