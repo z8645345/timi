@@ -1,10 +1,7 @@
 package com.timi.timizhuo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.timi.timizhuo.dto.TimiColumnDto;
 import com.timi.timizhuo.entity.TimiColumn;
-
-import java.util.List;
 
 /**
  * @Description 卓依婷视频栏目service

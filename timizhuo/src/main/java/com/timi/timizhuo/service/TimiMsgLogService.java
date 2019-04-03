@@ -1,10 +1,7 @@
 package com.timi.timizhuo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.timi.timizhuo.dto.TimiMsgLogDTO;
 import com.timi.timizhuo.entity.TimiMsgLog;
-
-import java.util.List;
 
 /**
  * @Description TODO
