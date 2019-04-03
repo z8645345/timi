@@ -1,4 +1,4 @@
-package com.timi.timizhuo.filter;
+package com.timi.timizhuo.interceptor;
 
 import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.entity.TimiUser;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 @Component
-public class Interceptor implements HandlerInterceptor {
+public class LoginInterceptor implements HandlerInterceptor {
     @Resource
     protected RedisTemplate<String, TimiUser> redisTemplate;
 
