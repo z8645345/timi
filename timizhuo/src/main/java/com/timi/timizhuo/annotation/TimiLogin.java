@@ -1,4 +1,4 @@
-package com.timi.timizhuo.config;
+package com.timi.timizhuo.annotation;
 
 
 import java.lang.annotation.*;

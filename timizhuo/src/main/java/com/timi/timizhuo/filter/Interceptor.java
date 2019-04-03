@@ -1,7 +1,8 @@
 package com.timi.timizhuo.filter;
 
-import com.timi.timizhuo.config.TimiLogin;
+import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.entity.TimiUser;
+import org.json.JSONObject;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -10,9 +11,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 
 @Component
-public class LoginInterceptor implements HandlerInterceptor {
+public class Interceptor implements HandlerInterceptor {
     @Resource
     protected RedisTemplate<String, TimiUser> redisTemplate;
 
@@ -40,9 +42,28 @@ public class LoginInterceptor implements HandlerInterceptor {
             String token = request.getHeader("token");
             TimiUser timiUser = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
             if (timiUser == null) {
+                print(response, "请重新登录!");
                 return false;
             }
         }
         return true;
+    }
+
+    public void print(HttpServletResponse response, String message) {
+        try {
+            JSONObject result = new JSONObject();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html;charset=utf-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter pw = response.getWriter();
+            result.put("success", false);
+            result.put("data", null);
+            result.put("message", message);
+            result.put("code", "404");
+            pw.write(result.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
