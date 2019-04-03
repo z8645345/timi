@@ -1,10 +1,9 @@
 package com.timi.timizhuo.service.impl;
 
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.common.ReplyEnums;
-import com.timi.timizhuo.dao.mapper.TimiReplyMapper;
-import com.timi.timizhuo.dao.model.TimiReply;
-import com.timi.timizhuo.dto.TimiReplyDto;
+import com.timi.timizhuo.enums.ReplyEnum;
+import com.timi.timizhuo.entity.TimiReply;
+import com.timi.timizhuo.mapper.TimiReplyMapper;
 import com.timi.timizhuo.service.TimiReplyService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -27,63 +26,57 @@ public class TimiReplyServiceImpl implements TimiReplyService {
 
     @Override
     @Transactional
-    public boolean addForum(TimiReplyDto timiReplyDto) {
-        if (StringUtils.isBlank(timiReplyDto.getForumId())) {
+    public boolean addForum(TimiReply timiReply) {
+        if (StringUtils.isBlank(timiReply.getForumId())) {
             log.warn("数据有误,forumId为空");
             return false;
         }
         //主贴回复 ---  回复id会空
-        if (timiReplyDto.getReplyType().equals(ReplyEnums.ReplyTypeEnum.MAIN.getType())) {
+        if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.MAIN.getType())) {
             //根据主贴id查询
-            List<TimiReply> timiReplies = this.timiReplyMapper.findByForumId(timiReplyDto.getForumId());
+            List<TimiReply> timiReplies = this.timiReplyMapper.findByForumId(timiReply.getForumId());
             if (CollectionUtils.isEmpty(timiReplies)) {
                 //如果没有回复过则为第一次回复 有楼层标识
-                timiReplyDto.setTierNum(1);
-                timiReplyDto.setCreateTime(new Date());
-                timiReplyDto.setUpdateTime(timiReplyDto.getCreateTime());
-                timiReplyDto.setReplyTime(timiReplyDto.getCreateTime());
-                TimiReply timiReply = new TimiReply();
-                BeanConvertUtils.convert(timiReplyDto, timiReply);
+                timiReply.setTierNum(1);
+                timiReply.setCreateTime(new Date());
+                timiReply.setUpdateTime(timiReply.getCreateTime());
+                timiReply.setReplyTime(timiReply.getCreateTime());
                 return this.timiReplyMapper.insert(timiReply) == 1;
             } else {
                 //按回复时间倒叙查询的数据
                 TimiReply timiReplyTmp = timiReplies.get(0);
                 Integer tierNum = timiReplyTmp.getTierNum();
                 Integer i = ++tierNum;
-                timiReplyDto.setTierNum(i);
-                timiReplyDto.setCreateTime(new Date());
-                timiReplyDto.setUpdateTime(timiReplyDto.getCreateTime());
-                timiReplyDto.setReplyTime(timiReplyDto.getCreateTime());
-                TimiReply timiReply = new TimiReply();
-                BeanConvertUtils.convert(timiReplyDto, timiReply);
+                timiReply.setTierNum(i);
+                timiReply.setCreateTime(new Date());
+                timiReply.setUpdateTime(timiReply.getCreateTime());
+                timiReply.setReplyTime(timiReply.getCreateTime());
                 return this.timiReplyMapper.insert(timiReply) == 1;
             }
-        } else if (timiReplyDto.getReplyType().equals(ReplyEnums.ReplyTypeEnum.TIER.getType())) {
+        } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.TIER.getType())) {
             // 楼层回复
-            timiReplyDto.setCreateTime(new Date());
-            timiReplyDto.setUpdateTime(timiReplyDto.getCreateTime());
-            timiReplyDto.setReplyTime(timiReplyDto.getCreateTime());
-            TimiReply timiReply = new TimiReply();
-            BeanConvertUtils.convert(timiReplyDto, timiReply);
+            timiReply.setCreateTime(new Date());
+            timiReply.setUpdateTime(timiReply.getCreateTime());
+            timiReply.setReplyTime(timiReply.getCreateTime());
+            BeanConvertUtils.convert(timiReply, timiReply);
             this.timiReplyMapper.insert(timiReply);
-        } else if (timiReplyDto.getReplyType().equals(ReplyEnums.ReplyTypeEnum.SON.getType())) {
+        } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.SON.getType())) {
             //子回复回复
             //修改楼层回复的回复数
-            timiReplyDto.setCreateTime(new Date());
-            timiReplyDto.setUpdateTime(timiReplyDto.getCreateTime());
-            timiReplyDto.setReplyTime(timiReplyDto.getCreateTime());
-            TimiReply timiReply = new TimiReply();
-            BeanConvertUtils.convert(timiReplyDto, timiReply);
+            timiReply.setCreateTime(new Date());
+            timiReply.setUpdateTime(timiReply.getCreateTime());
+            timiReply.setReplyTime(timiReply.getCreateTime());
+            BeanConvertUtils.convert(timiReply, timiReply);
             this.timiReplyMapper.insert(timiReply);
             //1 先查询主回复数据
-            TimiReply replyById = this.timiReplyMapper.findById(timiReplyDto.getParentId());
+            TimiReply replyById = this.timiReplyMapper.selectById(timiReply.getParentId());
             if (replyById == null) {
                 log.warn("数据有误,根据id查询不到数据");
                 return false;
             }
             //2 修改主回复数
             TimiReply upReply = new TimiReply();
-            upReply.setReplyId(timiReplyDto.getParentId());
+            upReply.setReplyId(timiReply.getParentId());
             upReply.setUpdateTime(new Date());
             Integer replyNum = replyById.getReplyNum();
             if (replyNum == null){
@@ -99,12 +92,12 @@ public class TimiReplyServiceImpl implements TimiReplyService {
     }
 
     @Override
-    public List<TimiReplyDto> findForumByStick() {
+    public List<TimiReply> findForumByStick() {
         return null;
     }
 
     @Override
-    public PageInfo<TimiReplyDto> findPage(TimiReplyDto timiReplyDto) {
+    public PageInfo<TimiReply> findPage(TimiReply timiReplyDto) {
         if (timiReplyDto == null || StringUtils.isBlank(timiReplyDto.getForumId())) return null;
         //查询所有主id的所有数据
         List<TimiReply> timiReplyList = this.timiReplyMapper.findByForumId(timiReplyDto.getForumId());
@@ -135,16 +128,4 @@ public class TimiReplyServiceImpl implements TimiReplyService {
         return result;
     }
 
-    public TimiReplyDto findById(TimiReplyDto timiReplyDto) {
-        if (timiReplyDto == null || StringUtils.isEmpty(timiReplyDto.getReplyId())) return null;
-        String replyId = timiReplyDto.getReplyId();
-        TimiReply reply = this.timiReplyMapper.findById(replyId);
-        BeanConvertUtils.convert(reply, new TimiReplyDto());
-        if (reply != null) {
-            TimiReplyDto replyDto = new TimiReplyDto();
-            BeanConvertUtils.convert(reply, replyDto);
-            return replyDto;
-        }
-        return null;
-    }
 }

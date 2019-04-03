@@ -1,8 +1,7 @@
 package com.timi.timizhuo.service;
 
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dto.TimiForumDto;
-import com.timi.timizhuo.dto.TimiReplyDto;
+import com.timi.timizhuo.entity.TimiReply;
 
 import java.util.List;
 
@@ -16,25 +15,19 @@ public interface TimiReplyService {
      * @param timiReplyDto
      * @return
      */
-    boolean addForum(TimiReplyDto timiReplyDto);
+    boolean addForum(TimiReply timiReplyDto);
 
     /**
      * 分页查询
      * @param timiReplyDto
      * @return
      */
-    PageInfo<TimiReplyDto> findPage(TimiReplyDto timiReplyDto);
+    PageInfo<TimiReply> findPage(TimiReply timiReplyDto);
 
     /**
      * 查询置顶
      * @return
      */
-    List<TimiReplyDto> findForumByStick();
+    List<TimiReply> findForumByStick();
 
-    /**
-     * 根据id查询
-     * @param timiReplyDto
-     * @return
-     */
-    TimiReplyDto findById(TimiReplyDto timiReplyDto);
 }

@@ -1,9 +1,10 @@
-package com.timi.timizhuo.common;
+package com.timi.timizhuo.enums;
 
 /**
  * 回复贴枚举
+ * @author Cruisin
  */
-public class ReplyEnums {
+public class ReplyEnum {
     /**
      * 回复类型
      */

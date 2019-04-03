@@ -7,7 +7,7 @@ import com.qiniu.util.Auth;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.dto.EmaillDto;
+import com.timi.timizhuo.dto.request.EmaillDto;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiUserService;
 import com.timi.timizhuo.util.EmaillUtils;

@@ -1,4 +1,4 @@
-package com.timi.timizhuo.common;
+package com.timi.timizhuo.util;
 
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;

@@ -3,7 +3,7 @@ package com.timi.timizhuo.controller;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
-import com.timi.timizhuo.dto.TimiForumDto;
+import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.util.JSONUtils;
@@ -36,7 +36,7 @@ public class TimiForumController extends  BaseController{
      * @return
      */
     @PostMapping("/addForum")
-    public ResponseData findAll(TimiForumDto timiForumDto , HttpServletRequest request) {
+    public ResponseData findAll(TimiForum timiForumDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         log.info("forum  addForum  timiForumDto :{}",timiForumDto );
         try {
@@ -79,11 +79,11 @@ public class TimiForumController extends  BaseController{
      * @return
      */
     @PostMapping("/findForum")
-    public String findForum(TimiForumDto timiForumDto) {
+    public String findForum(TimiForum timiForumDto) {
         log.info("forum findForum  request :{}",timiForumDto);
         ResponseData responseData = new ResponseData();
         try {
-            PageInfo<TimiForumDto> pageInfo = this.timiForumService.findPage(timiForumDto);
+            PageInfo<TimiForum> pageInfo = this.timiForumService.findPage(timiForumDto);
             setPostedTimeLong(pageInfo.getList());
             responseData.setData(pageInfo);
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class TimiForumController extends  BaseController{
     public String findForumByStick() {
         ResponseData responseData = new ResponseData();
         try {
-            List<TimiForumDto> list = this.timiForumService.findForumByStick();
+            List<TimiForum> list = this.timiForumService.findForumByStick();
             setPostedTimeLong(list);
             responseData.setData(list);
         } catch (Exception e) {
@@ -113,7 +113,7 @@ public class TimiForumController extends  BaseController{
         return JSONUtils.toJosnString(responseData, "yyyy-MM-dd HH:mm");
     }
 
-    private void setPostedTimeLong(List<TimiForumDto> pageInfo) {
+    private void setPostedTimeLong(List<TimiForum> pageInfo) {
         pageInfo.forEach(timiForumDto -> {
             if (timiForumDto.getPostedTime() != null) {
                 timiForumDto.setPostedTimeLong(timiForumDto.getPostedTime().getTime());

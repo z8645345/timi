@@ -7,13 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.common.UserRocordEnum;
-import com.timi.timizhuo.dto.TimiVideoDto;
+import com.timi.timizhuo.enums.UserRocordEnum;
+import com.timi.timizhuo.dto.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.entity.TimiUserRecord;
 import com.timi.timizhuo.entity.TimiVideo;
-import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiUserRecordService;
 import com.timi.timizhuo.service.TimiVideoService;
 import org.slf4j.Logger;
@@ -42,7 +41,7 @@ public class TimiVideoController extends BaseController {
     private TimiUserRecordService timiUserRecordService;
 
     @PostMapping("/findByColumn")
-    public ResponseData findByColumn(TimiVideoDto timiVideo, HttpServletRequest request) {
+    public ResponseData findByColumn(TimiVideo timiVideo, HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         try {
             if (timiVideo == null) {

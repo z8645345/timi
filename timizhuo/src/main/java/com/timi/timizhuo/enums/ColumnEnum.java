@@ -1,6 +1,4 @@
-package com.timi.timizhuo.common;
-
-import lombok.Data;
+package com.timi.timizhuo.enums;
 
 /**
  * 卓依婷栏目枚举

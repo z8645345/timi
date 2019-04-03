@@ -3,15 +3,12 @@ package com.timi.timizhuo.controller;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
-import com.timi.timizhuo.dto.TimiForumDto;
-import com.timi.timizhuo.dto.TimiReplyDto;
-import com.timi.timizhuo.dto.TimiUserDto;
-import com.timi.timizhuo.service.TimiForumService;
+import com.timi.timizhuo.entity.TimiReply;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiReplyService;
 import com.timi.timizhuo.util.JSONUtils;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * 回复
@@ -40,7 +36,7 @@ public class TimiReplyController extends  BaseController{
      * @return
      */
     @PostMapping("/addReply")
-    public ResponseData addReply(@RequestBody TimiReplyDto timiReplyDto , HttpServletRequest request) {
+    public ResponseData addReply(@RequestBody TimiReply timiReplyDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         log.info("Reply  addReply  timiForumDto :{}",timiReplyDto );
         try {
@@ -61,18 +57,15 @@ public class TimiReplyController extends  BaseController{
                 return responseData;
             }
 
-//            TimiUserDto timiUserDto = getLoginUser(request);
-//            if (timiUserDto == null) {
-//                responseData.setFial();
-//                responseData.setMessage(Constant.FORUM_USER_NOT_LOGIN);
-//                return responseData;
-//            }
-//            timiReplyDto.setUserId(timiUserDto.getUserId());
-//            timiReplyDto.setUserName(timiUserDto.getNickname());
-//            timiReplyDto.setUserImageUrl(timiUserDto.getPic());
-            timiReplyDto.setUserId("133232");
-            timiReplyDto.setUserName("133232");
-            timiReplyDto.setUserImageUrl("133232");
+            TimiUser timiUse = getLoginUser(request);
+            if (timiUse == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.FORUM_USER_NOT_LOGIN);
+                return responseData;
+            }
+            timiReplyDto.setUserId(timiUse.getId());
+            timiReplyDto.setUserName(timiUse.getNickname());
+            timiReplyDto.setUserImageUrl(timiUse.getPic());
             boolean b = this.timiReplyService.addForum(timiReplyDto);
             if (!b){
                 responseData.setFial();
@@ -93,7 +86,7 @@ public class TimiReplyController extends  BaseController{
      * @return
      */
     @PostMapping("/findReply")
-    public String findReply(TimiReplyDto timiReplyDto) {
+    public String findReply(TimiReply timiReplyDto) {
         log.info("Reply findReply  request :{}",timiReplyDto);
         ResponseData responseData = new ResponseData();
         if (StringUtil.isBlank(timiReplyDto.getForumId())) {
@@ -103,7 +96,7 @@ public class TimiReplyController extends  BaseController{
         }
         try {
 
-            PageInfo<TimiReplyDto> pageInfo = this.timiReplyService.findPage(timiReplyDto);
+            PageInfo<TimiReply> pageInfo = this.timiReplyService.findPage(timiReplyDto);
             responseData.setData(pageInfo);
         } catch (Exception e) {
             log.error("Reply findReply error ", e);

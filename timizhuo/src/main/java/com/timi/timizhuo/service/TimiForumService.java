@@ -2,7 +2,6 @@ package com.timi.timizhuo.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dto.TimiForumDto;
 import com.timi.timizhuo.entity.TimiForum;
 
 import java.util.List;
@@ -17,18 +16,18 @@ public interface TimiForumService extends IService<TimiForum> {
      * @param timiForumDto
      * @return
      */
-    boolean addForum(TimiForumDto timiForumDto);
+    boolean addForum(TimiForum timiForumDto);
 
     /**
      * 分页查询
      * @param timiForumDto
      * @return
      */
-    PageInfo<TimiForumDto> findPage(TimiForumDto timiForumDto);
+    PageInfo<TimiForum> findPage(TimiForum timiForumDto);
 
     /**
      * 查询置顶
      * @return
      */
-    List<TimiForumDto> findForumByStick();
+    List<TimiForum> findForumByStick();
 }

@@ -1,6 +1,5 @@
-package com.timi.timizhuo.response;
+package com.timi.timizhuo.dto.response;
 
-import com.timi.timizhuo.dto.TimiImagesDto;
 import lombok.Data;
 
 import java.io.Serializable;

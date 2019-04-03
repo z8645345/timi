@@ -2,9 +2,7 @@ package com.timi.timizhuo.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.common.UserRocordEnum;
-import com.timi.timizhuo.dto.TimiUserDto;
-import com.timi.timizhuo.dto.TimiUserRecordDto;
+import com.timi.timizhuo.enums.UserRocordEnum;
 import com.timi.timizhuo.entity.TimiUserRecord;
 import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.mapper.TimiUserRecordMapper;
@@ -13,8 +11,6 @@ import com.timi.timizhuo.service.TimiUserRecordService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @Description TODO
@@ -31,7 +27,7 @@ public class TimiUserRecordServiceImpl extends ServiceImpl<TimiUserRecordMapper,
     private TimiVideoMapper videoMapper;
 
     @Override
-    public ServiceResponseData<String> saveUserRecord(TimiUserRecordDto timiUserRecordDto) {
+    public ServiceResponseData<String> saveUserRecord(TimiUserRecord timiUserRecordDto) {
         TimiUserRecord timiUserRecord = new TimiUserRecord();
         BeanConvertUtils.convert(timiUserRecordDto, timiUserRecord);
         if (UserRocordEnum.VIDOE_LOVE.getType().equals(timiUserRecordDto.getType())) {

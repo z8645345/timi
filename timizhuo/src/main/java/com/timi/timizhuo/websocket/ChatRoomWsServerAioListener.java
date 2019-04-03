@@ -1,6 +1,6 @@
 package com.timi.timizhuo.websocket;
 
-import com.timi.timizhuo.dto.TimiUserDto;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.util.SpringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public class ChatRoomWsServerAioListener extends WsServerAioListener {
 
     @Override
     public void onBeforeClose(ChannelContext channelContext, Throwable throwable, String remark, boolean isRemove) throws Exception {
-        RedisTemplate<String, TimiUserDto> redisTemplate = SpringUtil.getBean("redisTemplate", RedisTemplate.class);
+        RedisTemplate<String, TimiUser> redisTemplate = SpringUtil.getBean("redisTemplate", RedisTemplate.class);
         redisTemplate.boundHashOps(Const.ONLINE_USER).delete(channelContext.getUserid());
         super.onBeforeClose(channelContext, throwable, remark, isRemove);
         if (log.isInfoEnabled()) {

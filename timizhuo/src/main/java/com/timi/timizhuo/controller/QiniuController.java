@@ -2,18 +2,13 @@ package com.timi.timizhuo.controller;
 
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
-import com.timi.timizhuo.dto.QiniuUploadImgDto;
-import com.timi.timizhuo.dto.TimiForumDto;
-import com.timi.timizhuo.dto.TimiUserDto;
+import com.timi.timizhuo.dto.request.QiniuUploadImgDto;
 import com.timi.timizhuo.util.QiniuUploadUtils;
-import jodd.util.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 /**

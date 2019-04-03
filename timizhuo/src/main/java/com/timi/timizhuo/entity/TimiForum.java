@@ -1,5 +1,6 @@
 package com.timi.timizhuo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
@@ -39,4 +40,8 @@ public class TimiForum extends BaseEntity {
 
     private Date createTime;
     private Date updateTime;
+
+    @TableField(exist = false)
+    private Long postedTimeLong;
+
 }

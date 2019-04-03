@@ -1,4 +1,4 @@
-package com.timi.timizhuo.common;
+package com.timi.timizhuo.enums;
 
 public enum UserRocordEnum {
 

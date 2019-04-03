@@ -3,8 +3,8 @@ package com.timi.timizhuo.controller;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.dto.TimiUserRecordDto;
 import com.timi.timizhuo.entity.TimiUser;
+import com.timi.timizhuo.entity.TimiUserRecord;
 import com.timi.timizhuo.service.TimiUserRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class TimiUserRecordController extends BaseController {
     private TimiUserRecordService timiUserRecordService;
 
     @PostMapping("/saveUserRecord")
-    public ResponseData saveUserRecord(TimiUserRecordDto timiUserRecordDto, HttpServletRequest request) {
+    public ResponseData saveUserRecord(TimiUserRecord timiUserRecordDto, HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         try {
             if (timiUserRecordDto == null) {

@@ -1,12 +1,11 @@
-package com.timi.timizhuo.dao.model;
+package com.timi.timizhuo.entity;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class TimiReply implements Serializable {
+public class TimiReply extends BaseEntity<TimiReply> {
 
 
     /**id*/

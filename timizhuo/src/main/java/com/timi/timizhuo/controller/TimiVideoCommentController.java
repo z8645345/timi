@@ -3,8 +3,7 @@ package com.timi.timizhuo.controller;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
-import com.timi.timizhuo.dto.TimiImagesDto;
-import com.timi.timizhuo.dto.TimiVideoCommentDto;
+import com.timi.timizhuo.entity.TimiVideoComment;
 import com.timi.timizhuo.service.TimiVideoCommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +28,10 @@ public class TimiVideoCommentController extends BaseController {
     private TimiVideoCommentService timiVideoCommentService;
 
     @PostMapping("/findByVideo")
-    public ResponseData findByVideo(TimiVideoCommentDto timiVideoCommentDto) {
+    public ResponseData findByVideo(TimiVideoComment timiVideoCommentDto) {
         ResponseData responseData = new ResponseData();
         try {
-            PageInfo<TimiVideoCommentDto> pageInfo = null;
+            PageInfo<TimiVideoComment> pageInfo = null;
             responseData.setData(pageInfo);
         } catch (Exception e) {
             logger.error("m:findByVideo 根据视频查询评论失败", e);

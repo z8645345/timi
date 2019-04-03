@@ -1,4 +1,4 @@
-package com.timi.timizhuo.dto;
+package com.timi.timizhuo.dto.request;
 
 import lombok.Data;
 

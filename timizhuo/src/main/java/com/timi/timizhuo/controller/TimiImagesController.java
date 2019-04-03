@@ -7,7 +7,7 @@ import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiImages;
-import com.timi.timizhuo.response.FindByColumnLimitResDTO;
+import com.timi.timizhuo.dto.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiImagesService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

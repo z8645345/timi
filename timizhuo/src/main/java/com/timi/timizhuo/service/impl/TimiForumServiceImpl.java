@@ -3,7 +3,6 @@ package com.timi.timizhuo.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.dto.TimiForumDto;
 import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.mapper.TimiForumMapper;
 import com.timi.timizhuo.service.TimiForumService;
@@ -29,7 +28,7 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
     private TimiForumMapper timiForumMapper;
 
     @Override
-    public boolean addForum(TimiForumDto timiForumDto) {
+    public boolean addForum(TimiForum timiForumDto) {
         if (timiForumDto == null) {
             log.warn("reques timiForumDto is null ");
             return false;
@@ -48,7 +47,7 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
      * @return
      */
     @Override
-    public PageInfo<TimiForumDto> findPage(TimiForumDto timiForumDto) {
+    public PageInfo<TimiForum> findPage(TimiForum timiForumDto) {
         String columnNo = null;
         if (timiForumDto == null) {
             return null;
@@ -57,17 +56,15 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
         BeanConvertUtils.convert(timiForumDto, timiForum);
         PageHelper.startPage(timiForumDto.getPageNum(), timiForumDto.getPageSize());
         List<TimiForum> timiForums =this.timiForumMapper.findByCondition(timiForum);
-        List<TimiForumDto> list = BeanConvertUtils.convertList(timiForums, TimiForumDto.class);
-        PageInfo<TimiForumDto> pageInfo = new PageInfo<>(list);
+        PageInfo<TimiForum> pageInfo = new PageInfo<>(timiForums);
         return pageInfo;
     }
 
     @Override
-    public List<TimiForumDto> findForumByStick() {
+    public List<TimiForum> findForumByStick() {
         TimiForum timiForum = new TimiForum();
         timiForum.setStick(true);
         List<TimiForum> timiForums =this.timiForumMapper.findByCondition(timiForum);
-        List<TimiForumDto> list = BeanConvertUtils.convertList(timiForums, TimiForumDto.class);
-        return list;
+        return timiForums;
     }
 }

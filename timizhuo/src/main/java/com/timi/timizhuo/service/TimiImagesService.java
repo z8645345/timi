@@ -3,7 +3,7 @@ package com.timi.timizhuo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiImages;
-import com.timi.timizhuo.response.FindByColumnLimitResDTO;
+import com.timi.timizhuo.dto.response.FindByColumnLimitResDTO;
 
 import java.util.List;
 

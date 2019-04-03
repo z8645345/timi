@@ -1,12 +1,6 @@
 package com.timi.timizhuo.websocket;
 
-import com.timi.timizhuo.dto.TimiUserDto;
-import com.timi.timizhuo.util.SpringUtil;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.tio.server.AioServer;
 import org.tio.server.ServerGroupContext;
-import org.tio.server.intf.ServerAioHandler;
-import org.tio.server.intf.ServerAioListener;
 import org.tio.websocket.server.WsServerStarter;
 
 import java.io.IOException;
