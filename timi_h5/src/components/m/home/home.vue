@@ -131,7 +131,7 @@
             全部演出活动
           </router-link>
         </li>
-        <router-link v-for="timiShow in timiShows" :to="{ name: 'show', query: { showId: timiShow.showId }}" tag="li" class="aui-list-item">
+        <router-link v-for="timiShow in timiShows" :to="{ name: 'show', query: { id: timiShow.id }}" tag="li" class="aui-list-item">
           <div class="aui-media-list-item-inner">
             <div class="aui-list-item-media" style="width:7rem">
               <img :src="timiShow.imgSrc">
@@ -453,10 +453,10 @@
         })
           .then(function(res){
             var timiShows = [];
-            res.data.data.list.forEach((showDto)=> {
+            res.data.data.records.forEach((showDto)=> {
               var showImgArr = showDto.showImgs.split(';');
               var show = {
-                showId: showDto.showId,
+                id: showDto.id,
                 imgSrc: showImgArr[0],
                 showTitle: showDto.showTitle,
                 showDetail: showDto.showDetail,
@@ -482,7 +482,8 @@
       loadWeiboData: function() { // 加载微博数据
         var data = {
           pageNum: 1,
-          pageSize: 3
+          pageSize: 3,
+          desc: 'created_at'
         }
         this.axios.post(this.GLOBAL.serviceHost + '/timizhuo/weibo/findAll',this.qs.stringify(data),{
           // headers: {
@@ -491,7 +492,7 @@
         })
           .then(function(res){
             var weiboData = [];
-            res.data.data.list.forEach((weiboDto)=> {
+            res.data.data.records.forEach((weiboDto)=> {
               var imgs = [];
               if (weiboDto.originalPics != null) {
                 imgs = weiboDto.originalPics.split(';');
@@ -530,7 +531,7 @@
         })
           .then(function(res){
             if (res.data.code == '200') {
-              var timiImagesDtos = res.data.data.list;
+              var timiImagesDtos = res.data.data.records;
               var imgs = [];
               for (var i = 0; i < timiImagesDtos.length; i ++) {
                 imgs.push(timiImagesDtos[i].imgUrl);

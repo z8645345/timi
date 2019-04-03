@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.timi.timizhuo.mapper.TimiVideoMapper">
+  <resultMap id="BaseResultMap" type="com.timi.timizhuo.entity.TimiVideo">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="video_title" jdbcType="VARCHAR" property="videoTitle" />
+    <result column="video_cover" jdbcType="VARCHAR" property="videoCover" />
+    <result column="video_content_url" jdbcType="VARCHAR" property="videoContentUrl" />
+    <result column="video_time" jdbcType="VARCHAR" property="videoTime" />
+    <result column="love_count" jdbcType="BIGINT" property="loveCount" />
+    <result column="show_count" jdbcType="BIGINT" property="showCount" />
+    <result column="collection_count" jdbcType="BIGINT" property="collectionCount" />
+    <result column="column_no" jdbcType="VARCHAR" property="columnNo" />
+    <result column="column_name" jdbcType="VARCHAR" property="columnName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+</mapper>

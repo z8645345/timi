@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.timi.timizhuo.mapper.TimiColumnMapper">
+  <resultMap id="BaseResultMap" type="com.timi.timizhuo.entity.TimiColumn">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="column_no" jdbcType="VARCHAR" property="columnNo" />
+    <result column="column_name" jdbcType="VARCHAR" property="columnName" />
+    <result column="column_type" jdbcType="VARCHAR" property="columnType" />
+    <result column="parent_column" jdbcType="VARCHAR" property="parentColumn" />
+    <result column="column_time" jdbcType="TIMESTAMP" property="columnTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+</mapper>

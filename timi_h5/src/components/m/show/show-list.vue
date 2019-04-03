@@ -39,7 +39,7 @@
     <!--演出活动开始-->
     <section class="aui-content aui-margin-b-15">
       <ul class="aui-list aui-media-list">
-        <router-link v-for="timiShow in timiShows" :to="{ name: 'show', query: { showId: timiShow.showId }}" tag="li" class="aui-list-item">
+        <router-link v-for="timiShow in timiShows" :to="{ name: 'show', query: { id: timiShow.id }}" tag="li" class="aui-list-item">
           <div class="aui-media-list-item-inner">
             <div class="aui-list-item-media" style="width:7rem">
               <img :src="timiShow.imgSrc">
@@ -103,10 +103,10 @@
         })
           .then(function(res){
             var timiShows = [];
-            res.data.data.list.forEach((showDto)=> {
+            res.data.data.records.forEach((showDto)=> {
               var showImgArr = showDto.showImgs.split(';');
               var show = {
-                showId: showDto.showId,
+                id: showDto.id,
                 imgSrc: showImgArr[0],
                 showTitle: showDto.showTitle,
                 showDetail: showDto.showDetail,

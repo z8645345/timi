@@ -31,23 +31,23 @@
         </javaTypeResolver>
 
         <!-- 实体类生成的位置 -->
-        <javaModelGenerator targetPackage="com.timi.timizhuo.dao.model" targetProject="D:\dev\project\timizhuo\timizhuo\src\main\java">
+        <javaModelGenerator targetPackage="com.timi.timizhuo.dao.model" targetProject="D:\dev\project\gen">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- *Mapper.xml 文件的位置 -->
-        <sqlMapGenerator targetPackage="mapper" targetProject="D:\dev\project\timizhuo\timizhuo\src\main\resources\mybatis">
+        <sqlMapGenerator targetPackage="mapper" targetProject="D:\dev\project\gen">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- Mapper 接口文件的位置 -->
-        <javaClientGenerator targetPackage="com.timi.timizhuo.dao.mapper" targetProject="D:\dev\project\timizhuo\timizhuo\src\main\java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.timi.timizhuo.dao.mapper" targetProject="D:\dev\project\gen" type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!-- 相关表的配置 -->
-        <table tableName="timi_sina_weibo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        <table tableName="timi_reply" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>
 </generatorConfiguration>

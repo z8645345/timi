@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.timi.timizhuo.mapper.TimiSinaWeiboMapper" >
+  <resultMap id="BaseResultMap" type="com.timi.timizhuo.entity.TimiSinaWeibo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="timi_pic" property="timiPic" jdbcType="VARCHAR" />
+    <result column="weibo_from" property="weiboFrom" jdbcType="VARCHAR" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="original_text_url" property="originalTextUrl" jdbcType="VARCHAR" />
+    <result column="weibo_text" property="weiboText" jdbcType="VARCHAR" />
+    <result column="thumbnail_pics" property="thumbnailPics" jdbcType="VARCHAR" />
+    <result column="bmiddle_pics" property="bmiddlePics" jdbcType="VARCHAR" />
+    <result column="original_pics" property="originalPics" jdbcType="VARCHAR" />
+    <result column="weibo_vedio" property="weiboVedio" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, timi_pic, weibo_from, created_at, original_text_url, weibo_text, thumbnail_pics,
+    bmiddle_pics, original_pics, weibo_vedio, create_time, update_time
+  </sql>
+
+  <!-- 根据发文时间查询最新的一条微博信息 -->
+  <select id="findNewestWeibo" resultMap="BaseResultMap">
+		SELECT
+    <include refid="Base_Column_List" />
+		FROM TIMI_SINA_WEIBO ORDER BY CREATED_AT DESC limit 1
+	</select>
+</mapper>

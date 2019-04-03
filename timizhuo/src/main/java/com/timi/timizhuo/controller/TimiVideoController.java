@@ -1,15 +1,18 @@
 package com.timi.timizhuo.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.common.UserRocordEnum;
-import com.timi.timizhuo.dao.model.TimiUserRecord;
-import com.timi.timizhuo.dto.TimiColumnDto;
-import com.timi.timizhuo.dto.TimiUserDto;
-import com.timi.timizhuo.dto.TimiUserRecordDto;
 import com.timi.timizhuo.dto.TimiVideoDto;
+import com.timi.timizhuo.entity.TimiColumn;
+import com.timi.timizhuo.entity.TimiUser;
+import com.timi.timizhuo.entity.TimiUserRecord;
+import com.timi.timizhuo.entity.TimiVideo;
 import com.timi.timizhuo.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiUserRecordService;
 import com.timi.timizhuo.service.TimiVideoService;
@@ -39,16 +42,24 @@ public class TimiVideoController extends BaseController {
     private TimiUserRecordService timiUserRecordService;
 
     @PostMapping("/findByColumn")
-    public ResponseData findByColumn(TimiVideoDto timiVideoDto, HttpServletRequest request) {
+    public ResponseData findByColumn(TimiVideoDto timiVideo, HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiVideoDto == null) {
+            if (timiVideo == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                List<TimiVideoDto> timiColumnDtoList = timiVideoService.findByColumn(timiVideoDto);
-                setUserRecord(timiColumnDtoList, request);
-                responseData.setData(timiColumnDtoList);
+                Page<TimiVideo> page = new Page<>();
+                page.setCurrent(timiVideo.getPageNum());
+                page.setSize(timiVideo.getPageSize());
+                page.setDesc("create_time");
+                QueryWrapper<TimiVideo> wrapper = null;
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(timiVideo.getColumnNo())) {
+                    wrapper = new QueryWrapper<TimiVideo>().eq("column_no", timiVideo.getColumnNo());
+                }
+                IPage<TimiVideo> result = timiVideoService.page(page, wrapper);
+                setUserRecord(result.getRecords(), request);
+                responseData.setData(result.getRecords());
             }
         } catch (Exception e) {
             logger.error("m:register 根据栏目查询视频失败", e);
@@ -59,16 +70,16 @@ public class TimiVideoController extends BaseController {
     }
 
     @PostMapping("/randomVideo")
-    public ResponseData randomVideo(TimiVideoDto timiVideoDto, HttpServletRequest request) {
+    public ResponseData randomVideo(TimiVideo timiVideo, HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiVideoDto == null) {
+            if (timiVideo == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                List<TimiVideoDto> timiColumnDtoList = timiVideoService.randomVideo(timiVideoDto);
-                setUserRecord(timiColumnDtoList, request);
-                responseData.setData(timiColumnDtoList);
+                List<TimiVideo> timiColumnList = timiVideoService.randomVideo(timiVideo);
+                setUserRecord(timiColumnList, request);
+                responseData.setData(timiColumnList);
             }
         } catch (Exception e) {
             logger.error("m:register 根据栏目查询视频失败", e);
@@ -79,16 +90,16 @@ public class TimiVideoController extends BaseController {
     }
 
     @PostMapping("/findById")
-    public ResponseData findById(TimiVideoDto timiVideoDto, HttpServletRequest request) {
+    public ResponseData findById(TimiVideo timiVideo, HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiVideoDto == null) {
+            if (timiVideo == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                TimiVideoDto resultTimiVideoDto = timiVideoService.findById(timiVideoDto);
-                setUserRecord(resultTimiVideoDto, request);
-                responseData.setData(resultTimiVideoDto);
+                TimiVideo resultTimiVideo = timiVideoService.getById(timiVideo.getId());
+                setUserRecord(resultTimiVideo, request);
+                responseData.setData(resultTimiVideo);
             }
         } catch (Exception e) {
             logger.error("m:register 根据id查询视频失败", e);
@@ -99,20 +110,20 @@ public class TimiVideoController extends BaseController {
     }
 
     @PostMapping("/showVideo")
-    public ResponseData showVideo(TimiVideoDto timiVideoDto) {
+    public ResponseData showVideo(TimiVideo timiVideo) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiVideoDto == null) {
+            if (timiVideo == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiVideoDto.getId())) {
+            if (StringUtils.isEmpty(timiVideo.getId())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            ServiceResponseData<Long> serviceResponseData = timiVideoService.showVideo(timiVideoDto);
+            ServiceResponseData<Long> serviceResponseData = timiVideoService.showVideo(timiVideo);
             if (serviceResponseData.isSuccess()) {
                 responseData.setData(serviceResponseData.getData());
             } else {
@@ -127,37 +138,37 @@ public class TimiVideoController extends BaseController {
         return responseData;
     }
 
-    private void setUserRecord(List<TimiVideoDto> timiColumnDtoList, HttpServletRequest request) {
-        TimiUserDto timiUserDto = getLoginUser(request);
-        if (timiUserDto != null) {
-            List<TimiUserRecordDto> timiUserRecordDtoList = timiUserRecordService.findByUsername(timiUserDto);
-            timiColumnDtoList.forEach(timiVideoDto -> timiUserRecordDtoList.forEach(timiUserRecordDto -> checkUserRecord(timiUserRecordDto, timiVideoDto)));
+    private void setUserRecord(List<TimiVideo> timiColumnList, HttpServletRequest request) {
+        TimiUser timiUser = getLoginUser(request);
+        if (timiUser != null) {
+            List<TimiUserRecord> timiUserRecordList = timiUserRecordService.list(new QueryWrapper<TimiUserRecord>().eq("username", timiUser.getUsername()));
+            timiColumnList.forEach(timiVideo -> timiUserRecordList.forEach(timiUserRecord -> checkUserRecord(timiUserRecord, timiVideo)));
         }
     }
 
-    private void setUserRecord(TimiVideoDto timiVideoDto, HttpServletRequest request) {
-        TimiUserDto timiUserDto = getLoginUser(request);
-        if (timiUserDto != null) {
-            List<TimiUserRecordDto> timiUserRecordDtoList = timiUserRecordService.findByUsername(timiUserDto);
-            timiUserRecordDtoList.forEach(timiUserRecordDto -> checkUserRecord(timiUserRecordDto, timiVideoDto));
+    private void setUserRecord(TimiVideo timiVideoDto, HttpServletRequest request) {
+        TimiUser timiUser = getLoginUser(request);
+        if (timiUser != null) {
+            List<TimiUserRecord> timiUserRecordList = timiUserRecordService.list(new QueryWrapper<TimiUserRecord>().eq("username", timiUser.getUsername()));
+            timiUserRecordList.forEach(timiUserRecord -> checkUserRecord(timiUserRecord, timiVideoDto));
         }
     }
 
-    private void checkUserRecord(TimiUserRecordDto timiUserRecordDto, TimiVideoDto timiVideoDto) {
-        if (timiUserRecordDto.getRecordId().equals(timiVideoDto.getId())) {
-            if (timiUserRecordDto.getType().equals(UserRocordEnum.VIDOE_LOVE.getType())) {
-                timiVideoDto.setUserLove(true);
-            } else if (timiUserRecordDto.getType().equals(UserRocordEnum.VIDEO_COLLECTION.getType())) {
-                timiVideoDto.setUserCollection(true);
+    private void checkUserRecord(TimiUserRecord timiUserRecord, TimiVideo timiVideo) {
+        if (timiUserRecord.getRecordId().equals(timiVideo.getId())) {
+            if (timiUserRecord.getType().equals(UserRocordEnum.VIDOE_LOVE.getType())) {
+                timiVideo.setUserLove(true);
+            } else if (timiUserRecord.getType().equals(UserRocordEnum.VIDEO_COLLECTION.getType())) {
+                timiVideo.setUserCollection(true);
             }
         }
     }
 
     @PostMapping("/findByColumnLimit")
-    public ResponseData findByColumnLimit(TimiColumnDto timiColumnDto) {
+    public ResponseData findByColumnLimit(TimiColumn timiColumn) {
         ResponseData responseData = new ResponseData();
         try {
-            List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = timiVideoService.findByColumnLimit(timiColumnDto);
+            List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = timiVideoService.findByColumnLimit(timiColumn);
             responseData.setData(findByColumnLimitResDTOS);
         } catch (Exception e) {
             responseData.setFial();

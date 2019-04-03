@@ -13,16 +13,9 @@
     <!--横幅结束-->
 
     <!--tab栏开始-->
-    <div class="tab-parent">
-    <div class="aui-tab" id="tab" style="width: 40%">
+    <div class="aui-tab" id="tab" style="padding-right: 60%">
       <div class="aui-tab-item aui-active">全部</div>
       <div class="aui-tab-item" >精华</div>
-      <!--<div class="aui-tab-item"></div>-->
-      <!--<div class="aui-tab-item"></div>-->
-      <!--<div class="aui-tab-item"></div>-->
-      <!--<div class="aui-tab-item"></div>-->
-      <!--<div class="tabDiv"></div>-->
-    </div>
     </div>
     <!--tab栏结束-->
 
@@ -30,13 +23,13 @@
       <!--置顶精华帖开始-->
       <div class="roof-placement aui-content aui-margin-b-10">
         <ul class="aui-list">
-          <li class="aui-list-item" v-for="forum in stick">
+          <router-link v-for="forum in stick" :to="{ name: 'detail', query: forum}" class="aui-list-item" tag="li">
             <div class="aui-list-item-inner aui-swipe-handle roof-placement-title">
             <span class="max-rows1" style="-webkit-box-orient: vertical; display: -webkit-box;">
               <span class="label">置顶</span>{{forum.forumTitle}}
             </span>
             </div>
-          </li>
+          </router-link>
         </ul>
       </div>
       <!--置顶精华帖结束-->
@@ -51,8 +44,9 @@
               <div class="aui-text-info">{{forum.userName}}</div>
               <div class="aui-font-size-14 text-light">#比帅</div>
             </div>
-            <div class="aui-card-list-user-info text-light">31分钟前</div>
+            <div class="aui-card-list-user-info text-light">{{forum.pushTime}}</div>
           </div>
+          <router-link :to="{ name: 'detail', query: forum}">
           <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;" v-html="forum.forumContent">
           </div>
           <div class="aui-card-list-content">
@@ -63,6 +57,7 @@
               </div>
             </div>
           </div>
+          </router-link>
           <div class="aui-card-list-footer text-light aui-font-size-14">
             <div>
               <i class="aui-iconfont aui-icon-display"></i> {{forum.readCount}}
@@ -129,25 +124,15 @@
       }
     },
     mounted () {
-      this.auiPullToRefresh();
-      var app = this;
-      var apiready = function(){
-        api.parseTapmode();
-      }
-      var tab = new auiTab({
-        element:document.getElementById("tab"),
-      },function(ret){
-        if (ret.index == 1) {
-          app.loaddAll();
-        } else if (ret.index == 2) {
-          app.loadJin();
-        }
-      });
-
-      this.loadStickData();
-      this.loadListData(this.scroll());
+      this.init();
     },
     methods: {
+      init: function() {
+        this.auiPullToRefresh();
+        this.loadAuiTab();
+        this.loadStickData();
+        this.loadListData(this.scroll());
+      },
       auiPullToRefresh: function() {
         var app = this;
         var pullRefresh = new auiPullToRefresh({
@@ -161,6 +146,21 @@
             app.loadListData(function () {
               pullRefresh.cancelLoading(); //刷新成功后调用此方法隐藏
             });
+          }
+        });
+      },
+      loadAuiTab: function() {
+        var app = this;
+        var apiready = function(){
+          api.parseTapmode();
+        }
+        var tab = new auiTab({
+          element:document.getElementById("tab"),
+        },function(ret){
+          if (ret.index == 1) {
+            app.loaddAll();
+          } else if (ret.index == 2) {
+            app.loadJin();
           }
         });
       },
@@ -194,6 +194,20 @@
             res.data.data.list.forEach((forumDTO)=> {
               if (forumDTO.imageUrl != null && forumDTO.imageUrl != '') {
                 forumDTO.imagesUrl = forumDTO.imageUrl.split(",");
+                var timestamp = (new Date()).getTime();
+                if (timestamp - forumDTO.postedTimeLong < 60 * 1000) {
+                  // 1分钟以内
+                  forumDTO.pushTime = "刚刚"
+                } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60) {
+                  // 1小时以内
+                  forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60)) + '分钟前';
+                } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60 * 24) {
+                  forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60 / 60)) + '小时前';
+                } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60 * 24 * 7) {
+                  forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60 / 60 / 24)) + '天前';
+                } else {
+                  forumDTO.pushTime = forumDTO.postedTime;
+                }
                 forumDTO.imgRows = app.getImgRows(forumDTO.imagesUrl);
               }
               app.list.push(forumDTO);
@@ -248,14 +262,11 @@
             src: imgs[0]
           }
           cols.push(img);
-          if (i % num == 0) {
-            var imgs1 = {
-              colsNum: 'aui-col-xs-' + colsNum,
-              cols: cols
-            }
-            imgRows.push(imgs1);
-            cols = [];
+          var imgs1 = {
+            colsNum: 'aui-col-xs-' + colsNum,
+            cols: cols
           }
+          imgRows.push(imgs1);
         }
 
         return imgRows;
@@ -313,11 +324,6 @@
     margin-top: 0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    z-index: 12;
-  }
-
-  .tab-parent {
-    background-color: #fff;
     z-index: 11;
   }
 

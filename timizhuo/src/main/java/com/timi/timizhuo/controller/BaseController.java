@@ -1,6 +1,6 @@
 package com.timi.timizhuo.controller;
 
-import com.timi.timizhuo.dto.TimiUserDto;
+import com.timi.timizhuo.entity.TimiUser;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 public class BaseController {
 
     @Resource
-    protected RedisTemplate<String, TimiUserDto> redisTemplate;
+    protected RedisTemplate<String, TimiUser> redisTemplate;
 
-    protected TimiUserDto  getLoginUser(HttpServletRequest request) {
+    protected TimiUser  getLoginUser(HttpServletRequest request) {
         String token = request.getHeader("token");
-        TimiUserDto timiUserDto = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
-        return timiUserDto;
+        TimiUser timiUser = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
+        return timiUser;
     }
 }

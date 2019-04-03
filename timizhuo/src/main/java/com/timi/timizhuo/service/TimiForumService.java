@@ -1,7 +1,9 @@
 package com.timi.timizhuo.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.dto.TimiForumDto;
+import com.timi.timizhuo.entity.TimiForum;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  * 论坛service
  * @author Cruisin
  */
-public interface TimiForumService {
+public interface TimiForumService extends IService<TimiForum> {
     /**
      *发帖
      * @param timiForumDto

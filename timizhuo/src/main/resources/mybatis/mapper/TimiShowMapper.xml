@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.timi.timizhuo.mapper.TimiShowMapper" >
+  <resultMap id="BaseResultMap" type="com.timi.timizhuo.entity.TimiShow" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="show_title" property="showTitle" jdbcType="VARCHAR" />
+    <result column="show_time" property="showTime" jdbcType="TIMESTAMP" />
+    <result column="show_address" property="showAddress" jdbcType="VARCHAR" />
+    <result column="show_city" property="showCity" jdbcType="VARCHAR" />
+    <result column="show_detail" property="showDetail" jdbcType="VARCHAR" />
+    <result column="show_imgs" property="showImgs" jdbcType="VARCHAR" />
+    <result column="show_video" property="showVideo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, show_title, show_time, show_city, show_address, show_detail, show_imgs, show_video,
+    create_time, update_time
+  </sql>
+
+  <select id="selectPage" resultMap="BaseResultMap" >
+    (select <include refid="Base_Column_List" /> from timi_show WHERE show_time > now() order by show_time)
+    UNION
+    (select <include refid="Base_Column_List" /> from timi_show WHERE show_time <![CDATA[ < ]]> now() order by show_time desc)
+  </select>
+</mapper>

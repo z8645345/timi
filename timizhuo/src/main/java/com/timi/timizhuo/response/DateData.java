@@ -1,7 +1,7 @@
 package com.timi.timizhuo.response;
 
-import com.timi.timizhuo.dto.TimiImagesDto;
-import com.timi.timizhuo.dto.TimiVideoDto;
+import com.timi.timizhuo.entity.TimiImages;
+import com.timi.timizhuo.entity.TimiVideo;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,7 +19,7 @@ public class DateData implements Serializable {
 
     private String title;
 
-    private List<TimiImagesDto> imagesDtoList;
+    private List<TimiImages> imagesDtoList;
 
-    private List<TimiVideoDto> videoDtoList;
+    private List<TimiVideo> videoDtoList;
 }

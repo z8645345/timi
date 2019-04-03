@@ -129,8 +129,6 @@
         }, function (err) {
           toast.hide();
         });
-
-        alert(this.forum.imageUrl);
       },
       uploadImg: function () {
         var app = this;
