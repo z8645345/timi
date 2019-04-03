@@ -1,6 +1,5 @@
 package com.timi.timizhuo.dto;
 
-import com.timi.timizhuo.common.DateUtil;
 import lombok.Data;
 
 import java.util.Date;
