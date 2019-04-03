@@ -81,15 +81,22 @@
     },
     methods: {
       init: function () {
+        this.scroll();
+        this.loadData();
+      },
+      loadData: function() {
+        var app = this;
         var data = {
-          pageNum: this.pageNum,
-          pageSize: 100
+          pageNum: this.pageNum++,
+          pageSize:1
         }
         this.axios.post(this.GLOBAL.serviceHost + '/timizhuo/images/findByColumnLimit',this.qs.stringify(data),{
         })
           .then(function(res){
-            this.years = res.data.data;
-            var albums = [];
+            for (var i = 0; i < res.data.data.length; i ++) {
+              this.years.push(res.data.data[i]);
+            }
+            // var albums = [];
             for (var i=0; i < this.years.length; i ++) {
               for (var j=0; j < this.years[i].dateData.length; j ++) {
                 var album = [];
@@ -100,11 +107,15 @@
                   }
                   album.push(img);
                 }
-                albums.push(album);
+                app.albums.push(album);
               }
             }
-            this.albums = albums;
-
+            // this.albums = albums;
+            setTimeout(()=>{
+              if (!this.hasScrollbar()) {
+                app.loadData();
+              }
+            }, 100);
           }.bind(this))
           .catch(function(err){
             if(err.response) {
@@ -115,6 +126,20 @@
             toast.hide();
             //bind(this)可以不用
           }.bind(this));
+      },
+      hasScrollbar: function() {
+        return document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight);
+      },
+      scroll: function () {
+        var app = this;
+        var scroll = new auiScroll({
+          listen:true,
+          distance:0 //判断到达底部的距离，isToBottom为true
+        },function(ret){
+          if(ret.isToBottom){
+            app.loadData();
+          }
+        });
       },
       showAlbum: function(img) {
         for(var i = 0; i < this.albums.length; i ++) {
