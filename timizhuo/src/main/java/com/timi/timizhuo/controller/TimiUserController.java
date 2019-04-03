@@ -7,6 +7,7 @@ import com.qiniu.util.Auth;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
+import com.timi.timizhuo.config.TimiLogin;
 import com.timi.timizhuo.dto.request.EmaillDto;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiUserService;
@@ -126,6 +127,7 @@ public class TimiUserController extends BaseController {
         }
         return responseData;
     }
+    @TimiLogin
     @PostMapping("/updateTimiUser")
     public ResponseData updateTimiUser(TimiUser timiUser,HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
