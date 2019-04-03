@@ -32,7 +32,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             return false;
         }
         //主贴回复 ---  回复id会空
-        if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.MAIN.getType())) {
+        if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.MAIN.getValue())) {
             //根据主贴id查询
             List<TimiReply> timiReplies = this.timiReplyMapper.findByForumId(timiReply.getForumId());
             if (CollectionUtils.isEmpty(timiReplies)) {
@@ -53,14 +53,14 @@ public class TimiReplyServiceImpl implements TimiReplyService {
                 timiReply.setReplyTime(timiReply.getCreateTime());
                 return this.timiReplyMapper.insert(timiReply) == 1;
             }
-        } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.TIER.getType())) {
+        } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.TIER.getValue())) {
             // 楼层回复
             timiReply.setCreateTime(new Date());
             timiReply.setUpdateTime(timiReply.getCreateTime());
             timiReply.setReplyTime(timiReply.getCreateTime());
             BeanConvertUtils.convert(timiReply, timiReply);
             this.timiReplyMapper.insert(timiReply);
-        } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.SON.getType())) {
+        } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.SON.getValue())) {
             //子回复回复
             //修改楼层回复的回复数
             timiReply.setCreateTime(new Date());
@@ -76,7 +76,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             }
             //2 修改主回复数
             TimiReply upReply = new TimiReply();
-            upReply.setReplyId(timiReply.getParentId());
+            upReply.setId(timiReply.getParentId());
             upReply.setUpdateTime(new Date());
             Integer replyNum = replyById.getReplyNum();
             if (replyNum == null){

@@ -7,15 +7,10 @@ import java.util.Date;
 @Data
 public class TimiReply extends BaseEntity<TimiReply> {
 
-
-    /**id*/
-    private String replyId;
     /**内容*/
     private String replyCotent;
     /**主回复id*/
     private String parentId;
-    /**是否有主回复标识*/
-    private Boolean isParent;
     /**主贴id*/
     private String forumId;
     /**点赞次数*/

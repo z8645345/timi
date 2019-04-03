@@ -1,10 +1,9 @@
 package com.timi.timizhuo.websocket;
 
 import com.alibaba.fastjson.JSONObject;
+import com.timi.timizhuo.entity.TimiMsgLog;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.mapper.TimiMsgLogMapper;
-import com.timi.timizhuo.entity.TimiMsgLog;
-import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.util.JSONUtils;
 import com.timi.timizhuo.util.SpringUtil;
 import org.apache.commons.lang3.ObjectUtils;
