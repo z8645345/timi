@@ -54,8 +54,6 @@ public class Interceptor implements HandlerInterceptor {
             JSONObject result = new JSONObject();
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/html;charset=utf-8");
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html;charset=utf-8");
             PrintWriter pw = response.getWriter();
             result.put("success", false);
             result.put("data", null);
