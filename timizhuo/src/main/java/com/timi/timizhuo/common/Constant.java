@@ -87,9 +87,14 @@ public class Constant {
 	public static final String CONTENT_NOT_NULL="内容不能为空";
 
 	public static final String FORUM_USER_NOT_LOGIN = "请先登录再发帖";
+	public static final String UPDATE_USER_NOT_LOGIN = "请重新登陆";
 
 	/**
 	 * 主贴id不能为空
 	 */
 	public static final String FORUM_ID_NOT_NULL="主贴id不能为空";
+	/**
+	 * 修改资料失败
+	 */
+	public static final String UPDATE_USER_FAIL="主修改资料失败";
 }

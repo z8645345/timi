@@ -126,6 +126,32 @@ public class TimiUserController extends BaseController {
         }
         return responseData;
     }
+    @PostMapping("/updateTimiUser")
+    public ResponseData updateTimiUser(TimiUser timiUser,HttpServletRequest request) {
+        ResponseData responseData = new ResponseData();
+        try {
+            TimiUser loginUser = getLoginUser(request);
+            if (loginUser == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.UPDATE_USER_NOT_LOGIN);
+                return responseData;
+            }
+            loginUser.setLoveTimiDeclaration(timiUser.getLoveTimiDeclaration());
+            loginUser.setPersonalProfile(timiUser.getPersonalProfile());
+            ServiceResponseData<TimiUser> serviceResponseData = timiUserService.updateTimiUser(loginUser);
+            if (serviceResponseData.isSuccess()) {
+                responseData.setData(serviceResponseData.getData());
+            } else {
+                responseData.setFial();
+                responseData.setMessage(serviceResponseData.getMessage());
+            }
+        } catch (Exception e) {
+            logger.error("m:updateTimiUser 婷迷修改资料失败", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return responseData;
+    }
 
     @PostMapping("/login")
     public ResponseData login(TimiUser timiUser) {
