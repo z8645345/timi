@@ -57,7 +57,8 @@
         pageNum: 1,
         years: [],
         msg: '',
-        isShowMsg: false
+        isShowMsg: false,
+        columnType: "'1','2'"
       }
     },
     mounted: function(){
@@ -67,7 +68,8 @@
     methods: {
       init: function () {
         this.initTab();
-        this.loadVideoList("'1','2'");
+        this.loadVideoList(this.columnType);
+        this.scroll();
       },
       initTab: function () {
         var app = this;
@@ -75,22 +77,32 @@
           element:document.getElementById("tab")
         },function(ret){
           if(ret.index == 2) {
-            app.loadVideoList("('1')");
+            app.columnType = "'1'";
+            app.loadVideoList(app.columnType);
           } else if (ret.index == 3) {
-            app.loadVideoList("('2')");
+            app.columnType = "'2'";
+            app.loadVideoList(app.columnType);
           }
         });
       },
       loadVideoList: function (columnType) {
+        var app = this;
         var data = {
-          pageNum: this.pageNum,
-          pageSize: 9999,
+          pageNum: this.pageNum++,
+          pageSize: 1,
           columnType: columnType
         }
         this.axios.post(this.GLOBAL.serviceHost + '/timizhuo/video/findByColumnLimit',this.qs.stringify(data),{
         })
           .then(function(res){
-            this.years = res.data.data;
+            for (var i = 0; i < res.data.data.length; i ++) {
+              this.years.push(res.data.data[i])
+            }
+            setTimeout(()=>{
+              if (!this.hasScrollbar()) {
+                app.loadVideoList(app.columnType);
+              }
+            }, 100);
           }.bind(this))
           .catch(function(err){
             if(err.response) {
@@ -101,6 +113,20 @@
             toast.hide();
             //bind(this)可以不用
           }.bind(this));
+      },
+      hasScrollbar: function() {
+        return document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight);
+      },
+      scroll: function () {
+        var app = this;
+        var scroll = new auiScroll({
+          listen:true,
+          distance:0 //判断到达底部的距离，isToBottom为true
+        },function(ret){
+          if(ret.isToBottom){
+            app.loadVideoList(app.columnType);
+          }
+        });
       }
     }
   }

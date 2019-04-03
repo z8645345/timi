@@ -13,26 +13,12 @@
         <span class="aui-iconfont aui-icon-left"></span>返回
       </a>
       <div class="aui-title">卓依婷演出活动列表</div>
-      <a class="aui-pull-right aui-btn aui-btn-outlined" @click="showSearch">
-        <span class="aui-iconfont aui-icon-search"></span>
-      </a>
     </header>
     <header class="aui-bar aui-bar-nav" :style="searchStyle">
       <a class="aui-pull-left aui-btn" @click="showTitle">
         <span class="aui-iconfont aui-icon-left"></span>
       </a>
-      <div class="aui-title" style="left:2rem; right: 0.5rem;">
-        <div class="aui-searchbar" id="search">
-          <div class="aui-searchbar-input aui-border-radius">
-            <i class="aui-iconfont aui-icon-search"></i>
-            <input type="search" placeholder="请输入搜索内容" id="search-input">
-            <div class="aui-searchbar-clear-btn">
-              <i class="aui-iconfont aui-icon-close"></i>
-            </div>
-          </div>
-          <div class="aui-searchbar-btn" tapmode>取消</div>
-        </div>
-      </div>
+
     </header>
     <!--搜索栏结束-->
 
@@ -144,46 +130,7 @@
   }
   var onload = function () {
     // 顶部搜索栏开始
-    var apiready = function(){
-      api.parseTapmode();
-    }
-    var searchBar = document.querySelector(".aui-searchbar");
-    var searchBarInput = document.querySelector(".aui-searchbar input");
-    var searchBarBtn = document.querySelector(".aui-searchbar .aui-searchbar-btn");
-    var searchBarClearBtn = document.querySelector(".aui-searchbar .aui-searchbar-clear-btn");
-    if(searchBar){
-      searchBarInput.onclick = function(){
-        searchBarBtn.style.marginRight = 0;
-      }
-      searchBarInput.oninput = function(){
-        if(this.value.length){
-          searchBarClearBtn.style.display = 'block';
-          searchBarBtn.classList.add("aui-text-info");
-          searchBarBtn.textContent = "搜索";
-        }else{
-          searchBarClearBtn.style.display = 'none';
-          searchBarBtn.classList.remove("aui-text-info");
-          searchBarBtn.textContent = "取消";
-        }
-      }
-    }
-    searchBarClearBtn.onclick = function(){
-      this.style.display = 'none';
-      searchBarInput.value = '';
-      searchBarBtn.classList.remove("aui-text-info");
-      searchBarBtn.textContent = "取消";
-    }
-    searchBarBtn.onclick = function(){
-      var keywords = searchBarInput.value;
-      if(keywords.length){
-        searchBarInput.blur();
-        document.getElementById("search-keywords").textContent = keywords;
-      }else{
-        this.style.marginRight = "-"+this.offsetWidth+"px";
-        searchBarInput.value = '';
-        searchBarInput.blur();
-      }
-    }
+
     // 顶部搜索栏结束
   }
 </script>

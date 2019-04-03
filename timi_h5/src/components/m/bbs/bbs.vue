@@ -80,10 +80,9 @@
         <i class="aui-iconfont aui-icon-home"></i>
         <div class="aui-bar-tab-label">首页</div>
       </router-link>
-      <router-link :to="{ name: 'chatroom'}" tag="div" class="aui-bar-tab-item" tapmode>
-        <div class="aui-badge">{{ GLOBAL.msgNum }}</div>
-        <i class="aui-iconfont aui-icon-comment"></i>
-        <div class="aui-bar-tab-label">婷迷聊天室</div>
+      <router-link :to="{ name: 'showList'}" tag="div" class="aui-bar-tab-item" tapmode>
+        <i class="aui-iconfont aui-icon-calendar"></i>
+        <div class="aui-bar-tab-label">演出活动</div>
       </router-link>
       <router-link :to="{ name: 'posting'}" tag="div" class="aui-bar-tab-item" tapmode>
         <div class="aui-bar-tab-label">
