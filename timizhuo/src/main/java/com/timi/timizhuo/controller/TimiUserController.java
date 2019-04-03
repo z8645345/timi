@@ -140,7 +140,7 @@ public class TimiUserController extends BaseController {
             loginUser.setPersonalProfile(timiUser.getPersonalProfile());
             ServiceResponseData<TimiUser> serviceResponseData = timiUserService.updateTimiUser(loginUser);
             if (serviceResponseData.isSuccess()) {
-                responseData.setData(serviceResponseData.getData());
+                responseData.setData(Constant.UPDATE_USER_OK);
             } else {
                 responseData.setFial();
                 responseData.setMessage(serviceResponseData.getMessage());

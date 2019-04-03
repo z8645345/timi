@@ -88,6 +88,7 @@ public class Constant {
 
 	public static final String FORUM_USER_NOT_LOGIN = "请先登录再发帖";
 	public static final String UPDATE_USER_NOT_LOGIN = "请重新登陆";
+    public static final String UPDATE_USER_OK = "修改资料成功!";
 
 	/**
 	 * 主贴id不能为空
