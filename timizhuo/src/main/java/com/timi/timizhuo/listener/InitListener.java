@@ -1,10 +1,8 @@
 package com.timi.timizhuo.listener;
 
-import com.timi.timizhuo.dto.TimiUserDto;
 import com.timi.timizhuo.websocket.ChatRoomServerStarter;
 import com.timi.timizhuo.websocket.Const;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
