@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface TimiForumMapper extends BaseMapper<TimiForum> {
 
-    int insert(TimiForum timiForum);
-
     /**
      * 根据条件查询
      * @param timiForum

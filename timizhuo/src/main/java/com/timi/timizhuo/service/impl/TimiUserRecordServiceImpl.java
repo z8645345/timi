@@ -35,27 +35,21 @@ public class TimiUserRecordServiceImpl extends ServiceImpl<TimiUserRecordMapper,
         TimiUserRecord timiUserRecord = new TimiUserRecord();
         BeanConvertUtils.convert(timiUserRecordDto, timiUserRecord);
         if (UserRocordEnum.VIDOE_LOVE.getType().equals(timiUserRecordDto.getType())) {
-            TimiVideo timiVideo = videoMapper.selectByPrimaryKey(timiUserRecordDto.getRecordId());
+            TimiVideo timiVideo = videoMapper.selectById(timiUserRecordDto.getRecordId());
             if (timiVideo != null) {
                 timiVideo.setLoveCount(timiVideo.getLoveCount() + 1);
-                videoMapper.updateByPrimaryKey(timiVideo);
+                videoMapper.updateById(timiVideo);
             }
         } else if (UserRocordEnum.VIDEO_COLLECTION.getType().equals(timiUserRecordDto.getType())) {
-            TimiVideo timiVideo = videoMapper.selectByPrimaryKey(timiUserRecordDto.getRecordId());
+            TimiVideo timiVideo = videoMapper.selectById(timiUserRecordDto.getRecordId());
             if (timiVideo != null) {
                 timiVideo.setCollectionCount(timiVideo.getCollectionCount() + 1);
-                videoMapper.updateByPrimaryKey(timiVideo);
+                videoMapper.updateById(timiVideo);
             }
         }
         timiUserRecordMapper.insert(timiUserRecord);
         ServiceResponseData<String> serviceResponseData = new ServiceResponseData<>();
         serviceResponseData.setSuccess();
         return serviceResponseData;
-    }
-
-    @Override
-    public List<TimiUserRecordDto> findByUsername(TimiUserDto timiUserDto) {
-        List<TimiUserRecord> timiUserRecordList = timiUserRecordMapper.selectByUsername(timiUserDto.getUsername());
-        return BeanConvertUtils.convertList(timiUserRecordList, TimiUserRecordDto.class);
     }
 }

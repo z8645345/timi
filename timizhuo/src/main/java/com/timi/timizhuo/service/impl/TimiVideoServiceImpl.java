@@ -36,15 +36,6 @@ public class TimiVideoServiceImpl extends ServiceImpl<TimiVideoMapper, TimiVideo
     private TimiColumnMapper timiColumnMapper;
 
     @Override
-    public List<TimiVideoDto> findByColumn(TimiVideoDto timiVideoDto) {
-        TimiVideo timiVideo = new TimiVideo();
-        BeanConvertUtils.convert(timiVideoDto, timiVideo);
-        PageHelper.startPage(timiVideoDto.getPageNum(), timiVideoDto.getPageSize());
-        List<TimiVideo> timiVideos = timiVideoMapper.findByCondition(timiVideo);
-        return BeanConvertUtils.convertList(timiVideos, TimiVideoDto.class);
-    }
-
-    @Override
     public List<TimiVideo> randomVideo(TimiVideo timiVideo) {
         List<TimiVideo> timiVideos = timiVideoMapper.selectPage(new Page<TimiVideo>().setCurrent(timiVideo.getPageNum()).setSize(timiVideo.getPageSize()), null).getRecords();
         Set<Integer> randomSet = new HashSet<>(timiVideo.getPageSize());
@@ -60,20 +51,10 @@ public class TimiVideoServiceImpl extends ServiceImpl<TimiVideoMapper, TimiVideo
     }
 
     @Override
-    public TimiVideoDto findById(TimiVideoDto timiVideoDto) {
-        TimiVideo timiVideo = timiVideoMapper.selectByPrimaryKey(timiVideoDto.getId());
-        BeanConvertUtils.convert(timiVideo, timiVideoDto);
-        return timiVideoDto;
-    }
-
-    @Override
-    public ServiceResponseData<Long> showVideo(TimiVideoDto timiVideoDto) {
-        TimiVideo timiVideo = timiVideoMapper.selectByPrimaryKey(timiVideoDto.getId());
-        timiVideo.setShowCount(timiVideo.getShowCount() + 1);
-        int count = timiVideoMapper.updateByPrimaryKey(timiVideo);
-        for (int i = 0; i < 5 && count <= 0; i ++) {
-            count = timiVideoMapper.updateByPrimaryKey(timiVideo);
-        }
+    public ServiceResponseData<Long> showVideo(TimiVideo timiVideo) {
+        TimiVideo timiVideo1 = timiVideoMapper.selectById(timiVideo.getId());
+        timiVideo1.setShowCount(timiVideo.getShowCount() + 1);
+        int count = timiVideoMapper.updateById(timiVideo1);
         ServiceResponseData<Long> serviceResponseData = new ServiceResponseData<>();
         if (count > 0) {
             serviceResponseData.setSuccess();

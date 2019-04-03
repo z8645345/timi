@@ -21,36 +21,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class TimiVideoCommentServiceImpl extends ServiceImpl<TimiVideoCommentMapper, TimiVideoComment> implements TimiVideoCommentService {
 
-    @Autowired
-    private TimiVideoCommentMapper timiVideoCommentMapper;
-
-    @Autowired
-    private TimiUserMapper timiUserMapper;
-
-    @Override
-    public PageInfo<TimiVideoCommentDto> findByVideo(TimiVideoCommentDto timiVideoCommentDto) {
-        PageHelper.startPage(timiVideoCommentDto.getPageNum(), timiVideoCommentDto.getPageSize());
-//        List<TimiVideoComment> timiVideoComments = timiVideoCommentMapper.selectByVideoId(timiVideoCommentDto);
-//        if (!CollectionUtils.isEmpty(timiVideoComments)) {
-//            List<TimiVideoCommentDto> timiVideoCommentDtos = BeanConvertUtils.convertList(timiVideoComments, TimiVideoCommentDto.class);
-//            timiVideoCommentDtos.forEach(timiVideoCommentDto1 -> {
-//                setTimiUser(timiVideoCommentDto1);
-//                List<TimiVideoComment> timiVideoComments1 = timiVideoCommentMapper.selectBySuperComment(timiVideoCommentDto1.getSuperComment());
-//                if (!CollectionUtils.isEmpty(timiVideoComments1)) {
-//                    List<TimiVideoCommentDto> timiVideoCommentDtos1 = BeanConvertUtils.convertList(timiVideoComments1, TimiVideoCommentDto.class);
-//                    timiVideoCommentDtos1.forEach(timiVideoCommentDto2 -> {
-//                        setTimiUser(timiVideoCommentDto2);
-//                        timiVideoCommentDto1.setSubCommentDto(timiVideoCommentDto2);
-//                    });
-//                }
-//            });
-//            return new PageInfo<>(timiVideoCommentDtos);
-//        }
-        return new PageInfo<>();
-    }
-
-    private void setTimiUser(TimiVideoComment timiVideoComment) {
-        TimiUser timiUser = timiUserMapper.selectOne(new QueryWrapper<TimiUser>().eq("username", timiVideoComment.getCommentBy()));
-        timiVideoComment.setTimiUser(timiUser);
-    }
 }

@@ -110,20 +110,20 @@ public class TimiVideoController extends BaseController {
     }
 
     @PostMapping("/showVideo")
-    public ResponseData showVideo(TimiVideoDto timiVideoDto) {
+    public ResponseData showVideo(TimiVideo timiVideo) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiVideoDto == null) {
+            if (timiVideo == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            if (StringUtils.isEmpty(timiVideoDto.getId())) {
+            if (StringUtils.isEmpty(timiVideo.getId())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            ServiceResponseData<Long> serviceResponseData = timiVideoService.showVideo(timiVideoDto);
+            ServiceResponseData<Long> serviceResponseData = timiVideoService.showVideo(timiVideo);
             if (serviceResponseData.isSuccess()) {
                 responseData.setData(serviceResponseData.getData());
             } else {

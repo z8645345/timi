@@ -13,5 +13,4 @@ import java.util.List;
  */
 public interface TimiMsgLogService extends IService<TimiMsgLog> {
 
-    List<TimiMsgLogDTO> listAll(TimiMsgLogDTO timiMsgLogDTO);
 }

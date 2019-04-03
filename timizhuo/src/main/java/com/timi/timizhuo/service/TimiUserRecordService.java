@@ -15,6 +15,4 @@ import java.util.List;
  */
 public interface TimiUserRecordService extends IService<TimiUserRecord> {
     ServiceResponseData<String> saveUserRecord(TimiUserRecordDto timiUserRecordDto);
-
-    List<TimiUserRecordDto> findByUsername(TimiUserDto timiUserDto);
 }

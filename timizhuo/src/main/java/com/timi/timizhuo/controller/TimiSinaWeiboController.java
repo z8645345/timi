@@ -34,11 +34,7 @@ public class TimiSinaWeiboController {
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            Page<TimiSinaWeibo> page = new Page<>();
-            page.setCurrent(timiSinaWeibo.getPageNum());
-            page.setSize(timiSinaWeibo.getPageSize());
-            page.setDesc(timiSinaWeibo.getDesc());
-            IPage<TimiSinaWeibo> result = timiSinaWeiboService.page(page);
+            IPage<TimiSinaWeibo> result = timiSinaWeiboService.page(new Page<TimiSinaWeibo>().setCurrent(timiSinaWeibo.getPageNum()).setSize(timiSinaWeibo.getPageSize()).setDesc(timiSinaWeibo.getDesc()));
             responseData.setData(result);
         } catch (Exception e) {
             logger.error("m:register 查询新浪微博信息失败", e);

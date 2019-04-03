@@ -1,5 +1,6 @@
 package com.timi.timizhuo.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
@@ -7,6 +8,7 @@ import com.timi.timizhuo.dto.TimiMsgLogDTO;
 import com.timi.timizhuo.dto.TimiShowDto;
 import com.timi.timizhuo.dto.TimiSinaWeiboDto;
 import com.timi.timizhuo.dto.TimiUserDto;
+import com.timi.timizhuo.entity.TimiMsgLog;
 import com.timi.timizhuo.service.TimiMsgLogService;
 import com.timi.timizhuo.util.SpringUtil;
 import com.timi.timizhuo.websocket.Const;
@@ -33,18 +35,17 @@ public class TimiMsgLogController {
     private TimiMsgLogService timiMsgLogService;
 
     @PostMapping("/findAll")
-    public ResponseData findAll(TimiMsgLogDTO timiMsgLogDTO) {
+    public ResponseData findAll(TimiMsgLog timiMsgLog) {
         ResponseData responseData = new ResponseData();
         try {
-            if (timiMsgLogDTO == null) {
+            if (timiMsgLog == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            List<TimiMsgLogDTO> timiMsgLogDTOList = timiMsgLogService.listAll(timiMsgLogDTO);
-//            Collections.sort(timiMsgLogDTOList, (o1, o2) -> (int) (o1.getCreateTime().getTime() - o2.getCreateTime().getTime()));
-
-            responseData.setData(timiMsgLogDTOList);
+            List<TimiMsgLog> timiMsgLogList = timiMsgLogService.page(new Page<TimiMsgLog>().setCurrent(timiMsgLog.getPageNum()).setSize(timiMsgLog.getPageSize())).getRecords();
+            timiMsgLogList.forEach(e -> e.setTimestamp(e.getCreateTime().getTime()));
+            responseData.setData(timiMsgLogList);
         } catch (Exception e) {
             e.printStackTrace();
             responseData.setFial();

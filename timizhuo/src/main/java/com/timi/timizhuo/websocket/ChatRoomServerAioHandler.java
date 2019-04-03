@@ -1,6 +1,7 @@
 package com.timi.timizhuo.websocket;
 
 import com.alibaba.fastjson.JSONObject;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.mapper.TimiMsgLogMapper;
 import com.timi.timizhuo.entity.TimiMsgLog;
 import com.timi.timizhuo.dto.TimiUserDto;
@@ -32,7 +33,7 @@ public class ChatRoomServerAioHandler implements IWsMsgHandler {
     private static Logger log = LoggerFactory.getLogger(ChatRoomServerAioHandler.class);
     public static ChatRoomServerAioHandler me = new ChatRoomServerAioHandler();
 
-    private RedisTemplate<String, TimiUserDto> redisTemplate;
+    private RedisTemplate<String, TimiUser> redisTemplate;
 
    	/**
      * 握手时走这个方法，业务可以在这里获取cookie，request参数等
@@ -43,9 +44,9 @@ public class ChatRoomServerAioHandler implements IWsMsgHandler {
         log.info("收到来自{}的ws握手包\r\n{}", clientip, request.toString());
         String token = request.getParam("token");
         redisTemplate = SpringUtil.getBean("redisTemplate", RedisTemplate.class);
-        TimiUserDto timiUserDto = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
-        channelContext.setUserid(timiUserDto.getUsername());
-        redisTemplate.boundHashOps(Const.ONLINE_USER).put(timiUserDto.getUsername(), timiUserDto);
+        TimiUser timiUser = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
+        channelContext.setUserid(timiUser.getUsername());
+        redisTemplate.boundHashOps(Const.ONLINE_USER).put(timiUser.getUsername(), timiUser);
         return httpResponse;
     }	/**
      * 字节消息（binaryType = arraybuffer）过来后会走这个方法
@@ -60,8 +61,8 @@ public class ChatRoomServerAioHandler implements IWsMsgHandler {
         WsSessionContext wsSessionContext = (WsSessionContext) channelContext.getAttribute();
         HttpRequest httpRequest = wsSessionContext.getHandshakeRequestPacket();//获取websocket握手包
         String token = httpRequest.getParam("token");
-        TimiUserDto timiUserDto = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
-        redisTemplate.boundHashOps(Const.ONLINE_USER).delete(timiUserDto.getUsername());
+        TimiUser timiUser = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
+        redisTemplate.boundHashOps(Const.ONLINE_USER).delete(timiUser.getUsername());
         Aio.remove(channelContext, "receive close flag");		return null;
     }	/*
      * 字符消息（binaryType = blob）过来后会走这个方法
@@ -75,12 +76,12 @@ public class ChatRoomServerAioHandler implements IWsMsgHandler {
         HttpRequest httpRequest = wsSessionContext.getHandshakeRequestPacket();//获取websocket握手包
         String token = httpRequest.getParam("token");
         redisTemplate = SpringUtil.getBean("redisTemplate", RedisTemplate.class);
-        TimiUserDto timiUserDto = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
+        TimiUser timiUser = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
         JSONObject jsonObject = JSONObject.parseObject(text);
         TimiMsgLog timiMsgLog = new TimiMsgLog();
-        timiMsgLog.setPic(timiUserDto.getPic());
-        timiMsgLog.setUserId(timiUserDto.getUserId());
-        timiMsgLog.setNickname(timiUserDto.getNickname());
+        timiMsgLog.setPic(timiUser.getPic());
+        timiMsgLog.setUserId(timiUser.getId());
+        timiMsgLog.setNickname(timiUser.getNickname());
         timiMsgLog.setMsgType(String.valueOf(jsonObject.getIntValue("type")));
         timiMsgLog.setMsg(jsonObject.getString("msg"));
         timiMsgLog.setMsgId(jsonObject.getString("msgId"));

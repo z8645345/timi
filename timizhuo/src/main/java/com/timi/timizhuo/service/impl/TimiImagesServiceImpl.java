@@ -50,7 +50,7 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
         for(TimiSinaWeibo timiSinaWeibo : timiSinaWeibos) {
             if (StringUtil.isNotEmpty(timiSinaWeibo.getOriginalPics())) {
                 String columnNo = "WB" +  DateUtils.dateFormat(timiSinaWeibo.getCreatedAt(), "yyyyMMddHHmmss");
-                TimiColumn timiColumn = timiColumnMapper.findByColumnNo(columnNo);
+                TimiColumn timiColumn = timiColumnMapper.selectOne(new QueryWrapper<TimiColumn>().eq("column_no", columnNo));
                 if (timiColumn == null) {
                     timiColumn = new TimiColumn();
                     timiColumn.setColumnNo(columnNo);
@@ -91,7 +91,6 @@ public class TimiImagesServiceImpl extends ServiceImpl<TimiImagesMapper, TimiIma
             List<TimiImages> timiImages = timiImagesMapper.selectList(new QueryWrapper<TimiImages>().eq("column_no", timiColumn1.getColumnNo()));
             String year = DateUtils.dateFormat(timiColumn1.getColumnTime(), "yyyy年");
             String data = DateUtils.dateFormat(timiColumn1.getColumnTime(), "MM月dd日");
-            List<TimiImagesDto> timiImagesDtoList = BeanConvertUtils.convertList(timiImages, TimiImagesDto.class);
             FindByColumnLimitResDTO dto = yearContainData(findByColumnLimitResDTOS, year);
             if (dto != null) {
                 DateData dateData = new DateData();

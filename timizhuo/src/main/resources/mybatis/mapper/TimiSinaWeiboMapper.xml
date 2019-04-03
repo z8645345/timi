@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.timi.timizhuo.mapper.TimiSinaWeiboMapper" >
   <resultMap id="BaseResultMap" type="com.timi.timizhuo.entity.TimiSinaWeibo" >
-    <id column="weibo_id" property="weiboId" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="timi_pic" property="timiPic" jdbcType="VARCHAR" />
     <result column="weibo_from" property="weiboFrom" jdbcType="VARCHAR" />
     <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
@@ -16,45 +16,9 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    weibo_id, timi_pic, weibo_from, created_at, original_text_url, weibo_text, thumbnail_pics, 
+    id, timi_pic, weibo_from, created_at, original_text_url, weibo_text, thumbnail_pics,
     bmiddle_pics, original_pics, weibo_vedio, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from timi_sina_weibo
-    where weibo_id = #{weiboId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from timi_sina_weibo
-    where weibo_id = #{weiboId,jdbcType=VARCHAR}
-  </delete>
-  <!-- 插入一条新浪微博信息 -->
-  <insert id="insert" parameterType="com.timi.timizhuo.entity.TimiSinaWeibo">
-		INSERT INTO TIMI_SINA_WEIBO (
-			WEIBO_ID,
-			TIMI_PIC,
-			WEIBO_FROM,
-			CREATED_AT,
-			ORIGINAL_TEXT_URL,
-			WEIBO_TEXT,
-			THUMBNAIL_PICS,
-			BMIDDLE_PICS,
-			ORIGINAL_PICS,
-			WEIBO_VEDIO
-		) VALUES (
-			UUID(),
-			#{timiPic},
-			#{weiboFrom},
-			#{createdAt},
-			#{originalTextUrl},
-			#{weiboText},
-			#{thumbnailPics},
-			#{bmiddlePics},
-			#{originalPics},
-			#{weiboVedio}
-		)
-	</insert>
 
   <!-- 根据发文时间查询最新的一条微博信息 -->
   <select id="findNewestWeibo" resultMap="BaseResultMap">
