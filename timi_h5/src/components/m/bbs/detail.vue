@@ -248,8 +248,8 @@
     <!--<div class="aui-btn aui-btn-info" tapmode>发送</div>-->
     <!--</div>-->
     <div :style="contextStyle" style="max-height: 4.5rem; overflow:auto;">
-      <div contenteditable="true" id="context" style="background-color: #fff; line-height: 1.5rem; width: 80%; display: inline-block; max-height: 4.5rem; overflow:auto;" @blur="contextBlur" @input="contextInput" v-model="reply.replyCotent"></div>
-      <div style="width: 18%; display: inline-block; height: 1.5rem; line-height: 1.5rem;">发布</div>
+      <div contenteditable="true" id="replyContent" style="background-color: #fff; width: 80%; display: inline-block; max-height: 4.5rem; overflow:auto; vertical-align:top" @blur="contextBlur" @input="contextInput"></div>
+      <div id="pushBtu" style="width: 18%; display: inline-block; height: 1.5rem; line-height: 1.5rem; vertical-align:top; text-align: center" @click="pushReply">发布</div>
     </div>
   </div>
 </template>
@@ -290,22 +290,27 @@
         showcontext: function () {
           this.isShowcontext=true;
           this.contextStyle = '';
+          this.reply.replyType = 1;
           setTimeout(()=>document.getElementById("context").focus(), 10);
         },
         contextBlur: function () {
-          this.contextStyle = 'display: none';
-          this.isShowcontext=false;
-          if (!this.havaContexg) {
-            this.contextTips ='说说你的看法';
-          } else {
-            this.contextTips ='[草稿内容待发送]';
-          }
+          setTimeout(()=>{
+            this.contextStyle = 'display: none';
+            this.isShowcontext=false;
+            if (!this.havaContexg) {
+              this.contextTips ='说说你的看法';
+            } else {
+              this.contextTips ='[草稿内容待发送]';
+            }
+          }, 200);
+
         },
         contextInput: function () {
 
         },
-        loadReply: function () {
-          app.post('/timizhuo/reply/addReply', this.reply, function (res) {
+        pushReply: function (replyType) {
+          this.reply.replyCotent = document.getElementById("replyContent").innerHTML;
+          this.post('/timizhuo/reply/addReply', this.reply, function (res) {
             if (res.data.code == '200') {
               alert('回复成功');
             } else {
@@ -317,9 +322,8 @@
               },function(ret){
               })
             }
-            toast.hide();
           }, function (err) {
-            toast.hide();
+
           });
         }
       }
