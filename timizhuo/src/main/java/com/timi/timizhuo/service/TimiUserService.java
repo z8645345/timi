@@ -13,4 +13,5 @@ public interface TimiUserService extends IService<TimiUser> {
     ServiceResponseData<TimiUser> register(TimiUser timiUserDto) throws Exception;
 
     ServiceResponseData<TimiUser> login(TimiUser timiUser) throws Exception;
+    ServiceResponseData<TimiUser> updateTimiUser(TimiUser timiUser) throws Exception;
 }

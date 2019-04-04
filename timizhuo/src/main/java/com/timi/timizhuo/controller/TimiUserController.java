@@ -7,6 +7,7 @@ import com.qiniu.util.Auth;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
+import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.dto.request.EmaillDto;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiUserService;
@@ -121,6 +122,33 @@ public class TimiUserController extends BaseController {
             }
         } catch (Exception e) {
             logger.error("m:register 婷迷会员注册失败", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return responseData;
+    }
+    @TimiLogin
+    @PostMapping("/updateTimiUser")
+    public ResponseData updateTimiUser(TimiUser timiUser,HttpServletRequest request) {
+        ResponseData responseData = new ResponseData();
+        try {
+            TimiUser loginUser = getLoginUser(request);
+            if (loginUser == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.UPDATE_USER_NOT_LOGIN);
+                return responseData;
+            }
+            loginUser.setLoveTimiDeclaration(timiUser.getLoveTimiDeclaration());
+            loginUser.setPersonalProfile(timiUser.getPersonalProfile());
+            ServiceResponseData<TimiUser> serviceResponseData = timiUserService.updateTimiUser(loginUser);
+            if (serviceResponseData.isSuccess()) {
+                responseData.setData(Constant.UPDATE_USER_OK);
+            } else {
+                responseData.setFial();
+                responseData.setMessage(serviceResponseData.getMessage());
+            }
+        } catch (Exception e) {
+            logger.error("m:updateTimiUser 婷迷修改资料失败", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }

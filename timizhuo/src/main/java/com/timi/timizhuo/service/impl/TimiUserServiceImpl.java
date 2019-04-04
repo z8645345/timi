@@ -62,4 +62,18 @@ public class TimiUserServiceImpl extends ServiceImpl<TimiUserMapper, TimiUser> i
         serviceResponseData.setData(result);
         return serviceResponseData;
     }
+    @Override
+    public ServiceResponseData<TimiUser> updateTimiUser(TimiUser timiUser) throws Exception {
+        ServiceResponseData<TimiUser> serviceResponseData = new ServiceResponseData<>();
+        timiUser.setPassword(Md5Utils.encoderByMd5(timiUser.getPassword()));
+        int i = timiUserMapper.updateById(timiUser);
+        if (i == 0) {
+            serviceResponseData.setFail();
+            serviceResponseData.setMessage(Constant.UPDATE_USER_FAIL);
+            return serviceResponseData;
+        }
+        serviceResponseData.setSuccess();
+        serviceResponseData.setData(null);
+        return serviceResponseData;
+    }
 }
