@@ -13,4 +13,5 @@ public interface TimiForumMapper extends BaseMapper<TimiForum> {
      * @return
      */
     List<TimiForum> findByCondition(TimiForum timiForum);
+
 }

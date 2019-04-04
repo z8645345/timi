@@ -43,5 +43,10 @@ public class TimiForum extends BaseEntity {
 
     @TableField(exist = false)
     private Long postedTimeLong;
+    /**
+     * 类型判断1 为点赞   2为阅读
+     */
+    @TableField(exist = false)
+    private Integer type;
 
 }

@@ -30,4 +30,13 @@ public interface TimiForumService extends IService<TimiForum> {
      * @return
      */
     List<TimiForum> findForumByStick();
+
+    /**
+     * 用户id查询
+     * @param id
+     * @return
+     */
+    List<TimiForum> findForumByUserId(String id);
+
+    boolean updateLikeAndRead(TimiForum timiForum);
 }
