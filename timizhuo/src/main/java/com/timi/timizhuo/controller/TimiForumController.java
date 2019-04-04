@@ -162,7 +162,7 @@ public class TimiForumController extends  BaseController{
      * 查询当前用户的帖子
      * request
      */
-    @RequestMapping("findUserForum")
+    @PutMapping("/findUserForum")
     public ResponseData findUserForum(HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         try {
