@@ -240,8 +240,16 @@
     <div @click="showcontext" v-if="!isShowcontext" style="position: fixed ;bottom:0; background-color: #fff; width: 100%; height: 2rem; line-height: 2rem; padding-left: 0.5rem">
       <span style="color: rgb(217, 217, 217)" v-html="contextTips"></span>
     </div>
-    <div contenteditable="true" id="context" :style="contextStyle" style="background-color: #fff; line-height: 1.5rem" @blur="contextBlur" @input="contextInput">
-      <span style="color: rgb(217, 217, 217)">说说你的看法……</span>
+    <!--<div class="aui-searchbar aui-bar-tab" id="search" :style="contextStyle">-->
+    <!--<div class="aui-searchbar-input aui-border-radius">-->
+      <!--<div contenteditable="true" id="context" style="background-color: #fff; line-height: 1.5rem" @blur="contextBlur" @input="contextInput" v-model="reply.replyCotent">-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="aui-btn aui-btn-info" tapmode>发送</div>-->
+    <!--</div>-->
+    <div :style="contextStyle" style="max-height: 4.5rem; overflow:auto;">
+      <div contenteditable="true" id="context" style="background-color: #fff; line-height: 1.5rem; width: 80%; display: inline-block; max-height: 4.5rem; overflow:auto;" @blur="contextBlur" @input="contextInput" v-model="reply.replyCotent"></div>
+      <div style="width: 18%; display: inline-block; height: 1.5rem; line-height: 1.5rem;">发布</div>
     </div>
   </div>
 </template>
@@ -256,6 +264,7 @@
           havaContexg: false,
           contextStyle : 'display: none',
           contextTips : '说说你的看法……',
+          reply: {}
         }
       },
       mounted: function(){
@@ -264,6 +273,7 @@
       methods: {
         init: function () {
           this.forum = this.$route.query;
+          this.reply.forumId = this.forum.id;
           this.loadAuiTab();
         },
         loadAuiTab: function() {
@@ -292,12 +302,25 @@
           }
         },
         contextInput: function () {
-          alert(document.getElementById("context").innerHTML)
-          if(document.getElementById("context").innerHTML=='') {
 
-            this.isShowcontext = false;
-            document.getElementById("context").innerHTML='<span style="color: rgb(217, 217, 217)">说说你的看法……</span>';
-          }
+        },
+        loadReply: function () {
+          app.post('/timizhuo/reply/addReply', this.reply, function (res) {
+            if (res.data.code == '200') {
+              alert('回复成功');
+            } else {
+              var dialog = new auiDialog();
+              dialog.alert({
+                title: "提示",
+                msg: res.data.message,
+                buttons:['确定']
+              },function(ret){
+              })
+            }
+            toast.hide();
+          }, function (err) {
+            toast.hide();
+          });
         }
       }
     }
