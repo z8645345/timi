@@ -1,13 +1,16 @@
 package com.timi.timizhuo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.entity.TimiForum;
+import com.timi.timizhuo.enums.ForumEnum;
 import com.timi.timizhuo.mapper.TimiForumMapper;
 import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +25,6 @@ import java.util.List;
 @Service
 @Slf4j
 public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum> implements TimiForumService {
-
 
     @Autowired
     private TimiForumMapper timiForumMapper;
@@ -48,7 +50,6 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
      */
     @Override
     public PageInfo<TimiForum> findPage(TimiForum timiForumDto) {
-        String columnNo = null;
         if (timiForumDto == null) {
             return null;
         }
@@ -66,5 +67,44 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
         timiForum.setStick(true);
         List<TimiForum> timiForums =this.timiForumMapper.findByCondition(timiForum);
         return timiForums;
+    }
+
+    @Override
+    public List<TimiForum> findForumByUserId(String id) {
+        if (StringUtils.isBlank(id)) return null;
+        List<TimiForum> timiForums = this.timiForumMapper.selectList(new QueryWrapper<TimiForum>().eq("user_id", id));
+        return timiForums;
+    }
+
+    @Override
+    public boolean updateLikeAndRead(TimiForum timiForum) {
+
+        if (timiForum == null || StringUtils.isBlank(timiForum.getId())
+                || timiForum.getType() == null) return false;
+
+        TimiForum byId = this.timiForumMapper.selectById(timiForum.getId());
+        if (byId == null) {
+            log.warn("数据有误,id为空");
+            return false;
+        }
+        if (timiForum.getType() == ForumEnum.TypeEnum.LIKE.getValue()) {
+            Long likeCount = byId.getLikeCount();
+            if (likeCount == null) {
+                likeCount = 1L;
+            } else {
+                ++likeCount;
+            }
+            timiForum.setLikeCount(likeCount);
+            return this.timiForumMapper.updateById(timiForum) == 1;
+        } else {
+            Long readCount = byId.getReadCount();
+            if (readCount == null) {
+                readCount = 1L;
+            } else {
+                ++readCount;
+            }
+            timiForum.setLikeCount(readCount);
+            return this.timiForumMapper.updateById(timiForum) == 1;
+        }
     }
 }

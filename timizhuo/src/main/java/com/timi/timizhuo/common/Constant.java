@@ -92,4 +92,6 @@ public class Constant {
 	 * 主贴id不能为空
 	 */
 	public static final String FORUM_ID_NOT_NULL="主贴id不能为空";
+
+
 }

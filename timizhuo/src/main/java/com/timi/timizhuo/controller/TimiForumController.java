@@ -9,8 +9,10 @@ import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.util.JSONUtils;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -121,4 +123,64 @@ public class TimiForumController extends  BaseController{
         });
     }
 
+    /**
+     * 修改阅读数或点赞数  1 点赞  2 阅读
+     * timiForum
+     */
+    @PutMapping("/updateLikeAndRead")
+    public ResponseData updateLikeAndRead(TimiForum timiForum) {
+        log.info("forum updateLikeAndRead  request :{}",timiForum);
+        ResponseData responseData = new ResponseData();
+        try {
+            if (timiForum == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.PARAMS_NOT_NULL);
+                return responseData;
+            }
+            if (StringUtils.isBlank(timiForum.getId())) {
+                responseData.setFial();
+                responseData.setMessage(Constant.FORUM_ID_NOT_NULL);
+                return responseData;
+            }
+
+            if (timiForum.getType() == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.SYSTEM_ERROR);
+                return responseData;
+            }
+            this.timiForumService.updateLikeAndRead(timiForum);
+        } catch (Exception e) {
+            log.error("forum updateLikeAndRead error ", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return responseData;
+
+    }
+
+    /**
+     * 查询当前用户的帖子
+     * request
+     */
+    @RequestMapping("findUserForum")
+    public ResponseData findUserForum(HttpServletRequest request) {
+        ResponseData responseData = new ResponseData();
+        try {
+            TimiUser timiUser = getLoginUser(request);
+            if (timiUser == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.FORUM_USER_NOT_LOGIN);
+                return responseData;
+            }
+            List<TimiForum>lists =this.timiForumService.findForumByUserId(timiUser.getId());
+            responseData.setData(lists);
+            responseData.setSuccess();
+        } catch (Exception e) {
+            log.error("forum findUserForum error ", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return responseData;
+
+    }
 }
