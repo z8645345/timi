@@ -3,8 +3,6 @@ package com.timi.timizhuo.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class TimiVideoComment extends BaseEntity {
 
@@ -19,8 +17,6 @@ public class TimiVideoComment extends BaseEntity {
     private Integer loveCount;
 
     private Integer status;
-
-    private Date createTime;
 
     private static final long serialVersionUID = 1L;
 

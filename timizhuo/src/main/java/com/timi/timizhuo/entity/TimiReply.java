@@ -32,8 +32,4 @@ public class TimiReply extends BaseEntity<TimiReply> {
     /**回复类型  子回复所需 父名字*/
     private String parentName;
 
-
-    private Date createTime;
-    private Date updateTime;
-
 }

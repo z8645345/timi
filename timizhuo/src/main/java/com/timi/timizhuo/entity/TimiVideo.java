@@ -3,8 +3,6 @@ package com.timi.timizhuo.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class TimiVideo extends BaseEntity {
 
@@ -25,10 +23,6 @@ public class TimiVideo extends BaseEntity {
     private String columnNo;
 
     private String columnName;
-
-    private Date createTime;
-
-    private Date updateTime;
 
     @TableField(exist = false)
     private Boolean userLove;

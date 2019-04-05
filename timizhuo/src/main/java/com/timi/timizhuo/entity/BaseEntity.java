@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +19,9 @@ public class BaseEntity<T> implements Serializable {
 
     @TableId(type = IdType.UUID)
     private String id;
+
+    private Date createTime;
+    private Date updateTime;
 
     /**
      * 当前页数

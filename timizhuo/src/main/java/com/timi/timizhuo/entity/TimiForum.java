@@ -38,9 +38,6 @@ public class TimiForum extends BaseEntity {
     /**用户图片地址*/
     private String userImageUrl;
 
-    private Date createTime;
-    private Date updateTime;
-
     @TableField(exist = false)
     private Long postedTimeLong;
     /**

@@ -3,8 +3,6 @@ package com.timi.timizhuo.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class TimiUser extends BaseEntity {
     //用户名
@@ -21,10 +19,6 @@ public class TimiUser extends BaseEntity {
     private String loveTimiDeclaration;
     //个人简介
     private String personalProfile;
-    //创建时间
-    private Date createTime;
-    //更新时间
-    private Date updateTime;
 
     @TableField(exist = false)
     private String checkCode;
