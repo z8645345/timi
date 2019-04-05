@@ -3,6 +3,8 @@ package com.timi.timizhuo.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -52,5 +54,49 @@ public class BaseEntity<T> implements Serializable {
      */
     @TableField(exist = false)
     private List<String> descs;
+
+    /**
+     * 获取分页对象
+     * @return
+     */
+    public IPage<T> page() {
+        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize);
+    }
+
+    /**
+     * 获取带升序排序的分页对象
+     * @param sort 排序字段
+     * @return
+     */
+    public IPage<T> ascPage(String... sortColumn) {
+        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setAsc(sortColumn);
+    }
+
+    /**
+     * 获取带多字段升序排序的分页对象
+     * @param sorts 排序字段列表
+     * @return
+     */
+    public IPage<T> ascPage(List<String> sortColumns) {
+        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setAscs(sortColumns);
+    }
+
+    /**
+     * 获取带降序序排序的分页对象
+     * @param sort 排序字段
+     * @return
+     */
+    public IPage<T> descPage(String... sortColumn) {
+        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setDesc(sortColumn);
+    }
+
+    /**
+     * 获取带多字段降序排序的分页对象
+     * @param sorts 排序字段列表
+     * @return
+     */
+    public IPage<T> descPage(List<String> sortColumns) {
+        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setDescs(sortColumns);
+    }
 
 }

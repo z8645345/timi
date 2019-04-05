@@ -2,7 +2,6 @@ package com.timi.timizhuo.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.entity.TimiShow;
@@ -35,7 +34,7 @@ public class TimiShowController {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                IPage<TimiShow> pageResult = timiShowService.page(new Page<TimiShow>().setCurrent(timiShow.getPageNum()).setSize(timiShow.getPageSize()));
+                IPage<TimiShow> pageResult = timiShowService.page(timiShow.page());
                 responseData.setData(pageResult);
             }
         } catch (Exception e) {

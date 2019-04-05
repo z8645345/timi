@@ -17,13 +17,13 @@
     <div id="aui-slide3">
       <div class="aui-slide-wrap" >
         <div class="aui-slide-node bg-dark">
-          <img src="http://timizhuo.cn/1.jpg" />
+          <img src="http://timizhuo.cn/hengfu11.png" />
         </div>
         <div class="aui-slide-node bg-dark">
-          <img src="http://timizhuo.cn/2.jpg" />
+          <img src="http://timizhuo.cn/hengfu12.png" />
         </div>
         <div class="aui-slide-node bg-dark">
-          <img src="http://timizhuo.cn/3.jpg" />
+          <img src="http://timizhuo.cn/hengfu13.png" />
         </div>
         <div class="aui-slide-node bg-dark">
           <img src="http://timizhuo.cn/4.jpg" />

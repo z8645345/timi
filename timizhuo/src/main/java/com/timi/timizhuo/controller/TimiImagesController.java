@@ -2,12 +2,11 @@ package com.timi.timizhuo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
+import com.timi.timizhuo.dto.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiImages;
-import com.timi.timizhuo.dto.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.service.TimiImagesService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -49,15 +48,11 @@ public class TimiImagesController {
     public ResponseData findByColumn(TimiImages timiImages) {
         ResponseData responseData = new ResponseData();
         try {
-            Page<TimiImages> page = new Page<>();
-            page.setCurrent(timiImages.getPageNum());
-            page.setSize(timiImages.getPageSize());
-            page.setDesc("create_time");
             QueryWrapper<TimiImages> wrapper = null;
             if (StringUtils.isNotEmpty(timiImages.getColumnNo())) {
                 wrapper = new QueryWrapper<TimiImages>().eq("column_no", timiImages.getColumnNo());
             }
-            IPage<TimiImages> result = timiImagesService.page(page, wrapper);
+            IPage<TimiImages> result = timiImagesService.page(timiImages.descPage("create_time"), wrapper);
             responseData.setData(result);
         } catch (Exception e) {
             logger.error("m:findByColumn 根据栏目查询图片失败", e);

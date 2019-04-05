@@ -134,7 +134,7 @@
         var app = this;
         var scroll = new auiScroll({
           listen:true,
-          distance:0 //判断到达底部的距离，isToBottom为true
+          distance:100 //判断到达底部的距离，isToBottom为true
         },function(ret){
           if(ret.isToBottom){
             app.loadData();

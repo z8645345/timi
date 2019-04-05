@@ -3,16 +3,15 @@ package com.timi.timizhuo.controller;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
-import com.timi.timizhuo.enums.UserRocordEnum;
 import com.timi.timizhuo.dto.response.FindByColumnLimitResDTO;
 import com.timi.timizhuo.entity.TimiColumn;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.entity.TimiUserRecord;
 import com.timi.timizhuo.entity.TimiVideo;
+import com.timi.timizhuo.enums.UserRocordEnum;
 import com.timi.timizhuo.service.TimiUserRecordService;
 import com.timi.timizhuo.service.TimiVideoService;
 import org.slf4j.Logger;
@@ -48,15 +47,11 @@ public class TimiVideoController extends BaseController {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                Page<TimiVideo> page = new Page<>();
-                page.setCurrent(timiVideo.getPageNum());
-                page.setSize(timiVideo.getPageSize());
-                page.setDesc("create_time");
                 QueryWrapper<TimiVideo> wrapper = null;
                 if (org.apache.commons.lang3.StringUtils.isNotEmpty(timiVideo.getColumnNo())) {
                     wrapper = new QueryWrapper<TimiVideo>().eq("column_no", timiVideo.getColumnNo());
                 }
-                IPage<TimiVideo> result = timiVideoService.page(page, wrapper);
+                IPage<TimiVideo> result = timiVideoService.page(timiVideo.descPage("create_time"), wrapper);
                 setUserRecord(result.getRecords(), request);
                 responseData.setData(result.getRecords());
             }
