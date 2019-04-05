@@ -1,6 +1,8 @@
 package com.timi.timizhuo.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.enums.ReplyEnum;
 import com.timi.timizhuo.entity.TimiReply;
 import com.timi.timizhuo.mapper.TimiReplyMapper;
@@ -62,12 +64,6 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             this.timiReplyMapper.insert(timiReply);
         } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.SON.getValue())) {
             //子回复回复
-            //修改楼层回复的回复数
-            timiReply.setCreateTime(new Date());
-            timiReply.setUpdateTime(timiReply.getCreateTime());
-            timiReply.setReplyTime(timiReply.getCreateTime());
-            BeanConvertUtils.convert(timiReply, timiReply);
-            this.timiReplyMapper.insert(timiReply);
             //1 先查询主回复数据
             TimiReply replyById = this.timiReplyMapper.selectById(timiReply.getParentId());
             if (replyById == null) {
@@ -86,6 +82,12 @@ public class TimiReplyServiceImpl implements TimiReplyService {
                 upReply.setReplyNum(num);
             }
             this.timiReplyMapper.updateReplyNum(upReply);
+            //修改楼层回复的回复数
+            timiReply.setCreateTime(new Date());
+            timiReply.setUpdateTime(timiReply.getCreateTime());
+            timiReply.setReplyTime(timiReply.getCreateTime());
+            timiReply.setParentName(replyById.getUserName());
+            this.timiReplyMapper.insert(timiReply);
         }
 
         return true;
@@ -97,35 +99,47 @@ public class TimiReplyServiceImpl implements TimiReplyService {
     }
 
     @Override
-    public PageInfo<TimiReply> findPage(TimiReply timiReplyDto) {
+    public PageInfo<List<TimiReply>> findPage(TimiReply timiReplyDto) {
         if (timiReplyDto == null || StringUtils.isBlank(timiReplyDto.getForumId())) return null;
         //查询所有主id的所有数据
+        PageHelper.startPage(timiReplyDto.getPageNum(), timiReplyDto.getPageSize());
         List<TimiReply> timiReplyList = this.timiReplyMapper.findByForumId(timiReplyDto.getForumId());
         if (CollectionUtils.isEmpty(timiReplyList)) {
             log.warn("查询数据为空");
             return null;
         }
-        List<TimiReply> result = new ArrayList<>();
+
+        List<List<TimiReply>> result = new ArrayList<>();
         for (TimiReply timiReply : timiReplyList) {
-            result.add(timiReply);
-            this.getTreeReplyList(result, timiReply.getParentId());
+            List<TimiReply> resultTmp=new ArrayList<>();
+            resultTmp.add(timiReply);
+            TimiReply queryReply = new TimiReply();
+            queryReply.setParentId(timiReply.getId());
+            List<TimiReply> byCondition = this.timiReplyMapper.findByParentId(queryReply);
+            if (CollectionUtils.isEmpty(byCondition)){
+                result.add(resultTmp);
+                continue;
+            }
+            this.getTreeReplyList(resultTmp, timiReply.getId());
+            result.add(resultTmp);
         }
-        return null;
+        PageInfo<List<TimiReply>> pageInfo = new PageInfo<>(result);
+        return pageInfo;
     }
 
-    private List<TimiReply> getTreeReplyList(List<TimiReply> result, String parentId) {
+    private List<TimiReply> getTreeReplyList(List<TimiReply> resultTmp, String parentId) {
         if (StringUtils.isNotBlank(parentId)) {
             TimiReply queryReply = new TimiReply();
             queryReply.setParentId(parentId);
-            List<TimiReply> byCondition = this.timiReplyMapper.findByCondition(queryReply);
+            List<TimiReply> byCondition = this.timiReplyMapper.findByParentId(queryReply);
             if (!CollectionUtils.isEmpty(byCondition)) {
                 for (TimiReply timiReply : byCondition) {
-                    result.add(timiReply);
-                    getTreeReplyList(result, timiReply.getParentId());
+                    resultTmp.add(timiReply);
+                    getTreeReplyList(resultTmp, timiReply.getId());
                 }
             }
         }
-        return result;
+        return resultTmp;
     }
 
 }

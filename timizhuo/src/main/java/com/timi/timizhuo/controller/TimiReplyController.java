@@ -1,6 +1,7 @@
 package com.timi.timizhuo.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.entity.TimiReply;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 回复
@@ -35,6 +37,7 @@ public class TimiReplyController extends  BaseController{
      * @param request
      * @return
      */
+    @TimiLogin
     @PostMapping("/addReply")
     public ResponseData addReply(@RequestBody TimiReply timiReplyDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
@@ -45,7 +48,7 @@ public class TimiReplyController extends  BaseController{
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
                 return responseData;
             }
-            if (StringUtil.isBlank(timiReplyDto.getReplyCotent())) {
+            if (StringUtil.isBlank(timiReplyDto.getReplyContent())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.CONTENT_NOT_NULL);
                 return responseData;
@@ -88,6 +91,7 @@ public class TimiReplyController extends  BaseController{
      * @param timiReplyDto
      * @return
      */
+    @TimiLogin
     @PostMapping("/findReply")
     public String findReply(TimiReply timiReplyDto) {
         log.info("Reply findReply  request :{}",timiReplyDto);
@@ -98,8 +102,7 @@ public class TimiReplyController extends  BaseController{
             return JSONUtils.toJosnString(responseData);
         }
         try {
-
-            PageInfo<TimiReply> pageInfo = this.timiReplyService.findPage(timiReplyDto);
+            PageInfo<List<TimiReply>> pageInfo = this.timiReplyService.findPage(timiReplyDto);
             responseData.setData(pageInfo);
         } catch (Exception e) {
             log.error("Reply findReply error ", e);
@@ -108,6 +111,7 @@ public class TimiReplyController extends  BaseController{
         }
         return JSONUtils.toJosnString(responseData);
     }
+
 
 
 }

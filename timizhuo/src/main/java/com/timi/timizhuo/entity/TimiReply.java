@@ -8,7 +8,7 @@ import java.util.Date;
 public class TimiReply extends BaseEntity<TimiReply> {
 
     /**内容*/
-    private String replyCotent;
+    private String replyContent;
     /**主回复id*/
     private String parentId;
     /**主贴id*/
@@ -29,6 +29,8 @@ public class TimiReply extends BaseEntity<TimiReply> {
     private Integer replyNum ;
     /**回复类型  1 主贴回复  2 楼层回复  3 子回复回复*/
     private Integer replyType ;
+    /**回复类型  子回复所需 父名字*/
+    private String parentName;
 
 
     private Date createTime;

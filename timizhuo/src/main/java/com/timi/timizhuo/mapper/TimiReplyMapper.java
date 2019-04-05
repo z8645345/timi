@@ -20,4 +20,6 @@ public interface TimiReplyMapper extends BaseMapper<TimiReply> {
     List<TimiReply>findByForumId(String forumId);
 
     int updateReplyNum(TimiReply upReply);
+
+    List<TimiReply> findByParentId(TimiReply queryReply);
 }

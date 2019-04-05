@@ -22,7 +22,8 @@ public interface TimiReplyService {
      * @param timiReplyDto
      * @return
      */
-    PageInfo<TimiReply> findPage(TimiReply timiReplyDto);
+    PageInfo<List<TimiReply>> findPage(TimiReply timiReplyDto);
+
 
     /**
      * 查询置顶

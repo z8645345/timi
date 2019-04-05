@@ -1,6 +1,7 @@
 package com.timi.timizhuo.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.entity.TimiForum;
@@ -37,6 +38,7 @@ public class TimiForumController extends  BaseController{
      * @param request
      * @return
      */
+    @TimiLogin
     @PostMapping("/addForum")
     public ResponseData findAll(TimiForum timiForumDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
@@ -74,12 +76,12 @@ public class TimiForumController extends  BaseController{
         }
         return responseData;
     }
-
     /**
      * 分页查询
      * @param timiForumDto
      * @return
      */
+    @TimiLogin
     @PostMapping("/findForum")
     public String findForum(TimiForum timiForumDto) {
         log.info("forum findForum  request :{}",timiForumDto);
@@ -100,6 +102,7 @@ public class TimiForumController extends  BaseController{
      * 置顶数据查询
      * @return
      */
+    @TimiLogin
     @PostMapping("/findForumByStick")
     public String findForumByStick() {
         ResponseData responseData = new ResponseData();
@@ -127,6 +130,7 @@ public class TimiForumController extends  BaseController{
      * 修改阅读数或点赞数  1 点赞  2 阅读
      * timiForum
      */
+    @TimiLogin
     @PutMapping("/updateLikeAndRead")
     public ResponseData updateLikeAndRead(TimiForum timiForum) {
         log.info("forum updateLikeAndRead  request :{}",timiForum);
@@ -162,6 +166,7 @@ public class TimiForumController extends  BaseController{
      * 查询当前用户的帖子
      * request
      */
+    @TimiLogin
     @PutMapping("/findUserForum")
     public ResponseData findUserForum(HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
@@ -174,6 +179,39 @@ public class TimiForumController extends  BaseController{
             }
             List<TimiForum>lists =this.timiForumService.findForumByUserId(timiUser.getId());
             responseData.setData(lists);
+            responseData.setSuccess();
+        } catch (Exception e) {
+            log.error("forum findUserForum error ", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return responseData;
+
+    }
+
+    /**
+     * 查询当前用户的帖子
+     * request
+     */
+    @TimiLogin
+    @PutMapping("/findForumById")
+    public ResponseData findForumById(TimiForum timiForum) {
+        ResponseData responseData = new ResponseData();
+        try {
+
+            if (timiForum == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.PARAMS_NOT_NULL);
+                return responseData;
+            }
+            if (StringUtil.isBlank(timiForum.getId())) {
+                responseData.setFial();
+                responseData.setMessage(Constant.FORUM_ID_NOT_NULL);
+                return responseData;
+            }
+
+            TimiForum timiForumData = this.timiForumService.findForumById(timiForum);
+            responseData.setData(timiForumData);
             responseData.setSuccess();
         } catch (Exception e) {
             log.error("forum findUserForum error ", e);

@@ -107,4 +107,10 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
             return this.timiForumMapper.updateById(timiForum) == 1;
         }
     }
+
+    @Override
+    public TimiForum findForumById(TimiForum timiForum) {
+        if (timiForum == null || StringUtils.isBlank(timiForum.getId())) return null;
+        return this.timiForumMapper.selectById(timiForum);
+    }
 }
