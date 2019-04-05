@@ -190,7 +190,7 @@ public class TimiForumController extends  BaseController{
     }
 
     /**
-     * 查询当前用户的帖子
+     * 根据主贴id查询
      * request
      */
     @TimiLogin
