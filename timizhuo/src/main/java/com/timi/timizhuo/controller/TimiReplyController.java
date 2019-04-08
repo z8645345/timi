@@ -91,7 +91,6 @@ public class TimiReplyController extends  BaseController{
      * @param timiReplyDto
      * @return
      */
-    @TimiLogin
     @PostMapping("/findReply")
     public String findReply(TimiReply timiReplyDto) {
         log.info("Reply findReply  request :{}",timiReplyDto);
