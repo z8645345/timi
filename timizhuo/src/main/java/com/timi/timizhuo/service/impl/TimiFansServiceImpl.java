@@ -32,7 +32,7 @@ public class TimiFansServiceImpl extends ServiceImpl<TimiFansMapper, TimiFans> i
         if(timiFans.getUserId()>0){
             map.put("user_id", timiFans.getUserId());
         }else{
-            map.put("parent_id", timiFans.getUserId());
+            map.put("parent_id", timiFans.getParentId());
         }
         List<TimiFans> list = timiFansMapper.selectByMap(map);
         serviceResponseData.setData(list);
