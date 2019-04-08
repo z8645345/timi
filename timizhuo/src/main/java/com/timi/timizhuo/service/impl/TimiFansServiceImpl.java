@@ -29,7 +29,11 @@ public class TimiFansServiceImpl extends ServiceImpl<TimiFansMapper, TimiFans> i
     public ServiceResponseData<List<TimiFans>> selectByMap(TimiFans timiFans) throws Exception {
         ServiceResponseData<List<TimiFans>> serviceResponseData = new ServiceResponseData<>();
         Map map = new HashMap<>();
-        map.put("user_id", timiFans.getUserId());
+        if(timiFans.getUserId()>0){
+            map.put("user_id", timiFans.getUserId());
+        }else{
+            map.put("parent_id", timiFans.getUserId());
+        }
         List<TimiFans> list = timiFansMapper.selectByMap(map);
         serviceResponseData.setData(list);
         serviceResponseData.setSuccess();

@@ -68,6 +68,11 @@ public class TimiFansController extends BaseController {
     public ResponseData followList(TimiFans timiFans) {
         ResponseData responseData = new ResponseData();
         try {
+            if(timiFans==null){
+                responseData.setFial();
+                responseData.setMessage("参数不能为空！");
+                return responseData;
+            }
             ServiceResponseData<List<TimiFans>> listServiceResponseData = timiFansService.selectByMap(timiFans);
             if (listServiceResponseData.isSuccess()) {
                 responseData.setData(listServiceResponseData.getData());
