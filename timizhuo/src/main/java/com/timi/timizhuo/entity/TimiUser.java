@@ -19,8 +19,8 @@ public class TimiUser extends BaseEntity {
     private String loveTimiDeclaration;
     //个人简介
     private String personalProfile;
-
     @TableField(exist = false)
+
     private String checkCode;
 
     @TableField(exist = false)

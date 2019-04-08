@@ -39,7 +39,7 @@ public class TimiReplyController extends  BaseController{
      */
     @TimiLogin
     @PostMapping("/addReply")
-    public ResponseData addReply(@RequestBody TimiReply timiReplyDto , HttpServletRequest request) {
+    public ResponseData addReply(TimiReply timiReplyDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         log.info("Reply  addReply  timiForumDto :{}",timiReplyDto );
         try {

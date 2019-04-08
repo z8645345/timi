@@ -272,9 +272,28 @@
       },
       methods: {
         init: function () {
-          this.forum = this.$route.query;
-          this.reply.forumId = this.forum.id;
-          this.loadAuiTab();
+          var app = this;
+          var data = {
+            id : this.$route.query.id
+          }
+          this.post('/timizhuo/forum/findForumById',data, function (res) {
+            if (res.data.code == '200') {
+              app.forum = res.data.data;
+              app.reply.forumId = this.forum.id;
+              app.loadAuiTab();
+            } else {
+              var dialog = new auiDialog();
+              dialog.alert({
+                title: "提示",
+                msg: res.data.message,
+                buttons:['确定']
+              },function(ret){
+              })
+            }
+          }, function (err) {
+
+          });
+
         },
         loadAuiTab: function() {
           var app = this;
@@ -310,8 +329,8 @@
         },
         pushReply: function (replyType) {
           var app = this;
-          this.reply.replyCotent = document.getElementById("replyContent").innerHTML;
-          this.post('/timizhuo/reply/addReply', JSON.stringify(this.reply), function (res) {
+          this.reply.replyContent = document.getElementById("replyContent").innerHTML;
+          this.post('/timizhuo/reply/addReply', this.reply, function (res) {
             if (res.data.code == '200') {
               alert('回复成功');
             } else {

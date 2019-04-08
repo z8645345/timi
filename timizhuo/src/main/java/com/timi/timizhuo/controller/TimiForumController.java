@@ -191,7 +191,7 @@ public class TimiForumController extends  BaseController{
      * request
      */
     @TimiLogin
-    @PutMapping("/findForumById")
+    @PostMapping("/findForumById")
     public ResponseData findForumById(TimiForum timiForum) {
         ResponseData responseData = new ResponseData();
         try {
