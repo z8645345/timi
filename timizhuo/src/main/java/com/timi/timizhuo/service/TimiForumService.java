@@ -39,11 +39,4 @@ public interface TimiForumService extends IService<TimiForum> {
     List<TimiForum> findForumByUserId(String id);
 
     boolean updateLikeAndRead(TimiForum timiForum);
-
-    /**
-     * 根据id查询
-     * @param timiForum
-     * @return
-     */
-    TimiForum findForumById(TimiForum timiForum);
 }

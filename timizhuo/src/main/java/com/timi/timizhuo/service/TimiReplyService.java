@@ -1,6 +1,7 @@
 package com.timi.timizhuo.service;
 
 import com.github.pagehelper.PageInfo;
+import com.timi.timizhuo.dto.response.ReplyFindPageDTO;
 import com.timi.timizhuo.entity.TimiReply;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface TimiReplyService {
      * @param timiReplyDto
      * @return
      */
-    PageInfo<List<TimiReply>> findPage(TimiReply timiReplyDto);
+    PageInfo<List<ReplyFindPageDTO>> findPage(TimiReply timiReplyDto);
 
 
     /**

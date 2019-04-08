@@ -2,12 +2,11 @@ package com.timi.timizhuo.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.timi.timizhuo.entity.TimiForum;
-import com.timi.timizhuo.enums.ReplyEnum;
+import com.timi.timizhuo.dto.response.ReplyFindPageDTO;
 import com.timi.timizhuo.entity.TimiReply;
+import com.timi.timizhuo.enums.ReplyEnum;
 import com.timi.timizhuo.mapper.TimiReplyMapper;
 import com.timi.timizhuo.service.TimiReplyService;
-import com.timi.timizhuo.util.BeanConvertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -60,7 +59,6 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             timiReply.setCreateTime(new Date());
             timiReply.setUpdateTime(timiReply.getCreateTime());
             timiReply.setReplyTime(timiReply.getCreateTime());
-            BeanConvertUtils.convert(timiReply, timiReply);
             this.timiReplyMapper.insert(timiReply);
         } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.SON.getValue())) {
             //子回复回复
@@ -99,7 +97,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
     }
 
     @Override
-    public PageInfo<List<TimiReply>> findPage(TimiReply timiReplyDto) {
+    public PageInfo<List<ReplyFindPageDTO>> findPage(TimiReply timiReplyDto) {
         if (timiReplyDto == null || StringUtils.isBlank(timiReplyDto.getForumId())) return null;
         //查询所有主id的所有数据
         PageHelper.startPage(timiReplyDto.getPageNum(), timiReplyDto.getPageSize());
@@ -109,22 +107,17 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             return null;
         }
 
-        List<List<TimiReply>> result = new ArrayList<>();
+        List<ReplyFindPageDTO> result = new ArrayList<>();
         for (TimiReply timiReply : timiReplyList) {
-            List<TimiReply> resultTmp=new ArrayList<>();
-            resultTmp.add(timiReply);
+            ReplyFindPageDTO replyFindPageDTO = new ReplyFindPageDTO();
+            replyFindPageDTO.setTimiReply(timiReply);
             TimiReply queryReply = new TimiReply();
             queryReply.setParentId(timiReply.getId());
             List<TimiReply> byCondition = this.timiReplyMapper.findByParentId(queryReply);
-            if (CollectionUtils.isEmpty(byCondition)){
-                result.add(resultTmp);
-                continue;
-            }
-            this.getTreeReplyList(resultTmp, timiReply.getId());
-            result.add(resultTmp);
+            replyFindPageDTO.setSubTimiReplyList(byCondition);
+            result.add(replyFindPageDTO);
         }
-        PageInfo<List<TimiReply>> pageInfo = new PageInfo<>(result);
-        return pageInfo;
+        return new PageInfo(result);
     }
 
     private List<TimiReply> getTreeReplyList(List<TimiReply> resultTmp, String parentId) {

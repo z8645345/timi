@@ -190,7 +190,6 @@ public class TimiForumController extends  BaseController{
      * 根据主贴id查询
      * request
      */
-    @TimiLogin
     @PostMapping("/findForumById")
     public ResponseData findForumById(TimiForum timiForum) {
         ResponseData responseData = new ResponseData();
@@ -206,8 +205,7 @@ public class TimiForumController extends  BaseController{
                 responseData.setMessage(Constant.FORUM_ID_NOT_NULL);
                 return responseData;
             }
-
-            TimiForum timiForumData = this.timiForumService.findForumById(timiForum);
+            TimiForum timiForumData =  timiForumService.getById(timiForum.getId());
             responseData.setData(timiForumData);
             responseData.setSuccess();
         } catch (Exception e) {
