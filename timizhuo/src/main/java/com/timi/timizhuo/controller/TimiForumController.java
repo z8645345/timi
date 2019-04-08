@@ -70,7 +70,7 @@ public class TimiForumController extends  BaseController{
                 return responseData;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("forum addForum error ", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
@@ -214,7 +214,7 @@ public class TimiForumController extends  BaseController{
             responseData.setData(timiForumData);
             responseData.setSuccess();
         } catch (Exception e) {
-            log.error("forum findUserForum error ", e);
+            log.error("forum findForumById error ", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
