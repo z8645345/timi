@@ -79,7 +79,7 @@ public class TimiReplyController extends  BaseController{
                 return responseData;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Reply addReply error ", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
@@ -91,7 +91,6 @@ public class TimiReplyController extends  BaseController{
      * @param timiReplyDto
      * @return
      */
-    @TimiLogin
     @PostMapping("/findReply")
     public String findReply(TimiReply timiReplyDto) {
         log.info("Reply findReply  request :{}",timiReplyDto);
