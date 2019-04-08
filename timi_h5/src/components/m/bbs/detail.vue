@@ -291,7 +291,7 @@
           this.isShowcontext=true;
           this.contextStyle = '';
           this.reply.replyType = 1;
-          setTimeout(()=>document.getElementById("context").focus(), 10);
+          setTimeout(()=>document.getElementById("replyContent").focus(), 10);
         },
         contextBlur: function () {
           setTimeout(()=>{
@@ -309,8 +309,9 @@
 
         },
         pushReply: function (replyType) {
+          var app = this;
           this.reply.replyCotent = document.getElementById("replyContent").innerHTML;
-          this.post('/timizhuo/reply/addReply', this.reply, function (res) {
+          this.post('/timizhuo/reply/addReply', JSON.stringify(this.reply), function (res) {
             if (res.data.code == '200') {
               alert('回复成功');
             } else {
@@ -320,6 +321,7 @@
                 msg: res.data.message,
                 buttons:['确定']
               },function(ret){
+                app.$router.push({name:'login'});
               })
             }
           }, function (err) {
