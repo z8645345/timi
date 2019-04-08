@@ -107,6 +107,7 @@
 </template>
 
 <script>
+  var app;
   export default {
     components: {
 
@@ -127,6 +128,7 @@
     },
     methods: {
       init: function() {
+        app = this;
         this.auiPullToRefresh();
         this.loadAuiTab();
         this.loadStickData();
@@ -149,7 +151,6 @@
         });
       },
       loadAuiTab: function() {
-        var app = this;
         var apiready = function(){
           api.parseTapmode();
         }
@@ -168,10 +169,20 @@
         app.post('/timizhuo/forum/findForumByStick', {}, function (res) {
           if (res.data.code == '200') {
             app.stick = res.data.data;
+          } else {
+            var dialog = new auiDialog();
+            dialog.alert({
+              title: "提示",
+              msg: res.data.message,
+              buttons:['确定']
+            },function(ret){
+              app.$router.push({name:'login'});
+            })
           }
         }, function (err) {
 
         });
+
       },
       loaddAll: function() {
         this.page.forumType = null;
@@ -186,7 +197,7 @@
         this.loadListData();
       },
       loadListData: function (cellBack) {
-        var app = this;
+        var self = this;
         app.page.pageNum++;
         app.post('/timizhuo/forum/findForum', app.page, function (res) {
           if (res.data.code == '200') {
@@ -208,13 +219,24 @@
                   forumDTO.pushTime = forumDTO.postedTime;
                 }
                 forumDTO.imgRows = app.getImgRows(forumDTO.imagesUrl);
+
               }
-              app.list.push(forumDTO);
+
+              self.list.push(forumDTO);
             });
+            setTimeout(()=>cellBack(), 100);
+          } else {
+            var dialog = new auiDialog();
+            dialog.alert({
+              title: "提示",
+              msg: "请先登录！",
+              buttons:['确定']
+            },function(ret){ƒ
+              self.$router.push({name:'login'});
+            })
           }
-          setTimeout(()=>cellBack(), 100);
         }, function (err) {
-          setTimeout(()=>cellBack(), 100);
+
         });
       },
       getImgRows: function(imgs) {

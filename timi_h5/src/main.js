@@ -51,7 +51,8 @@ Vue.prototype.post = function (url, data, successCall, errorCall){
   var usetToken =localStorage.getItem('userToken');
   this.axios.post(this.GLOBAL.serviceHost + url,this.qs.stringify(data),{
     headers: {
-      'token': usetToken
+      'token': usetToken,
+      'Access-Control-Allow-Origin': '*'
     }
   })
     .then(function(res){

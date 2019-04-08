@@ -1,8 +1,9 @@
 package com.timi.timizhuo.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.entity.TimiUser;
-import org.json.JSONObject;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -28,6 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         // 免token注解
         TimiLogin timiLogin;
         //1： 判断是否方法级别的
@@ -53,13 +55,23 @@ public class LoginInterceptor implements HandlerInterceptor {
         try {
             JSONObject result = new JSONObject();
             response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/html;charset=utf-8");
+            response.setContentType("application/json;charset=UTF-8");
             PrintWriter pw = response.getWriter();
             result.put("success", false);
             result.put("data", null);
             result.put("message", message);
             result.put("code", "404");
-            pw.write(result.toString());
+//            pw.println(result.toString());
+
+
+            PrintWriter out = response.getWriter();
+//            out.println("<script>");
+//            out.println("alert('登陆失败!');");
+//            out.println("parent.location.href='index.jsp';");
+            out.write(JSONObject.toJSONString(result, SerializerFeature.WriteDateUseDateFormat));
+            out.flush();
+            out.close();
+            response.flushBuffer();
         } catch (Exception e) {
             e.printStackTrace();
         }

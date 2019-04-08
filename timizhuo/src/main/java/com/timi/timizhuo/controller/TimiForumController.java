@@ -12,10 +12,7 @@ import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/forum")
 @Slf4j
+@CrossOrigin()
 public class TimiForumController extends  BaseController{
 
     @Autowired
@@ -81,7 +79,6 @@ public class TimiForumController extends  BaseController{
      * @param timiForumDto
      * @return
      */
-    @TimiLogin
     @PostMapping("/findForum")
     public String findForum(TimiForum timiForumDto) {
         log.info("forum findForum  request :{}",timiForumDto);
@@ -102,7 +99,7 @@ public class TimiForumController extends  BaseController{
      * 置顶数据查询
      * @return
      */
-    @TimiLogin
+//    @TimiLogin
     @PostMapping("/findForumByStick")
     public String findForumByStick() {
         ResponseData responseData = new ResponseData();
