@@ -4,7 +4,7 @@
       <div class="aui-title">婷迷会员登录</div>
     </header>
     <div class="aui-content">
-      <img id="img" src="http://pkkwm1pvb.bkt.clouddn.com/logo2.png" alt="" style="width: 100%">
+      <img id="img" src="http://timizhuo.cn/logo2.png" alt="" style="width: 100%">
       <ul class="aui-list aui-form-list">
         <li class="aui-list-item">
           <div class="aui-list-item-inner">

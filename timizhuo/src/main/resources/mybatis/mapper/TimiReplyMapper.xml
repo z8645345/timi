@@ -14,12 +14,13 @@
     <result column="forum_id" jdbcType="VARCHAR" property="forumId" />
     <result column="like_count" jdbcType="BIGINT" property="likeCount" />
     <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
-    <result column="reply_ype" jdbcType="INTEGER" property="replyType" />
+    <result column="reply_type" jdbcType="INTEGER" property="replyType" />
+    <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
   </resultMap>
 
   <sql id="Base_Column_List">
     t.id, t.reply_content,t.user_name,t.user_image_url, t.user_id, t.tier_num, t.reply_time, t.create_time, t.update_time,
-    t.parent_id, t.forum_id, t.like_count,t.reply_num,t.reply_type
+    t.parent_id, t.forum_id, t.like_count,t.reply_num,t.reply_type,parent_name
   </sql>
 
   <sql id="Blob_Column_List">
@@ -55,7 +56,8 @@
     select  <include refid="Base_Column_List" />
     from timi_reply t
     where t.parent_id =#{parentId}
-    order by reply_time desc
+    or t.parent_id in (select id from timi_reply where parent_id =#{parentId})
+    order by reply_time
   </select>
 
 </mapper>

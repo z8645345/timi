@@ -23,7 +23,7 @@
       <!--置顶精华帖开始-->
       <div class="roof-placement aui-content aui-margin-b-10">
         <ul class="aui-list">
-          <router-link v-for="forum in stick" :to="{ name: 'detail', query: forum}" class="aui-list-item" tag="li">
+          <router-link v-for="forum in stick" :to="{ name: 'detail', query: {id: forum.id}}" class="aui-list-item" tag="li">
             <div class="aui-list-item-inner aui-swipe-handle roof-placement-title">
             <span class="max-rows1" style="-webkit-box-orient: vertical; display: -webkit-box;">
               <span class="label">置顶</span>{{forum.forumTitle}}

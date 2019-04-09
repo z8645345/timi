@@ -38,6 +38,34 @@
       <div class="clear"></div>
     </div>
 
+    <div v-for="reply in replyList">
+      <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
+        <div class="aui-card-list-user-avatar">
+          <img :src="reply.timiReply.userImageUrl" class="aui-img-round">
+        </div>
+        <div class="aui-card-list-user-name">
+          <div class="aui-text-info">{{reply.timiReply.userName}}</div>
+        </div>
+        <div class="aui-card-list-user-info text-light">第{{reply.timiReply.tierNum}}楼 | {{reply.timiReply.replyTime}}</div>
+      </div>
+      <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
+        <div @click="showcontext(2, reply.timiReply.id)">
+          <div v-html="reply.timiReply.replyContent"></div>
+        </div>
+        <div style="background-color: #FFECEC; padding: 0.5rem">
+          <div v-for="subReply in reply.subTimiReplyList">
+            <a href="#">{{subReply.userName}}</a>
+            <span v-if="subReply.replyType==3">回复<a href="#">{{subReply.parentName}}</a></span>
+            : <span @click="showcontext(3, subReply.id)" v-html="subReply.replyContent"></span>
+          </div>
+          <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
+          <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
+          <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
+        </div>
+      </div>
+      <div style="height: 1rem; background-color: #fff;"></div>
+    </div>
+
     <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
       <div class="aui-card-list-user-avatar">
         <img :src="forum.userImageUrl" class="aui-img-round">
@@ -237,7 +265,7 @@
     </div>
 
     <div v-if="!isShowcontext" style="height: 1.6rem"></div>
-    <div @click="showcontext" v-if="!isShowcontext" style="position: fixed ;bottom:0; background-color: #fff; width: 100%; height: 2rem; line-height: 2rem; padding-left: 0.5rem">
+    <div @click="showcontext(1, '')" v-if="!isShowcontext" style="position: fixed ;bottom:0; background-color: #fff; width: 100%; height: 2rem; line-height: 2rem; padding-left: 0.5rem">
       <span style="color: rgb(217, 217, 217)" v-html="contextTips"></span>
     </div>
     <!--<div class="aui-searchbar aui-bar-tab" id="search" :style="contextStyle">-->
@@ -260,11 +288,16 @@
       data () {
         return {
           forum: {},
+          replyList: [],
           isShowcontext: false,
           havaContexg: false,
           contextStyle : 'display: none',
           contextTips : '说说你的看法……',
-          reply: {}
+          reply: {},
+          findReply: {
+            pageNum : 1,
+            pageSize : 50
+          }
         }
       },
       mounted: function(){
@@ -272,9 +305,17 @@
       },
       methods: {
         init: function () {
-          this.forum = this.$route.query;
-          this.reply.forumId = this.forum.id;
+          var app = this;
+          this.findReply.forumId = this.$route.query.id;
+          this.reply.forumId = this.$route.query.id;
           this.loadAuiTab();
+          this.loadDetail();
+          this.loadReplys();
+          setTimeout(()=>window.scrollTo(0,0), 100);
+        },
+        initReply: function() {
+          this.reply = {}
+          this.reply.forumId = this.$route.query.id;
         },
         loadAuiTab: function() {
           var app = this;
@@ -287,11 +328,54 @@
 
           });
         },
-        showcontext: function () {
+        loadDetail: function() {
+          var app = this;
+          var data = {
+            id : this.$route.query.id
+          }
+          this.post('/timizhuo/forum/findForumById',data, function (res) {
+            if (res.data.code == '200') {
+              app.forum = res.data.data;
+            } else {
+              var dialog = new auiDialog();
+              dialog.alert({
+                title: "提示",
+                msg: res.data.message,
+                buttons:['确定']
+              },function(ret){
+              })
+            }
+          }, function (err) {
+
+          });
+        },
+        loadReplys: function() {
+          var app = this;
+          this.post('/timizhuo/reply/findReply',this.findReply, function (res) {
+            if (res.data.code == '200') {
+              app.replyList = res.data.data.list;
+            } else {
+              var dialog = new auiDialog();
+              dialog.alert({
+                title: "提示",
+                msg: res.data.message,
+                buttons:['确定']
+              },function(ret){
+              })
+            }
+          }, function (err) {
+
+          });
+        },
+        showcontext: function (replyType, parentId) {
+          this.initReply();
           this.isShowcontext=true;
           this.contextStyle = '';
-          this.reply.replyType = 1;
-          setTimeout(()=>document.getElementById("context").focus(), 10);
+          this.reply.replyType = replyType;
+          if (parentId != null && parentId != '') {
+            this.reply.parentId = parentId;
+          }
+          setTimeout(()=>document.getElementById("replyContent").focus(), 10);
         },
         contextBlur: function () {
           setTimeout(()=>{
@@ -308,11 +392,18 @@
         contextInput: function () {
 
         },
-        pushReply: function (replyType) {
-          this.reply.replyCotent = document.getElementById("replyContent").innerHTML;
+        pushReply: function () {
+          var app = this;
+          this.reply.replyContent = document.getElementById("replyContent").innerHTML;
           this.post('/timizhuo/reply/addReply', this.reply, function (res) {
             if (res.data.code == '200') {
-              alert('回复成功');
+              var toast = new auiToast();
+              toast.success({
+                title:"发布成功",
+                duration:500
+              });
+              setTimeout(()=>app.$router.go(0), 500);
+
             } else {
               var dialog = new auiDialog();
               dialog.alert({
@@ -320,6 +411,7 @@
                 msg: res.data.message,
                 buttons:['确定']
               },function(ret){
+                app.$router.push({name:'login'});
               })
             }
           }, function (err) {

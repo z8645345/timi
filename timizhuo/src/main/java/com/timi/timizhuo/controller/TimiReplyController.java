@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
+import com.timi.timizhuo.dto.response.ReplyFindPageDTO;
 import com.timi.timizhuo.entity.TimiReply;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.TimiReplyService;
@@ -12,7 +13,6 @@ import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +39,7 @@ public class TimiReplyController extends  BaseController{
      */
     @TimiLogin
     @PostMapping("/addReply")
-    public ResponseData addReply(@RequestBody TimiReply timiReplyDto , HttpServletRequest request) {
+    public ResponseData addReply(TimiReply timiReplyDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         log.info("Reply  addReply  timiForumDto :{}",timiReplyDto );
         try {
@@ -101,7 +101,7 @@ public class TimiReplyController extends  BaseController{
             return JSONUtils.toJosnString(responseData);
         }
         try {
-            PageInfo<List<TimiReply>> pageInfo = this.timiReplyService.findPage(timiReplyDto);
+            PageInfo<List<ReplyFindPageDTO>> pageInfo = this.timiReplyService.findPage(timiReplyDto);
             responseData.setData(pageInfo);
         } catch (Exception e) {
             log.error("Reply findReply error ", e);
