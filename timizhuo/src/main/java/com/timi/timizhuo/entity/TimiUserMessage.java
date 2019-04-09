@@ -4,9 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
  * <p>
  * 
@@ -27,7 +24,7 @@ public class TimiUserMessage extends BaseEntity<TimiUserMessage> {
     /**
      * 主回复1 楼层回复2 子回复3 帖子 4
      */
-    private Boolean contentType;
+    private Integer contentType;
 
     private String forumId;
 
@@ -36,7 +33,7 @@ public class TimiUserMessage extends BaseEntity<TimiUserMessage> {
     /**
      * 消息状态 1 未读 2已读  3失效
      */
-    private Boolean messageState;
+    private Integer messageState;
 
 
 

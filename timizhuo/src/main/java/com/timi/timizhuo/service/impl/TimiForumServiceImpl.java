@@ -5,16 +5,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.entity.TimiForum;
+import com.timi.timizhuo.entity.TimiUserMessage;
 import com.timi.timizhuo.enums.ForumEnum;
 import com.timi.timizhuo.mapper.TimiForumMapper;
 import com.timi.timizhuo.service.TimiForumService;
+import com.timi.timizhuo.service.TimiUserMessageService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +35,9 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
     @Autowired
     private TimiForumMapper timiForumMapper;
 
+    @Autowired
+    private TimiUserMessageService timiUserMessageService;
+
     @Override
     @Transactional
     public boolean addForum(TimiForum timiForumDto) {
@@ -37,22 +45,31 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
             log.warn("reques timiForumDto is null ");
             return false;
         }
-        //        if(StringUtils.isNotBlank(timiForumDto.getFriendIds())){
-//            try {
-//                String ids = timiForumDto.getFriendIds();
-//                String[] split = ids.split(",");
-//            } catch (Exception e) {
-//                log.error("处理friendIds转换异常 ",e);
-//                return false;
-//            }
-//
-//        }
         TimiForum timiForum = new TimiForum();
         BeanConvertUtils.convert(timiForumDto, timiForum);
         timiForum.setCreateTime(new Date());
         timiForum.setUpdateTime(timiForum.getCreateTime());
         timiForum.setPostedTime(timiForum.getCreateTime());
-        return this.timiForumMapper.insert(timiForum) == 1;
+        this.timiForumMapper.insert(timiForum);
+
+        String forumId = timiForum.getId();
+
+        if (!CollectionUtils.isEmpty(timiForumDto.getFriendIds())) {
+            List<TimiUserMessage> timiUserMessages = new ArrayList<>();
+            //不为空 处理好友入消息表
+            List<String> friendIds = timiForumDto.getFriendIds();
+            friendIds.forEach(id -> {
+                TimiUserMessage timiUserMessage = new TimiUserMessage();
+                timiUserMessage.setUserId(id);
+                timiUserMessage.setForumId(forumId);
+                timiUserMessage.setContentType(4);
+                timiUserMessage.setMessageState(1);
+                timiUserMessage.setCreateTime(new Date());
+                timiUserMessage.setUpdateTime(timiUserMessage.getCreateTime());
+                timiUserMessages.add(timiUserMessage);
+            });
+        }
+        return true;
     }
 
     /**

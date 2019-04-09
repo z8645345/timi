@@ -68,19 +68,18 @@ public class TimiReplyServiceImpl implements TimiReplyService {
                 log.warn("数据有误,根据id查询不到数据");
                 return false;
             }
-            //2 修改主回复数
-            TimiReply upReply = new TimiReply();
-            upReply.setId(timiReply.getParentId());
-            upReply.setUpdateTime(new Date());
-            Integer replyNum = replyById.getReplyNum();
-            if (replyNum == null){
-                upReply.setReplyNum(1);
-            }else {
-                Integer num = ++replyNum;
-                upReply.setReplyNum(num);
-            }
-            this.timiReplyMapper.updateReplyNum(upReply);
-            //修改楼层回复的回复数
+//            //2 修改主回复数
+//            TimiReply upReply = new TimiReply();
+//            upReply.setId(timiReply.getParentId());
+//            upReply.setUpdateTime(new Date());
+//            Integer replyNum = replyById.getReplyNum();
+//            if (replyNum == null){
+//                upReply.setReplyNum(1);
+//            }else {
+//                Integer num = ++replyNum;
+//                upReply.setReplyNum(num);
+//            }
+//            this.timiReplyMapper.updateReplyNum(upReply);
             timiReply.setCreateTime(new Date());
             timiReply.setUpdateTime(timiReply.getCreateTime());
             timiReply.setReplyTime(timiReply.getCreateTime());
