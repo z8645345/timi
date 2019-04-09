@@ -14,7 +14,7 @@ public class ForumEnum {
      */
     @AllArgsConstructor
     public enum TypeEnum implements IEnum<Integer> {
-        //1主贴回复  2楼层回复    3子回复回复
+        //1点赞  2阅读
         LIKE(1), READ(2);
         private Integer type;
 

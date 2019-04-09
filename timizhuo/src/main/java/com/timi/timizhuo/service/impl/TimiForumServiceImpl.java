@@ -8,6 +8,7 @@ import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.entity.TimiReply;
 import com.timi.timizhuo.entity.TimiUserMessage;
 import com.timi.timizhuo.enums.ForumEnum;
+import com.timi.timizhuo.enums.UserMessageEnum;
 import com.timi.timizhuo.mapper.TimiForumMapper;
 import com.timi.timizhuo.mapper.TimiReplyMapper;
 import com.timi.timizhuo.service.TimiForumService;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -37,10 +39,12 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
     private TimiForumMapper timiForumMapper;
     @Autowired
     private TimiUserMessageService timiUserMessageService;
-
     @Autowired
     private TimiReplyMapper timiReplyMapper;
+
+
     @Override
+    @Transactional
     public boolean addForum(TimiForum timiForumDto) {
         if (timiForumDto == null) {
             log.warn("reques timiForumDto is null ");
@@ -63,12 +67,13 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
                 TimiUserMessage timiUserMessage = new TimiUserMessage();
                 timiUserMessage.setUserId(id);
                 timiUserMessage.setForumId(forumId);
-                timiUserMessage.setContentType(4);
-                timiUserMessage.setMessageState(1);
+                timiUserMessage.setContentType(UserMessageEnum.ContentTypeEnum.POST.getValue());
+                timiUserMessage.setMessageState(UserMessageEnum.MessageStateEnum.UNREAD.getValue());
                 timiUserMessage.setCreateTime(new Date());
                 timiUserMessage.setUpdateTime(timiUserMessage.getCreateTime());
                 timiUserMessages.add(timiUserMessage);
             });
+            this.timiUserMessageService.saveBatch(timiUserMessages);
         }
         return true;
     }

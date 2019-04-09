@@ -5,10 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.dto.response.ReplyFindPageDTO;
 import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.entity.TimiReply;
+import com.timi.timizhuo.entity.TimiUserMessage;
 import com.timi.timizhuo.enums.ReplyEnum;
+import com.timi.timizhuo.enums.UserMessageEnum;
 import com.timi.timizhuo.mapper.TimiReplyMapper;
 import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.service.TimiReplyService;
+import com.timi.timizhuo.service.TimiUserMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,9 +36,13 @@ public class TimiReplyServiceImpl implements TimiReplyService {
     @Autowired
     private TimiForumService timiForumService;
 
+    @Autowired
+    private TimiUserMessageService timiUserMessageService;
+
     @Override
     @Transactional
     public boolean addForum(TimiReply timiReply) {
+        String forumId = timiReply.getForumId();
         if (StringUtils.isBlank(timiReply.getForumId())) {
             log.warn("数据有误,forumId为空");
             return false;
@@ -66,6 +73,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             if (flag) { // 异步更新回复信息
                 timiForumService.asyncUpdateReplyreplyCount(timiReply.getForumId());
             }
+            this.userMessage(timiReply, forumId,UserMessageEnum.ContentTypeEnum.MAIN.getValue());
             return flag;
         } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.TIER.getValue())) {
             // 楼层回复
@@ -73,6 +81,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             timiReply.setUpdateTime(timiReply.getCreateTime());
             timiReply.setReplyTime(timiReply.getCreateTime());
             this.timiReplyMapper.insert(timiReply);
+            this.userMessage(timiReply, forumId,UserMessageEnum.ContentTypeEnum.TIER.getValue());
         } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.SON.getValue())) {
             //子回复回复
             //1 先查询主回复数据
@@ -82,25 +91,47 @@ public class TimiReplyServiceImpl implements TimiReplyService {
                 return false;
             }
 //            //2 修改主回复数
-//            TimiReply upReply = new TimiReply();
-//            upReply.setId(timiReply.getParentId());
-//            upReply.setUpdateTime(new Date());
-//            Integer replyNum = replyById.getReplyNum();
-//            if (replyNum == null){
-//                upReply.setReplyNum(1);
-//            }else {
-//                Integer num = ++replyNum;
-//                upReply.setReplyNum(num);
-//            }
-//            this.timiReplyMapper.updateReplyNum(upReply);
+            TimiReply upReply = new TimiReply();
+            upReply.setId(timiReply.getParentId());
+            upReply.setUpdateTime(new Date());
+            Integer replyNum = replyById.getReplyNum();
+            if (replyNum == null){
+                upReply.setReplyNum(1);
+            }else {
+                Integer num = ++replyNum;
+                upReply.setReplyNum(num);
+            }
+            this.timiReplyMapper.updateReplyNum(upReply);
             timiReply.setCreateTime(new Date());
             timiReply.setUpdateTime(timiReply.getCreateTime());
             timiReply.setReplyTime(timiReply.getCreateTime());
             timiReply.setParentName(replyById.getUserName());
             this.timiReplyMapper.insert(timiReply);
+            this.userMessage(timiReply, forumId,UserMessageEnum.ContentTypeEnum.SON.getValue());
         }
 
         return true;
+    }
+
+    private boolean userMessage(TimiReply timiReply, String forumId,Integer type) {
+
+        if (CollectionUtils.isEmpty(timiReply.getFriendIds())){
+            return  true;
+        }
+        List<TimiUserMessage> timiUserMessages = new ArrayList<>();
+        //不为空 处理好友入消息表
+        List<String> friendIds = timiReply.getFriendIds();
+        friendIds.forEach(id -> {
+            TimiUserMessage timiUserMessage = new TimiUserMessage();
+            timiUserMessage.setUserId(id);
+            timiUserMessage.setForumId(forumId);
+            timiUserMessage.setContentType(type);
+            timiUserMessage.setMessageState(UserMessageEnum.MessageStateEnum.UNREAD.getValue());
+            timiUserMessage.setCreateTime(new Date());
+            timiUserMessage.setUpdateTime(timiUserMessage.getCreateTime());
+            timiUserMessages.add(timiUserMessage);
+        });
+       return this.timiUserMessageService.saveBatch(timiUserMessages);
     }
 
     @Override
