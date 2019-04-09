@@ -127,10 +127,12 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
         if (!CollectionUtils.isEmpty(timiReplyList)) {
             replyCount = (long) timiReplyList.size();
         }
-        TimiForum timiForum = new TimiForum();
-        timiForum.setId(id);
-        timiForum.setReplyCount(replyCount);
-        timiForum.setUpdateTime(new Date());
-        timiForumMapper.updateById(timiForum);
+        TimiForum timiForum = timiForumMapper.selectById(id);
+        if (timiForum.getReplyCount() < replyCount) {
+            // 原来的回复数小于实际的回复数才更新，否则可能是并发情况下被其他请求更新了，不处理
+            timiForum.setReplyCount(replyCount);
+            timiForum.setUpdateTime(new Date());
+            timiForumMapper.updateById(timiForum);
+        }
     }
 }
