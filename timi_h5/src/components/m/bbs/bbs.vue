@@ -3,8 +3,16 @@
 
     <!--顶部栏开始-->
     <div class="top">
-      <i class="aui-iconfont aui-icon-left aui-btn icon-left"></i>
-      <i class="aui-iconfont aui-icon-search aui-btn icon-right"></i>
+      <i class="aui-iconfont aui-icon-left aui-btn icon-left" style="position: absolute;
+    font-size: 1.3rem;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0);
+    top: 0.5rem;"></i>
+      <i class="aui-iconfont aui-icon-search aui-btn icon-right" style="position: absolute;
+    font-size: 1.3rem;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0);
+    top: 0.5rem;"></i>
     </div>
     <!--顶部栏结束-->
 
@@ -86,7 +94,15 @@
       </router-link>
       <router-link :to="{ name: 'posting'}" tag="div" class="aui-bar-tab-item" tapmode>
         <div class="aui-bar-tab-label">
-          <div class="aui-btn add-btn">
+          <div class="aui-btn add-btn" style="border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    font-size: 1.5rem;
+    background-color: rgb(0, 185, 230);
+    color: #fff;
+    text-align: center;
+    font-weight: 300;">
             +
           </div>
         </div>
@@ -312,18 +328,6 @@
     background-color:  rgb(245, 245, 245);
   }
 
-  .icon-left, .icon-right {
-    position: absolute;
-    font-size: 1.3rem;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0);
-    top: 0.5rem;
-  }
-
-  .icon-left {
-
-  }
-
   .icon-right {
     right: 0.8rem;
   }
@@ -365,18 +369,6 @@
 
   .aui-card-list {
     margin-bottom: 0.2rem;
-  }
-
-  .add-btn {
-    border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
-    line-height: 2rem;
-    font-size: 1.5rem;
-    background-color: rgb(0, 185, 230);
-    color: #fff;
-    text-align: center;
-    font-weight: 300;
   }
 
   .tabDiv {

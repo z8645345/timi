@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -111,14 +112,14 @@ public class TimiReplyServiceImpl implements TimiReplyService {
     @Override
     public PageInfo<List<ReplyFindPageDTO>> findPage(TimiReply timiReplyDto) {
         if (timiReplyDto == null || StringUtils.isBlank(timiReplyDto.getForumId())) {
-            return null;
+            new PageInfo(Collections.EMPTY_LIST);
         }
         if (BooleanUtils.isTrue(timiReplyDto.getLookFloorHost())) {
             // 只看楼主
             TimiForum timiForum = timiForumService.getById(timiReplyDto.getForumId());
             if (timiForum == null) {
                 log.warn("查询数据为空");
-                return null;
+                new PageInfo(Collections.EMPTY_LIST);
             }
             timiReplyDto.setUserId(timiForum.getUserId());
         }
@@ -127,7 +128,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
         List<TimiReply> timiReplyList = this.timiReplyMapper.findByForumId(timiReplyDto);
         if (CollectionUtils.isEmpty(timiReplyList)) {
             log.warn("查询数据为空");
-            return null;
+            new PageInfo(Collections.EMPTY_LIST);
         }
 
         List<ReplyFindPageDTO> result = new ArrayList<>();

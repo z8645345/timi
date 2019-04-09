@@ -78,7 +78,13 @@
     <!--<div class="aui-btn aui-btn-info" tapmode>发送</div>-->
     <!--</div>-->
     <div :style="contextStyle" style="max-height: 4.5rem; overflow:auto;">
-      <div contenteditable="true" id="replyContent" style="background-color: #fff; width: 80%; display: inline-block; max-height: 4.5rem; overflow:auto; vertical-align:top" @blur="contextBlur" @input="contextInput"></div>
+      <div contenteditable="true" id="replyContent" style="background-color: #fff;
+      width: 80%;
+      display: inline-block;
+      max-height: 4.5rem;
+      overflow:auto;
+      vertical-align:top;
+      border-radius: 6%; background-color: #FFCCFF;" @blur="contextBlur" @input="contextInput"></div>
       <div id="pushBtu" style="width: 18%; display: inline-block; height: 1.5rem; line-height: 1.5rem; vertical-align:top; text-align: center" @click="pushReply">发布</div>
     </div>
   </div>
@@ -162,6 +168,12 @@
           this.post('/timizhuo/forum/findForumById',data, function (res) {
             if (res.data.code == '200') {
               app.forum = res.data.data;
+              var imgs = app.forum.imageUrl.split(",");
+              var imagesUrl = [];
+              for (var i = 0; i < imgs.length; i ++) {
+                imagesUrl.push(imgs[i]);
+              }
+              app.forum.imagesUrl = imagesUrl;
               app.readAndLikeCountAdd(2);
             } else {
               var dialog = new auiDialog();
