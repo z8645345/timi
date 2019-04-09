@@ -16,14 +16,14 @@
       <img v-for="imgUrl in forum.imagesUrl" :src="imgUrl" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
     </div>
     <div class="aui-card-list-footer text-light aui-font-size-14" style="background-color: #fff;">
-      <div>
+      <div @click="openActionsheet">
         <i class="aui-iconfont aui-icon-share"></i> 分享
       </div>
       <div>
         <i class="aui-iconfont aui-icon-comment"></i> {{forum.replyCount}}
       </div>
       <div @click="readAndLikeCountAdd(1)">
-        <i class="aui-iconfont aui-icon-laud"></i> {{forum.likeCount}}
+        <span :style="likeStyle"><i class="aui-iconfont aui-icon-laud"></i></span> {{forum.likeCount}}
       </div>
     </div>
     <div>
@@ -32,8 +32,8 @@
         <div class="aui-tab-item" >只看楼主</div>
       </div>
       <div style="float: right; width: 60%; height: 2.2rem; line-height: 2.2rem; margin-top: 0.5rem; background-color: #fff; text-align: right; padding-right: 0.5rem">
-        热门
-        <i class="aui-iconfont aui-icon-down"></i>
+        <!--热门-->
+        <!--<i class="aui-iconfont aui-icon-down"></i>-->
       </div>
       <div class="clear"></div>
     </div>
@@ -51,217 +51,19 @@
       <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
         <div @click="showcontext(2, reply.timiReply.id)">
           <div v-html="reply.timiReply.replyContent"></div>
+          <!--<img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">-->
         </div>
-        <div style="background-color: #FFECEC; padding: 0.5rem">
+        <div v-if="reply.subTimiReplyList.length > 0" style="background-color: #FFECEC; padding: 0.5rem">
           <div v-for="subReply in reply.subTimiReplyList">
             <a href="#">{{subReply.userName}}</a>
             <span v-if="subReply.replyType==3">回复<a href="#">{{subReply.parentName}}</a></span>
             : <span @click="showcontext(3, subReply.id)" v-html="subReply.replyContent"></span>
           </div>
-          <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
-          <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
-          <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
+          <!--<img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">-->
         </div>
+
       </div>
       <div style="height: 1rem; background-color: #fff;"></div>
-    </div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第1楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美</div>
-      <div style="background-color: #FFECEC; padding: 0.5rem">
-        <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
-        <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
-        <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
-      </div>
-    </div>
-    <div style="height: 1rem; background-color: #fff;"></div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第2楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷</div>
-      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
-    </div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第1楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美</div>
-      <div style="background-color: #FFECEC; padding: 0.5rem">
-        <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
-        <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
-        <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
-      </div>
-    </div>
-    <div style="height: 1rem; background-color: #fff;"></div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第2楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷</div>
-      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
-    </div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第1楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美</div>
-      <div style="background-color: #FFECEC; padding: 0.5rem">
-        <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
-        <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
-        <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
-      </div>
-    </div>
-    <div style="height: 1rem; background-color: #fff;"></div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第2楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷</div>
-      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
-    </div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第1楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美</div>
-      <div style="background-color: #FFECEC; padding: 0.5rem">
-        <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
-        <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
-        <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
-      </div>
-    </div>
-    <div style="height: 1rem; background-color: #fff;"></div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第2楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷</div>
-      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
-    </div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第1楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美</div>
-      <div style="background-color: #FFECEC; padding: 0.5rem">
-        <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
-        <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
-        <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
-      </div>
-    </div>
-    <div style="height: 1rem; background-color: #fff;"></div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第2楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷</div>
-      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
-    </div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第1楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美，依婷真美</div>
-      <div style="background-color: #FFECEC; padding: 0.5rem">
-        <div><a href="#">婷迷1</a> : 那还用说，我最喜欢了</div>
-        <div><a href="#">婷迷2</a>回复<a href="#">婷迷1</a> : 我也喜欢</div>
-        <div><a href="#">婷迷3</a> : 依婷的笑容让我每天都心情很好，永远支持依婷。</div>
-      </div>
-    </div>
-    <div style="height: 1rem; background-color: #fff;"></div>
-
-    <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-      <div class="aui-card-list-user-avatar">
-        <img :src="forum.userImageUrl" class="aui-img-round">
-      </div>
-      <div class="aui-card-list-user-name">
-        <div class="aui-text-info">{{forum.userName}}</div>
-      </div>
-      <div class="aui-card-list-user-info text-light">第2楼 | 4:31</div>
-    </div>
-    <div style="padding-left: 3rem;padding-right: 1rem; background-color: #fff;">
-      <div>我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷，我爱依婷</div>
-      <img src="http://timizhuo.cn/timi.jpg" alt="" style="margin-top: 0.4rem;">
     </div>
 
     <div v-if="!isShowcontext" style="height: 1.6rem"></div>
@@ -297,7 +99,8 @@
           findReply: {
             pageNum : 1,
             pageSize : 50
-          }
+          },
+          likeStyle: ''
         }
       },
       mounted: function(){
@@ -311,7 +114,7 @@
           this.reply.forumId = this.$route.query.id;
           this.loadAuiTab();
           this.loadDetail();
-          this.loadReplys();
+          this.loadReplys(false);
         },
         readAndLikeCountAdd: function(type) {
           var app = this;
@@ -323,6 +126,7 @@
             if (res.data.code == '200') {
               if (type == 1) {
                 app.forum.likeCount ++;
+                app.likeStyle = 'color: red; font-weight: 800'
               }
             } else {
               console.log(res.data.message);
@@ -343,7 +147,11 @@
           var tab = new auiTab({
             element:document.getElementById("tab"),
           },function(ret){
-
+            if (ret.index == 1) {
+              app.loadReplys(false);
+            } else if (ret.index == 2) {
+              app.loadReplys(true);
+            }
           });
         },
         loadDetail: function() {
@@ -368,11 +176,13 @@
 
           });
         },
-        loadReplys: function() {
+        loadReplys: function(lookFloorHost) {
+          this.findReply.lookFloorHost = lookFloorHost;
           var app = this;
           this.post('/timizhuo/reply/findReply',this.findReply, function (res) {
             if (res.data.code == '200') {
               app.replyList = res.data.data.list;
+              app.forum.replyCount = app.replyList.length;
             } else {
               var dialog = new auiDialog();
               dialog.alert({
@@ -437,7 +247,32 @@
           }, function (err) {
 
           });
-        }
+        },
+        openActionsheet: function () {
+          var actionsheet = new auiActionsheet();
+          actionsheet.init({
+            frameBounces:true,//当前页面是否弹动，（主要针对安卓端）
+            // title:"这里是标题",
+            cancelTitle:'取消',
+            buttons:['复制链接']
+          },function(ret){
+            if(ret){
+              if (ret.buttonIndex == 1) {
+                var oInput = document.createElement('input');
+                oInput.value = window.location.href,
+                  document.body.appendChild(oInput);
+                oInput.select(); // 选择对象
+                document.execCommand("Copy"); // 执行浏览器复制命令 oInput.className = 'oInput';
+                oInput.style.display='none';
+                var toast = new auiToast();
+                toast.success({
+                  title:"复制成功",
+                  duration:2000
+                });
+              }
+            }
+          })
+        },
       }
     }
 </script>

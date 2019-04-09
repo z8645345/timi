@@ -1,5 +1,6 @@
 package com.timi.timizhuo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
@@ -31,5 +32,11 @@ public class TimiReply extends BaseEntity<TimiReply> {
     private Integer replyType ;
     /**回复类型  子回复所需 父名字*/
     private String parentName;
+
+    /**
+     * 只看楼主
+     */
+    @TableField(exist = false)
+    private Boolean lookFloorHost;
 
 }
