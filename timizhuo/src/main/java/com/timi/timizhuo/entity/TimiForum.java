@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class TimiForum extends BaseEntity {
@@ -15,7 +16,8 @@ public class TimiForum extends BaseEntity {
     /**图片地址*/
     private String imageUrl;
     /**@好友列表*/
-    private String friendIds;
+    @TableField(exist = false)
+    private List<String> friendIds;
     /**阅读次数*/
     private Long readCount;
     /**点赞次数*/

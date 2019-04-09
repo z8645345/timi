@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -30,11 +31,22 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
     private TimiForumMapper timiForumMapper;
 
     @Override
+    @Transactional
     public boolean addForum(TimiForum timiForumDto) {
         if (timiForumDto == null) {
             log.warn("reques timiForumDto is null ");
             return false;
         }
+        //        if(StringUtils.isNotBlank(timiForumDto.getFriendIds())){
+//            try {
+//                String ids = timiForumDto.getFriendIds();
+//                String[] split = ids.split(",");
+//            } catch (Exception e) {
+//                log.error("处理friendIds转换异常 ",e);
+//                return false;
+//            }
+//
+//        }
         TimiForum timiForum = new TimiForum();
         BeanConvertUtils.convert(timiForumDto, timiForum);
         timiForum.setCreateTime(new Date());
