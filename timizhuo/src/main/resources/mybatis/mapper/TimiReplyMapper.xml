@@ -45,11 +45,14 @@
     <include refid="Blob_Column_List" />
   </select>
   <!--根据条件查询且类型为主贴-->
-  <select id="findByForumId" parameterType="String" resultMap="BaseResultMap">
+  <select id="findByForumId" parameterType="com.timi.timizhuo.entity.TimiReply" resultMap="BaseResultMap">
     select  <include refid="Base_Column_List" />
     from timi_reply t
     where t.forum_id =#{forumId} and reply_type=1
-    order by reply_time desc
+    <if test="userId != null">
+      and user_id = #{userId}
+    </if>
+    order by reply_time
   </select>
 
   <select id="findByParentId" resultType="com.timi.timizhuo.entity.TimiReply">

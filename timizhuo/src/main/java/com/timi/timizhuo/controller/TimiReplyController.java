@@ -69,9 +69,6 @@ public class TimiReplyController extends  BaseController{
             timiReplyDto.setUserId(timiUse.getId());
             timiReplyDto.setUserName(timiUse.getNickname());
             timiReplyDto.setUserImageUrl(timiUse.getPic());
-//            timiReplyDto.setUserId("32323");
-//            timiReplyDto.setUserName("timie");
-//            timiReplyDto.setUserImageUrl("43434");
             boolean b = this.timiReplyService.addForum(timiReplyDto);
             if (!b){
                 responseData.setFial();

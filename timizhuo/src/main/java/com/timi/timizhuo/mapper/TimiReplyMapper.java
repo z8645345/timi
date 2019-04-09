@@ -17,7 +17,7 @@ public interface TimiReplyMapper extends BaseMapper<TimiReply> {
     /**
      * 根据主贴id查询是否相关帖子且类型为帖子的 按回复时间倒叙
      */
-    List<TimiReply>findByForumId(String forumId);
+    List<TimiReply>findByForumId(TimiReply TimiReply);
 
     int updateReplyNum(TimiReply upReply);
 

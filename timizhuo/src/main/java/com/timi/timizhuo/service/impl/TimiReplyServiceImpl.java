@@ -3,18 +3,23 @@ package com.timi.timizhuo.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.dto.response.ReplyFindPageDTO;
+import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.entity.TimiReply;
 import com.timi.timizhuo.enums.ReplyEnum;
 import com.timi.timizhuo.mapper.TimiReplyMapper;
+import com.timi.timizhuo.service.TimiForumService;
 import com.timi.timizhuo.service.TimiReplyService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +29,9 @@ public class TimiReplyServiceImpl implements TimiReplyService {
 
     @Resource
     private TimiReplyMapper timiReplyMapper;
+
+    @Autowired
+    private TimiForumService timiForumService;
 
     @Override
     @Transactional
@@ -35,25 +43,30 @@ public class TimiReplyServiceImpl implements TimiReplyService {
         //主贴回复 ---  回复id会空
         if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.MAIN.getValue())) {
             //根据主贴id查询
-            List<TimiReply> timiReplies = this.timiReplyMapper.findByForumId(timiReply.getForumId());
+            List<TimiReply> timiReplies = this.timiReplyMapper.findByForumId(timiReply);
+            boolean flag;
             if (CollectionUtils.isEmpty(timiReplies)) {
                 //如果没有回复过则为第一次回复 有楼层标识
                 timiReply.setTierNum(1);
                 timiReply.setCreateTime(new Date());
                 timiReply.setUpdateTime(timiReply.getCreateTime());
                 timiReply.setReplyTime(timiReply.getCreateTime());
-                return this.timiReplyMapper.insert(timiReply) == 1;
+                flag = this.timiReplyMapper.insert(timiReply) == 1;
             } else {
-                //按回复时间倒叙查询的数据
-                TimiReply timiReplyTmp = timiReplies.get(0);
+                //按回复时间顺序查询的数据
+                TimiReply timiReplyTmp = timiReplies.get(timiReplies.size()-1);
                 Integer tierNum = timiReplyTmp.getTierNum();
                 Integer i = ++tierNum;
                 timiReply.setTierNum(i);
                 timiReply.setCreateTime(new Date());
                 timiReply.setUpdateTime(timiReply.getCreateTime());
                 timiReply.setReplyTime(timiReply.getCreateTime());
-                return this.timiReplyMapper.insert(timiReply) == 1;
+                flag = this.timiReplyMapper.insert(timiReply) == 1;
             }
+            if (flag) { // 异步更新回复信息
+                timiForumService.asyncUpdateReplyreplyCount(timiReply.getForumId());
+            }
+            return flag;
         } else if (timiReply.getReplyType().equals(ReplyEnum.ReplyTypeEnum.TIER.getValue())) {
             // 楼层回复
             timiReply.setCreateTime(new Date());
@@ -97,13 +110,24 @@ public class TimiReplyServiceImpl implements TimiReplyService {
 
     @Override
     public PageInfo<List<ReplyFindPageDTO>> findPage(TimiReply timiReplyDto) {
-        if (timiReplyDto == null || StringUtils.isBlank(timiReplyDto.getForumId())) return null;
+        if (timiReplyDto == null || StringUtils.isBlank(timiReplyDto.getForumId())) {
+            new PageInfo(Collections.EMPTY_LIST);
+        }
+        if (BooleanUtils.isTrue(timiReplyDto.getLookFloorHost())) {
+            // 只看楼主
+            TimiForum timiForum = timiForumService.getById(timiReplyDto.getForumId());
+            if (timiForum == null) {
+                log.warn("查询数据为空");
+                new PageInfo(Collections.EMPTY_LIST);
+            }
+            timiReplyDto.setUserId(timiForum.getUserId());
+        }
         //查询所有主id的所有数据
         PageHelper.startPage(timiReplyDto.getPageNum(), timiReplyDto.getPageSize());
-        List<TimiReply> timiReplyList = this.timiReplyMapper.findByForumId(timiReplyDto.getForumId());
+        List<TimiReply> timiReplyList = this.timiReplyMapper.findByForumId(timiReplyDto);
         if (CollectionUtils.isEmpty(timiReplyList)) {
             log.warn("查询数据为空");
-            return null;
+            new PageInfo(Collections.EMPTY_LIST);
         }
 
         List<ReplyFindPageDTO> result = new ArrayList<>();

@@ -39,4 +39,9 @@ public interface TimiForumService extends IService<TimiForum> {
     List<TimiForum> findForumByUserId(String id);
 
     boolean updateLikeAndRead(TimiForum timiForum);
+
+    /**
+     * 异步更新回复数，每次都查询所有回复的数量然后更新
+     */
+    void asyncUpdateReplyreplyCount(String id);
 }

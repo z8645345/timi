@@ -127,9 +127,8 @@ public class TimiForumController extends  BaseController{
      * 修改阅读数或点赞数  1 点赞  2 阅读
      * timiForum
      */
-    @TimiLogin
-    @PutMapping("/updateLikeAndRead")
-    public ResponseData updateLikeAndRead(TimiForum timiForum) {
+    @PostMapping("/updateLikeAndRead")
+    public ResponseData updateLikeAndRead(HttpServletRequest request, TimiForum timiForum) {
         log.info("forum updateLikeAndRead  request :{}",timiForum);
         ResponseData responseData = new ResponseData();
         try {
@@ -147,6 +146,11 @@ public class TimiForumController extends  BaseController{
             if (timiForum.getType() == null) {
                 responseData.setFial();
                 responseData.setMessage(Constant.SYSTEM_ERROR);
+                return responseData;
+            }
+            if (timiForum.getType() == 1 && getLoginUser(request) == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.UPDATE_USER_NOT_LOGIN);
                 return responseData;
             }
             this.timiForumService.updateLikeAndRead(timiForum);
