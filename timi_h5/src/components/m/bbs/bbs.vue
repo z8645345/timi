@@ -42,11 +42,11 @@
             </div>
             <div class="aui-card-list-user-name">
               <div class="aui-text-info">{{forum.userName}}</div>
-              <div class="aui-font-size-14 text-light">#比帅</div>
+              <div class="aui-font-size-14 text-light">#话题</div>
             </div>
             <div class="aui-card-list-user-info text-light">{{forum.pushTime}}</div>
           </div>
-          <router-link :to="{ name: 'detail', query: forum}">
+          <router-link :to="{ name: 'detail', query: {id: forum.id}}">
           <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;" v-html="forum.forumContent">
           </div>
           <div class="aui-card-list-content">

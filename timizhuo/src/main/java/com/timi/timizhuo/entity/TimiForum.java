@@ -15,6 +15,7 @@ public class TimiForum extends BaseEntity {
     /**图片地址*/
     private String imageUrl;
     /**@好友列表*/
+    @TableField(exist = false)
     private String friendIds;
     /**阅读次数*/
     private Long readCount;

@@ -128,7 +128,7 @@ public class TimiForumController extends  BaseController{
      * timiForum
      */
     @TimiLogin
-    @PutMapping("/updateLikeAndRead")
+    @PostMapping("/updateLikeAndRead")
     public ResponseData updateLikeAndRead(TimiForum timiForum) {
         log.info("forum updateLikeAndRead  request :{}",timiForum);
         ResponseData responseData = new ResponseData();

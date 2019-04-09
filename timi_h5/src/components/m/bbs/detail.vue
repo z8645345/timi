@@ -22,7 +22,7 @@
       <div>
         <i class="aui-iconfont aui-icon-comment"></i> {{forum.replyCount}}
       </div>
-      <div>
+      <div @click="readAndLikeCountAdd(1)">
         <i class="aui-iconfont aui-icon-laud"></i> {{forum.likeCount}}
       </div>
     </div>
@@ -301,6 +301,7 @@
         }
       },
       mounted: function(){
+        window.scrollTo(0,0);
         this.init();
       },
       methods: {
@@ -311,7 +312,24 @@
           this.loadAuiTab();
           this.loadDetail();
           this.loadReplys();
-          setTimeout(()=>window.scrollTo(0,0), 100);
+        },
+        readAndLikeCountAdd: function(type) {
+          var app = this;
+          var data = {
+            id : this.$route.query.id,
+            type: type
+          }
+          this.post('/timizhuo/forum/updateLikeAndRead',data, function (res) {
+            if (res.data.code == '200') {
+              if (type == 1) {
+                app.forum.likeCount ++;
+              }
+            } else {
+              console.log(res.data.message);
+            }
+          }, function (err) {
+
+          });
         },
         initReply: function() {
           this.reply = {}
@@ -336,6 +354,7 @@
           this.post('/timizhuo/forum/findForumById',data, function (res) {
             if (res.data.code == '200') {
               app.forum = res.data.data;
+              app.readAndLikeCountAdd(2);
             } else {
               var dialog = new auiDialog();
               dialog.alert({
@@ -402,8 +421,9 @@
                 title:"发布成功",
                 duration:500
               });
-              setTimeout(()=>app.$router.go(0), 500);
-
+              document.getElementById("replyContent").innerHTML = '';
+              app.loadReplys();
+              window.scrollTo(0,0);
             } else {
               var dialog = new auiDialog();
               dialog.alert({
