@@ -226,31 +226,31 @@
           }
         }, function (err) {
 
-        });
-      },
-      showcontext: function (replyType, parentId) {
-        this.initReply();
-        this.isShowcontext=true;
-        this.contextStyle = '';
-        this.reply.replyType = replyType;
-        if (parentId != null && parentId != '') {
-          this.reply.parentId = parentId;
-        }
-        setTimeout(()=>document.getElementById("replyContent").focus(), 10);
-      },
-      contextBlur: function () {
-        setTimeout(()=>{
-          this.contextStyle = 'display: none';
-          this.isShowcontext=false;
-          if (!this.havaContexg) {
-            this.contextTips ='说说你的看法';
-          } else {
-            this.contextTips ='[草稿内容待发送]';
+          });
+        },
+        showcontext: function (replyType, parentId) {
+          this.initReply();
+          this.isShowcontext=true;
+          this.contextStyle = '';
+          this.reply.replyType = replyType;
+          if (parentId != null && parentId != '') {
+            this.reply.parentId = parentId;
           }
-        }, 200);
+          setTimeout(()=>document.getElementById("replyContent").focus(), 10);
+        },
+        contextBlur: function () {
+          setTimeout(()=>{
+            this.contextStyle = 'display: none';
+            this.isShowcontext=false;
+            if (!this.havaContexg) {
+              this.contextTips ='说说你的看法';
+            } else {
+              this.contextTips ='[草稿内容待发送]';
+            }
+          }, 200);
 
-      },
-      contextInput: function () {
+        },
+        contextInput: function () {
 
       },
       pushReply: function () {
@@ -309,7 +309,6 @@
         this.$router.go(-1);
       }
     }
-  }
 </script>
 
 <style scoped>
