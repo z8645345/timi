@@ -1,24 +1,29 @@
 package com.timi.timizhuo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.entity.TimiReply;
+import com.timi.timizhuo.entity.TimiUserMessage;
 import com.timi.timizhuo.enums.ForumEnum;
+import com.timi.timizhuo.enums.UserMessageEnum;
 import com.timi.timizhuo.mapper.TimiForumMapper;
 import com.timi.timizhuo.mapper.TimiReplyMapper;
 import com.timi.timizhuo.service.TimiForumService;
+import com.timi.timizhuo.service.TimiUserMessageService;
 import com.timi.timizhuo.util.BeanConvertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,18 +32,20 @@ import java.util.List;
  *
  * @author Cruisin
  */
-@EnableAsync
 @Service
 @Slf4j
 public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum> implements TimiForumService {
 
     @Autowired
     private TimiForumMapper timiForumMapper;
-
+    @Autowired
+    private TimiUserMessageService timiUserMessageService;
     @Autowired
     private TimiReplyMapper timiReplyMapper;
 
+
     @Override
+    @Transactional
     public boolean addForum(TimiForum timiForumDto) {
         if (timiForumDto == null) {
             log.warn("reques timiForumDto is null ");
@@ -49,7 +56,27 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
         timiForum.setCreateTime(new Date());
         timiForum.setUpdateTime(timiForum.getCreateTime());
         timiForum.setPostedTime(timiForum.getCreateTime());
-        return this.timiForumMapper.insert(timiForum) == 1;
+        this.timiForumMapper.insert(timiForum);
+
+        String forumId = timiForum.getId();
+
+        if (!CollectionUtils.isEmpty(timiForumDto.getFriendIds())) {
+            List<TimiUserMessage> timiUserMessages = new ArrayList<>();
+            //不为空 处理好友入消息表
+            List<String> friendIds = timiForumDto.getFriendIds();
+            friendIds.forEach(id -> {
+                TimiUserMessage timiUserMessage = new TimiUserMessage();
+                timiUserMessage.setUserId(id);
+                timiUserMessage.setForumId(forumId);
+                timiUserMessage.setContentType(UserMessageEnum.ContentTypeEnum.POST.getValue());
+                timiUserMessage.setMessageState(UserMessageEnum.MessageStateEnum.UNREAD.getValue());
+                timiUserMessage.setCreateTime(new Date());
+                timiUserMessage.setUpdateTime(timiUserMessage.getCreateTime());
+                timiUserMessages.add(timiUserMessage);
+            });
+            this.timiUserMessageService.saveBatch(timiUserMessages);
+        }
+        return true;
     }
 
     /**
@@ -128,11 +155,8 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
             replyCount = (long) timiReplyList.size();
         }
         TimiForum timiForum = timiForumMapper.selectById(id);
-        if (timiForum.getReplyCount() < replyCount) {
-            // 原来的回复数小于实际的回复数才更新，否则可能是并发情况下被其他请求更新了，不处理
-            timiForum.setReplyCount(replyCount);
-            timiForum.setUpdateTime(new Date());
-            timiForumMapper.updateById(timiForum);
-        }
+        timiForum.setReplyCount(replyCount);
+        timiForum.setUpdateTime(new Date());
+        timiForumMapper.updateReplyCountById(timiForum);
     }
 }

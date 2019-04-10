@@ -50,7 +50,11 @@
     </where>
   </sql>
 
-  <!--根据条件查询-->
+    <update id="updateReplyCountById" parameterType="com.timi.timizhuo.entity.TimiForum">
+        update timi_forum set reply_count = #{replyCount} where id = #{id} and #{replyCount} > reply_count
+    </update>
+
+    <!--根据条件查询-->
   <select id="findByCondition" parameterType="com.timi.timizhuo.entity.TimiForum" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />

@@ -55,16 +55,16 @@
             <div class="aui-card-list-user-info text-light">{{forum.pushTime}}</div>
           </div>
           <router-link :to="{ name: 'detail', query: {id: forum.id}}">
-          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;" v-html="forum.forumContent">
-          </div>
-          <div class="aui-card-list-content">
-            <div class="aui-row aui-row-padded" v-for="imgs in forum.imgRows">
-              <div :class="imgs.colsNum" v-for="img in imgs.cols" :style="img.imgStyle">
-                <!--<div :style="img.imgStyle"></div>-->
-                <img :src="img.src" class="img-list">
+            <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;" v-html="forum.forumContent">
+            </div>
+            <div class="aui-card-list-content">
+              <div class="aui-row aui-row-padded" v-for="imgs in forum.imgRows">
+                <div :class="imgs.colsNum" v-for="img in imgs.cols" :style="img.imgStyle">
+                  <!--<div :style="img.imgStyle"></div>-->
+                  <img :src="img.src" class="img-list">
+                </div>
               </div>
             </div>
-          </div>
           </router-link>
           <div class="aui-card-list-footer text-light aui-font-size-14">
             <div>

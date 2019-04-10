@@ -27,8 +27,8 @@
     </div>
     <div class="aui-bar-tab" style="width: 100%; height: 2rem; line-height: 2rem">
       <span @click="showTitle" style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem;">{{titleTip}}</span>
-      <span style="margin-left: 1rem; font-size: 1rem padding-left: 0.5rem;padding-right: 0.5rem">#</span>
-      <span style="margin-left: 1rem; font-size: 1rem padding-left: 0.5rem;padding-right: 0.5rem">@</span>
+      <span style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem">#</span>
+      <span style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem">@</span>
     </div>
   </div>
 </template>

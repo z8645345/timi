@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class TimiReply extends BaseEntity<TimiReply> {
@@ -32,6 +33,9 @@ public class TimiReply extends BaseEntity<TimiReply> {
     private Integer replyType ;
     /**回复类型  子回复所需 父名字*/
     private String parentName;
+
+    @TableField(exist = false)
+    private List<String> friendIds;
 
     /**
      * 只看楼主
