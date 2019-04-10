@@ -13,7 +13,7 @@
       <i v-else @click="goback()" class="aui-iconfont aui-icon-left" style="float: left; font-size: 1rem;"></i>
       <i @click="openActionsheet" class="aui-iconfont aui-icon-share" style="float: right; font-size: 1rem;"></i>
     </div>
-    <div style="padding-left: 0.5rem;padding-right: 0.5rem; margin-top: 1.6rem; background-color: #fff;"><span v-if="forum.forumType==1" style="color: #0894ec;background-color: #fff;">精·</span>{{forum.forumTitle}}</div>
+    <div style="padding-left: 0.5rem;padding-right: 0.5rem; margin-top: 1.6rem;  background-color: #fff;"><span v-if="forum.forumType==1" style="color: #0894ec;background-color: #fff;">精·</span>{{forum.forumTitle}}</div>
     <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff;">
       <div class="aui-card-list-user-avatar">
         <img :src="forum.userImageUrl" class="aui-img-round">
@@ -99,12 +99,6 @@
       vertical-align:top;
       border-radius: 6%; background-color: #FFCCFF;" @blur="contextBlur" @input="contextInput"></div>
       <div id="pushBtu" style="width: 18%; display: inline-block; height: 1.5rem; line-height: 1.5rem; vertical-align:top; text-align: center" @click="pushReply">发布</div>
-      <div style="width: 100%; height: 1.5rem; line-height: 1.5rem">
-        <span style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem">
-          <i class="aui-iconfont aui-icon-image aui-btn aui-btn-outlined"></i>
-        </span>
-        <span style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem">@</span>
-      </div>
     </div>
   </div>
 </template>
@@ -137,7 +131,6 @@
         var app = this;
         this.findReply.forumId = this.$route.query.id;
         this.reply.forumId = this.$route.query.id;
-        this.source = this.$route.query.source;
         this.loadAuiTab();
         this.loadDetail();
         this.loadReplys(false);
@@ -226,31 +219,31 @@
           }
         }, function (err) {
 
-          });
-        },
-        showcontext: function (replyType, parentId) {
-          this.initReply();
-          this.isShowcontext=true;
-          this.contextStyle = '';
-          this.reply.replyType = replyType;
-          if (parentId != null && parentId != '') {
-            this.reply.parentId = parentId;
+        });
+      },
+      showcontext: function (replyType, parentId) {
+        this.initReply();
+        this.isShowcontext=true;
+        this.contextStyle = '';
+        this.reply.replyType = replyType;
+        if (parentId != null && parentId != '') {
+          this.reply.parentId = parentId;
+        }
+        setTimeout(()=>document.getElementById("replyContent").focus(), 10);
+      },
+      contextBlur: function () {
+        setTimeout(()=>{
+          this.contextStyle = 'display: none';
+          this.isShowcontext=false;
+          if (!this.havaContexg) {
+            this.contextTips ='说说你的看法';
+          } else {
+            this.contextTips ='[草稿内容待发送]';
           }
-          setTimeout(()=>document.getElementById("replyContent").focus(), 10);
-        },
-        contextBlur: function () {
-          setTimeout(()=>{
-            this.contextStyle = 'display: none';
-            this.isShowcontext=false;
-            if (!this.havaContexg) {
-              this.contextTips ='说说你的看法';
-            } else {
-              this.contextTips ='[草稿内容待发送]';
-            }
-          }, 200);
+        }, 200);
 
-        },
-        contextInput: function () {
+      },
+      contextInput: function () {
 
       },
       pushReply: function () {
@@ -309,6 +302,7 @@
         this.$router.go(-1);
       }
     }
+  }
 </script>
 
 <style scoped>
