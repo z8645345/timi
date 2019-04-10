@@ -33,6 +33,14 @@ public class TimiReply extends BaseEntity<TimiReply> {
     private Integer replyType ;
     /**回复类型  子回复所需 父名字*/
     private String parentName;
+    /** 回复图片 */
+    private String imageUrl;
+
+    /**
+     * 图片回复列表
+     */
+    @TableField(exist = false)
+    private List<String> imagesUrl;
 
     @TableField(exist = false)
     private List<String> friendIds;

@@ -21,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -171,6 +168,20 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             replyFindPageDTO.setSubTimiReplyList(byCondition);
             result.add(replyFindPageDTO);
         }
+        result.forEach(replyFindPageDTO -> {
+            if (StringUtils.isNotEmpty(replyFindPageDTO.getTimiReply().getImageUrl())) {
+                replyFindPageDTO.getTimiReply().setImagesUrl(Arrays.asList(replyFindPageDTO.getTimiReply().getImageUrl().split(",")));
+            } else {
+                replyFindPageDTO.getTimiReply().setImagesUrl(Collections.EMPTY_LIST);
+            }
+            replyFindPageDTO.getSubTimiReplyList().forEach(sub -> {
+                if (StringUtils.isNotEmpty(sub.getImageUrl())) {
+                    sub.setImagesUrl(Arrays.asList(sub.getImageUrl().split(",")));
+                } else {
+                    sub.setImagesUrl(Collections.EMPTY_LIST);
+                }
+            });
+        });
         return new PageInfo(result);
     }
 

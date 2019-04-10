@@ -148,7 +148,7 @@
         this.auiPullToRefresh();
         this.loadAuiTab();
         this.loadStickData();
-        this.loadListData(this.scroll());
+        this.loadListData(this.scroll);
       },
       auiPullToRefresh: function() {
         var app = this;
@@ -240,7 +240,9 @@
 
               self.list.push(forumDTO);
             });
-            setTimeout(()=>cellBack(), 100);
+            if (cellBack != undefined) {
+              setTimeout(()=>cellBack(), 100);
+            }
           } else {
             var dialog = new auiDialog();
             dialog.alert({

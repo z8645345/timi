@@ -16,11 +16,12 @@
     <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
     <result column="reply_type" jdbcType="INTEGER" property="replyType" />
     <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
 
   <sql id="Base_Column_List">
     t.id, t.reply_content,t.user_name,t.user_image_url, t.user_id, t.tier_num, t.reply_time, t.create_time, t.update_time,
-    t.parent_id, t.forum_id, t.like_count,t.reply_num,t.reply_type,parent_name
+    t.parent_id, t.forum_id, t.like_count,t.reply_num,t.reply_type,parent_name,image_url
   </sql>
 
   <sql id="Blob_Column_List">
