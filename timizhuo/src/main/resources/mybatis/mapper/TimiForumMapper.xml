@@ -21,6 +21,8 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_image_url" jdbcType="VARCHAR" property="userImageUrl" />
+    <result column="message_state" jdbcType="TINYINT" property="messageState" />
+
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.timi.timizhuo.entity.TimiForum">
     <!--
@@ -36,7 +38,7 @@
     -->
     id, forum_title,forum_content, image_url, create_time, update_time, posted_time,
     read_count, like_count, reply_count, stick, stick_group, forum_type, user_id, user_name, 
-    user_image_url
+    user_image_url,message_state
   </sql>
 
   <sql id="Blob_Column_List">

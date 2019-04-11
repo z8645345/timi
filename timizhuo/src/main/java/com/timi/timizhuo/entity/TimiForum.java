@@ -42,6 +42,10 @@ public class TimiForum extends BaseEntity {
 
     @TableField(exist = false)
     private Long postedTimeLong;
+
+    /** 消息推送状态 1 未推送 2已推送  3失效 */
+    private Integer messageState;
+
     /**
      * 类型判断1 为点赞   2为阅读
      */

@@ -35,6 +35,8 @@ public class TimiReply extends BaseEntity<TimiReply> {
     private String parentName;
     /** 回复图片 */
     private String imageUrl;
+    /** 消息推送状态 1 未推送 2已推送  3失效 */
+    private Integer messageState;
 
     /**
      * 图片回复列表
