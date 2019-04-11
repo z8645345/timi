@@ -64,43 +64,43 @@ public class BaseEntity<T> implements Serializable {
      * @return
      */
     public IPage<T> page() {
-        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize);
+        return new Page<T>(this.pageNum, this.pageSize);
     }
 
     /**
      * 获取带升序排序的分页对象
-     * @param sort 排序字段
+     * @param sortColumn 排序字段
      * @return
      */
     public IPage<T> ascPage(String... sortColumn) {
-        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setAsc(sortColumn);
+        return new Page<T>(this.pageNum, this.pageSize).setAsc(sortColumn);
     }
 
     /**
      * 获取带多字段升序排序的分页对象
-     * @param sorts 排序字段列表
+     * @param sortColumns 排序字段列表
      * @return
      */
     public IPage<T> ascPage(List<String> sortColumns) {
-        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setAscs(sortColumns);
+        return new Page<T>(this.pageNum, this.pageSize).setAscs(sortColumns);
     }
 
     /**
      * 获取带降序序排序的分页对象
-     * @param sort 排序字段
+     * @param sortColumn 排序字段
      * @return
      */
     public IPage<T> descPage(String... sortColumn) {
-        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setDesc(sortColumn);
+        return new Page<T>(this.pageNum, this.pageSize).setDesc(sortColumn);
     }
 
     /**
      * 获取带多字段降序排序的分页对象
-     * @param sorts 排序字段列表
+     * @param sortColumns 排序字段列表
      * @return
      */
     public IPage<T> descPage(List<String> sortColumns) {
-        return new Page<T>().setCurrent(this.pageNum).setSize(this.pageSize).setDescs(sortColumns);
+        return new Page<T>(this.pageNum, this.pageSize).setDescs(sortColumns);
     }
 
 }
