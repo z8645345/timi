@@ -21,7 +21,8 @@
         </div>
         <div class="aui-card-list-user-name">
           <div class="aui-text-info">{{forum.userName}}</div>
-          <div class="aui-font-size-14 text-light aui-btn aui-btn-info">+关注</div>
+          <div v-if="!isFollow" @click="follow(forum.userId)" class="aui-font-size-14 text-light aui-btn aui-btn-info">+关注</div>
+          <div v-else class="aui-font-size-14 text-light" style="color: #0062cc;">已关注</div>
         </div>
         <div class="aui-card-list-user-info text-light">{{forum.pushTime}}</div>
       </div>
@@ -162,7 +163,8 @@
         source: '',
         imgs: [
         ],
-        isReplyUI: false
+        isReplyUI: false,
+        isFollow: false
       }
     },
     mounted: function(){
@@ -232,6 +234,7 @@
             }
             app.forum.imagesUrl = imagesUrl;
             app.readAndLikeCountAdd(2);
+            app.isFollowFun(app.forum.userId);
           } else {
             var dialog = new auiDialog();
             dialog.alert({
@@ -450,6 +453,35 @@
       hidePushUI: function () {
         this.imgs = [];
         this.isReplyUI = false;
+      },
+      follow: function (parentId) {
+        var data = {
+          parentId: parentId
+        }
+        var app = this;
+        this.post('/timizhuo/fans/follow', data, function (res) {
+          if (res.data.code == '200') {
+            app.isFollow = true;
+            var toast = new auiToast();
+            toast.success({
+              title:"关注成功",
+              duration:2000
+            });
+          }
+        }, function (err) {
+        });
+      },
+      isFollowFun: function (parentId) {
+        var data = {
+          parentId: parentId
+        }
+        var app = this;
+        this.post('/timizhuo/fans/isFollow', data, function (res) {
+          if (res.data.code == '200') {
+            app.isFollow = true;
+          }
+        }, function (err) {
+        });
       }
     }
   }

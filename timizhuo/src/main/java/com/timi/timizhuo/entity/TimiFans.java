@@ -24,12 +24,12 @@ public class TimiFans extends BaseEntity<TimiFans> {
      * 被关注的用户id
      */
     @TableField("parent_id")
-    private Integer parentId;
+    private String parentId;
 
     /**
      * 该用户id
      */
     @TableField("user_id")
-    private Integer userId;
+    private String userId;
 
 }
