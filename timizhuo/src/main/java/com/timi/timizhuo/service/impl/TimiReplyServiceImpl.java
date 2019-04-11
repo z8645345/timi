@@ -113,7 +113,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
     private boolean userMessage(TimiReply timiReply, String forumId,Integer type) {
 
         if (CollectionUtils.isEmpty(timiReply.getFriendIds())){
-            return  true;
+            return false;
         }
         List<TimiUserMessage> timiUserMessages = new ArrayList<>();
         //不为空 处理好友入消息表
@@ -191,10 +191,10 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             queryReply.setParentId(parentId);
             List<TimiReply> byCondition = this.timiReplyMapper.findByParentId(queryReply);
             if (!CollectionUtils.isEmpty(byCondition)) {
-                for (TimiReply timiReply : byCondition) {
+                byCondition.forEach(timiReply -> {
                     resultTmp.add(timiReply);
                     getTreeReplyList(resultTmp, timiReply.getId());
-                }
+                });
             }
         }
         return resultTmp;

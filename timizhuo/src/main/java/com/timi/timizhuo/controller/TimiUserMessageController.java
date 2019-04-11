@@ -89,10 +89,10 @@ public class TimiUserMessageController extends BaseController {
             }
             timiUserMessage.setMessageState(UserMessageEnum.MessageStateEnum.READ.getValue());
             boolean b = this.timiUserMessageService.updateById(timiUserMessage);
-            if (b) {
-                responseData.setSuccess();
-            } else {
+            if (!b){
                 responseData.setFial();
+                responseData.setMessage(Constant.SYSTEM_ERROR);
+                return responseData;
             }
         } catch (Exception e) {
             log.error("userMessage upReadState error ", e);
