@@ -17,10 +17,4 @@
     id, show_title, show_time, show_city, show_address, show_detail, show_imgs, show_video,
     create_time, update_time
   </sql>
-
-  <select id="selectPage" resultMap="BaseResultMap" >
-    (select <include refid="Base_Column_List" /> from timi_show WHERE show_time > now() order by show_time)
-    UNION
-    (select <include refid="Base_Column_List" /> from timi_show WHERE show_time <![CDATA[ < ]]> now() order by show_time desc)
-  </select>
 </mapper>

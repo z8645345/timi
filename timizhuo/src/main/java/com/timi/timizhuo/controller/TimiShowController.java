@@ -34,7 +34,7 @@ public class TimiShowController {
                 responseData.setFial();
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
-                IPage<TimiShow> pageResult = timiShowService.page(timiShow.page());
+                IPage<TimiShow> pageResult = timiShowService.page(timiShow.descPage("show_time"));
                 responseData.setData(pageResult);
             }
         } catch (Exception e) {
