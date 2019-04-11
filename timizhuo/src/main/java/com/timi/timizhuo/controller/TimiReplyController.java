@@ -56,7 +56,7 @@ public class TimiReplyController extends  BaseController{
 
             if (StringUtil.isBlank(timiReplyDto.getForumId())) {
                 responseData.setFial();
-                responseData.setMessage(Constant.FORUM_ID_NOT_NULL);
+                responseData.setMessage(Constant.ID_NOT_NULL);
                 return responseData;
             }
 
@@ -94,7 +94,7 @@ public class TimiReplyController extends  BaseController{
         ResponseData responseData = new ResponseData();
         if (StringUtil.isBlank(timiReplyDto.getForumId())) {
             responseData.setFial();
-            responseData.setMessage(Constant.FORUM_ID_NOT_NULL);
+            responseData.setMessage(Constant.ID_NOT_NULL);
             return JSONUtils.toJosnString(responseData);
         }
         try {

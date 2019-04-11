@@ -92,9 +92,9 @@ public class Constant {
 	public static final String FOLLOW_USER_OK = "关注成功!";
 
 	/**
-	 * 主贴id不能为空
+	 * id不能为空
 	 */
-	public static final String FORUM_ID_NOT_NULL="主贴id不能为空";
+	public static final String ID_NOT_NULL="id不能为空";
 	/**
 	 * 修改资料失败
 	 */

@@ -139,7 +139,7 @@ public class TimiForumController extends  BaseController{
             }
             if (StringUtils.isBlank(timiForum.getId())) {
                 responseData.setFial();
-                responseData.setMessage(Constant.FORUM_ID_NOT_NULL);
+                responseData.setMessage(Constant.ID_NOT_NULL);
                 return responseData;
             }
 
@@ -206,7 +206,7 @@ public class TimiForumController extends  BaseController{
             }
             if (StringUtil.isBlank(timiForum.getId())) {
                 responseData.setFial();
-                responseData.setMessage(Constant.FORUM_ID_NOT_NULL);
+                responseData.setMessage(Constant.ID_NOT_NULL);
                 return responseData;
             }
             TimiForum timiForumData =  timiForumService.getById(timiForum.getId());
