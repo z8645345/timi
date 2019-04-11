@@ -28,7 +28,7 @@ import java.util.List;
  * @since 2019-04-08
  */
 @RestController
-@RequestMapping("/UserMessage")
+@RequestMapping("/userMessage")
 @Slf4j
 public class TimiUserMessageController extends BaseController {
 
@@ -59,7 +59,7 @@ public class TimiUserMessageController extends BaseController {
             responseData.setData(list);
             responseData.setSuccess();
         } catch (Exception e) {
-            log.error("forum findUserMessage error ", e);
+            log.error("userMessage findUserMessage error ", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
@@ -95,7 +95,7 @@ public class TimiUserMessageController extends BaseController {
                 responseData.setFial();
             }
         } catch (Exception e) {
-            log.error("forum findUserMessage error ", e);
+            log.error("userMessage upReadState error ", e);
             responseData.setFial();
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
