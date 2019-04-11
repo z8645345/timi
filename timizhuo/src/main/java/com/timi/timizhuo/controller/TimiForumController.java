@@ -1,6 +1,7 @@
 package com.timi.timizhuo.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
@@ -84,9 +85,8 @@ public class TimiForumController extends  BaseController{
         log.info("forum findForum  request :{}",timiForumDto);
         ResponseData responseData = new ResponseData();
         try {
-            PageInfo<TimiForum> pageInfo = this.timiForumService.findPage(timiForumDto);
-            setPostedTimeLong(pageInfo.getList());
-            responseData.setData(pageInfo);
+            IPage<TimiForum> result = timiForumService.page(timiForumDto.descPage("posted_time"), new QueryWrapper<>(timiForumDto));
+            responseData.setData(result);
         } catch (Exception e) {
             log.error("forum findForum error ", e);
             responseData.setFial();

@@ -217,7 +217,7 @@
         app.page.pageNum++;
         app.post('/timizhuo/forum/findForum', app.page, function (res) {
           if (res.data.code == '200') {
-            res.data.data.list.forEach((forumDTO)=> {
+            res.data.data.records.forEach((forumDTO)=> {
               if (forumDTO.imageUrl != null && forumDTO.imageUrl != '') {
                 forumDTO.imagesUrl = forumDTO.imageUrl.split(",");
                 var timestamp = (new Date()).getTime();
