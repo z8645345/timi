@@ -188,13 +188,22 @@
           type: type
         }
         this.post('/timizhuo/forum/updateLikeAndRead',data, function (res) {
+          var toast = new auiToast();
           if (res.data.code == '200') {
             if (type == 1) {
+              toast.custom({
+                title:"点赞成功",
+                html:'<i class="aui-iconfont aui-icon-laud"></i>',
+                duration:1000
+              });
               app.forum.likeCount ++;
               app.likeStyle = 'color: red; font-weight: 800'
             }
           } else {
-            console.log(res.data.message);
+            toast.fail({
+              title:"登陆后才能点赞哦！",
+              duration:2000
+            });
           }
         }, function (err) {
 
@@ -467,6 +476,12 @@
               title:"关注成功",
               duration:2000
             });
+          } else {
+            var toast = new auiToast();
+            toast.fail({
+              title:"登陆后才能关注哦！",
+              duration:2000
+            });
           }
         }, function (err) {
         });
@@ -478,7 +493,7 @@
         var app = this;
         this.post('/timizhuo/fans/isFollow', data, function (res) {
           if (res.data.code == '200') {
-            app.isFollow = true;
+            app.isFollow = res.data.data;
           }
         }, function (err) {
         });

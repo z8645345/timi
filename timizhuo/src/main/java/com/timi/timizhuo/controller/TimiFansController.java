@@ -51,7 +51,7 @@ public class TimiFansController extends BaseController {
                 return responseData;
             }
             timiFans.setUserId(getLoginUser(request).getId());
-            responseData.setData(timiFansService.getOne(new QueryWrapper<>(timiFans)) == null);
+            responseData.setData(timiFansService.getOne(new QueryWrapper<>(timiFans)) != null);
         } catch (Exception e) {
             logger.error("m:isFollow 查询是否关注失败", e);
             responseData.setFial();

@@ -24,8 +24,8 @@
           <div class="aui-card-list-header aui-padded-t-5 aui-padded-b-5">
             {{timiShow.showTitle}}
           </div>
-          <div class="aui-card-list-content-padded aui-padded-t-0 aui-padded-b-0" style="color:#7b7b7b;">
-            {{timiShow.showDetail}}
+          <div class="aui-card-list-content-padded aui-padded-t-0 aui-padded-b-0" style="color:#7b7b7b;" v-html="timiShow.showDetail">
+
           </div>
           <div class="aui-card-list-footer aui-font-size-12" style="color:#999;">
             <div>

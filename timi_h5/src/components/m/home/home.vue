@@ -7,8 +7,8 @@
       <i class="aui-iconfont aui-icon-close" tapmode @click="isShowMsg=false"></i>
     </div>
     <!--搜索栏开始-->
-    <header class="aui-bar aui-bar-nav nav-title" style="line-height: 44px">
-      <img style="height: 48px; position: absolute; left: 0; top: 0" src="../../../assets/images/logo.png" alt="">
+    <header class="aui-bar aui-bar-nav nav-title" style="line-height: 45px; height: 45px">
+      <img style="height: 45px; position: absolute; left: 0; top: 0" src="../../../assets/images/logo.png" alt="">
       <div class="aui-title">卓依婷官方粉丝团</div>
     </header>
     <!--搜索栏结束-->

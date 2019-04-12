@@ -138,7 +138,7 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
             } else {
                 ++readCount;
             }
-            timiForum.setLikeCount(readCount);
+            timiForum.setReadCount(readCount);
             return this.timiForumMapper.updateById(timiForum) == 1;
         }
     }

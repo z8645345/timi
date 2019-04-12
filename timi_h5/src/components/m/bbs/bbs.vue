@@ -2,18 +2,18 @@
   <div>
 
     <!--顶部栏开始-->
-    <div class="top">
-      <i class="aui-iconfont aui-icon-left aui-btn icon-left" style="position: absolute;
-    font-size: 1.3rem;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0);
-    top: 0.5rem;"></i>
-      <i class="aui-iconfont aui-icon-search aui-btn icon-right" style="position: absolute;
-    font-size: 1.3rem;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0);
-    top: 0.5rem;"></i>
-    </div>
+    <!--<div class="top">-->
+      <!--<i class="aui-iconfont aui-icon-left aui-btn icon-left" style="position: absolute;-->
+    <!--font-size: 1.3rem;-->
+    <!--color: #fff;-->
+    <!--background-color: rgba(0, 0, 0, 0);-->
+    <!--top: 0.5rem;"></i>-->
+      <!--<i class="aui-iconfont aui-icon-search aui-btn icon-right" style="position: absolute;-->
+    <!--font-size: 1.3rem;-->
+    <!--color: #fff;-->
+    <!--background-color: rgba(0, 0, 0, 0);-->
+    <!--top: 0.5rem;"></i>-->
+    <!--</div>-->
     <!--顶部栏结束-->
 
     <!--横幅开始-->

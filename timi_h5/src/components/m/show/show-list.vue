@@ -36,7 +36,7 @@
                 <div class="aui-list-item-right">{{ timiShow.showCity }}</div>
               </div>
               <div class="aui-list-item-text max-rows2" style="-webkit-box-orient: vertical; display: -webkit-box;">
-                <span>{{ timiShow.showDetail}}</span>
+                <span v-html="timiShow.showDetail"></span>
               </div>
               <div class="aui-info aui-margin-t-5" style="padding:0">
                 <div class="aui-info-item">
