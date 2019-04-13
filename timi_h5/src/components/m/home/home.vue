@@ -419,7 +419,7 @@
         })
           .then(function(res){
             var timiShows = [];
-            res.data.data.records.forEach((showDto)=> {
+            res.data.data.forEach((showDto)=> {
               var showImgArr = showDto.showImgs.split(';');
               var show = {
                 id: showDto.id,
