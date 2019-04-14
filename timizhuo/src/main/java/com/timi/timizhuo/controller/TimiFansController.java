@@ -6,6 +6,7 @@ import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.common.Constant;
 import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.entity.TimiFans;
+import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.ITimiFansService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -104,13 +105,16 @@ public class TimiFansController extends BaseController {
      * @return
      */
     @PostMapping("/followList")
-    public ResponseData followList(TimiFans timiFans) {
+    @TimiLogin
+    public ResponseData followList(HttpServletRequest request, TimiFans timiFans) {
         ResponseData responseData = new ResponseData();
         try {
             if(timiFans==null){
-                responseData.setFial();
-                responseData.setMessage("参数不能为空！");
-                return responseData;
+                timiFans = new TimiFans();
+            }
+            TimiUser timiUser = getLoginUser(request);
+            if (timiUser != null) {
+                timiFans.setUserId(timiUser.getId());
             }
             List<TimiFans> result = timiFansService.list(new QueryWrapper<>(timiFans));
             responseData.setSuccess();
