@@ -64,10 +64,18 @@
             <div class="aui-card-list-user-avatar">
               <img :src="timiUser.pic" class="aui-img-round" style="vertical-align: middle">
             </div>
-            <div style="height: 40px; line-height: 40px"><span class="aui-label aui-label-warning">超级婷迷</span> {{timiUser.nickname}}</div>
+            <div style="height: 40px; line-height: 40px; vertical-align: middle"> {{timiUser.nickname}}
+              <input v-if="isCheck(timiUser)" checked class="aui-radio" type="checkbox" style="vertical-align: middle; float: right; margin-top: 8px" @click="atSelect(timiUser, $event)">
+              <input v-else class="aui-radio" type="checkbox" style="vertical-align: middle; float: right; margin-top: 8px" @click="atSelect(timiUser, $event)">
+            </div>
           </div>
         </li>
       </ul>
+      <div style="height: 2.5rem"></div>
+      <div style="bottom: 0; position: fixed; height: 2.5rem; width: 100%; padding-left: 1rem">
+        <img v-for="timiUser in selectionUserList" :src="timiUser.pic" class="aui-img-round" style="vertical-align: middle; height: 2.5rem; display: inline-block">
+        <div class="aui-btn" :class="btnStatus" @click="atComplete" style="float: right; margin-right: 0.5rem; margin-top: 0.6rem">{{selectionUserList.length}}/5完成</div>
+      </div>
     </div>
   </div>
 </template>
@@ -91,8 +99,12 @@
           friendIds: ''
         },
         userList: [],
+        userListAll: [],
         isShowAt: false,
         searchNickName: '',
+        selectionUserList: [],
+        btnStatus: 'aui-btn-success',
+        tempContext: '',
       }
     },
     methods: {
@@ -100,7 +112,7 @@
         this.isShowDefauls = false;
       },
       showDefauls: function () {
-        var context = document.getElementById("context").innerText;
+        var context = document.getElementById("context").innerHTML;
         if (context == null || context == '') {
           this.isShowDefauls = true;
         }
@@ -138,6 +150,11 @@
         }
       },
       push: function () {
+        var friendIds = [];
+        for (var i = 0; i < this.selectionUserList.length; i ++) {
+          friendIds.push(this.selectionUserList[i].id);
+        }
+        this.forum.friendIds = friendIds;
         this.forum.forumContent = document.getElementById("context").innerHTML;
         var imageUrl = '';
         this.imgs.forEach((img)=> {
@@ -212,8 +229,13 @@
       },
       at: function () {
         var app = this;
+        this.hideDefault();
+        setTimeout(()=> {app.tempContext = document.getElementById("context").innerHTML }, 10);
+        var app = this;
         app.post('/timizhuo/fans/followList', {}, function (res) {
           if (res.data.code == '200') {
+            app.userList = res.data.data;
+            app.userListAll = res.data.data;
             app.isShowAt = true;
             setTimeout(function(){
               app.initSearch();
@@ -232,6 +254,7 @@
         });
       },
       initSearch: function () {
+        var app = this;
         // 顶部搜索栏开始
         var apiready = function(){
           api.parseTapmode();
@@ -240,26 +263,31 @@
         var searchBarInput = document.querySelector(".aui-searchbar input");
         var searchBarBtn = document.querySelector(".aui-searchbar .aui-searchbar-btn");
         var searchBarClearBtn = document.querySelector(".aui-searchbar .aui-searchbar-clear-btn");
-        if(searchBar){
-          searchBarInput.onclick = function(){
-            searchBarBtn.style.marginRight = 0;
-          }
-        }
-        searchBarClearBtn.onclick = function(){
-          this.style.display = 'none';
-          searchBarInput.value = '';
-          searchBarBtn.classList.remove("aui-text-info");
-          searchBarBtn.textContent = "取消";
-        }
-        searchBarBtn.onclick = function(){
-          this.style.marginRight = "-"+this.offsetWidth+"px";
-          searchBarInput.value = '';
-          searchBarInput.blur();
-        }
+        // if(searchBar){
+        //   searchBarInput.onclick = function(){
+        //     searchBarBtn.style.marginRight = 0;
+        //   }
+        // }
+        // searchBarClearBtn.onclick = function(){
+        //   this.style.display = 'none';
+        //   searchBarInput.value = '';
+        //   searchBarBtn.classList.remove("aui-text-info");
+        //   searchBarBtn.textContent = "取消";
+        // }
+        // searchBarBtn.onclick = function(){
+        //   this.style.marginRight = "-"+this.offsetWidth+"px";
+        //   searchBarInput.value = '';
+        //   searchBarInput.blur();
+        // }
         // 顶部搜索栏结束
       },
       hideUserList: function () {
+        var app = this;
+        this.selectionUserList = [];
         this.isShowAt = false;
+        setTimeout(()=> {document.getElementById("context").innerHTML = app.tempContext;
+          app.setFocus();
+        }, 10);
       },
       searchChange: function () {
         var searchBarBtn = document.querySelector(".aui-searchbar .aui-searchbar-btn");
@@ -269,13 +297,84 @@
         searchBarBtn.textContent = "取消";
 
         var users = [];
-        for(var i = 0; i < this.userList.length; i ++) {
-          var timiUser = this.onlineUserList[i];
+        for(var i = 0; i < this.userListAll.length; i ++) {
+          var timiUser = this.userListAll[i];
           if (timiUser.nickname.indexOf(this.searchNickName) != -1) {
             users.push(timiUser);
           }
         }
         this.userList = users;
+      },
+      atSelect: function (timiUser, event) {
+        if (event.target.checked) {
+          this.btnStatus = 'aui-btn-primary';
+          // 选中
+          if (this.selectionUserList.length >= 5) {
+            event.target.checked = false;
+            var toast = new auiToast();
+            toast.success({
+              title:"选中不能超过5个",
+              duration:2000
+            });
+          } else {
+            this.selectionUserList.push(timiUser);
+          }
+        } else {
+          // 取消选中
+          this.unSelect(timiUser);
+          if (this.selectionUserList.length == 0) {
+            this.btnStatus = 'aui-btn-success';
+          }
+        }
+      },
+      unSelect: function (timiUser) {
+        for(var i = 0; i < this.selectionUserList.length; i ++) {
+          if (this.selectionUserList[i].id == timiUser.id) {
+            this.selectionUserList.splice(i, 1);
+          }
+        }
+      },
+      atComplete: function () {
+        var app = this;
+        if (this.btnStatus == 'aui-btn-success') {
+          return;
+        }
+        this.isShowAt = false;
+        var appendHtml = '';
+        for (var i = 0; i < this.selectionUserList.length; i ++) {
+          appendHtml += '<span>@' + this.selectionUserList[i].nickname + '</span>&nbsp;';
+        }
+        setTimeout(()=>{
+          document.getElementById("context").innerHTML = this.tempContext;
+          document.getElementById("context").innerHTML += appendHtml;
+          app.setFocus();
+        }, 10);
+
+      },
+      isCheck: function (timiUser) {
+        for (var i = 0; i < this.selectionUserList.length; i ++) {
+          if (this.selectionUserList[i].id == timiUser.id) {
+            return true;
+          }
+        }
+        return false
+      },
+      setFocus: function () {
+        setTimeout(()=>{
+          var obj = document.getElementById("context");
+          if (window.getSelection) { //ie11 10 9 ff safari
+            obj.focus(); //解决ff不获取焦点无法定位问题
+            var range = window.getSelection(); //创建range
+            range.selectAllChildren(obj); //range 选择obj下所有子内容
+            range.collapseToEnd(); //光标移至最后
+          } else if (document.selection) { //ie10 9 8 7 6 5
+            var range = document.selection.createRange(); //创建选择对象
+            //var range = document.body.createTextRange();
+            range.moveToElementText(obj); //range定位到obj
+            range.collapse(false); //光标移至最后
+            range.select();
+          }
+        },5)
       },
     }
   }

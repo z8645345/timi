@@ -158,4 +158,5 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
         timiForum.setUpdateTime(new Date());
         timiForumMapper.updateReplyCountById(timiForum);
     }
+
 }

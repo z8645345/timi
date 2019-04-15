@@ -47,11 +47,6 @@ public class TimiUserMessageController extends BaseController {
         ResponseData responseData = new ResponseData();
         try {
             TimiUser timiUser = getLoginUser(request);
-            if (timiUser == null) {
-                responseData.setFial();
-                responseData.setMessage(Constant.FORUM_USER_NOT_LOGIN);
-                return responseData;
-            }
             TimiUserMessage timiUserMessage = new TimiUserMessage();
             timiUserMessage.setUserId(timiUser.getId());
             timiUserMessage.setMessageState(UserMessageEnum.MessageStateEnum.UNREAD.getValue());

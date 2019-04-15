@@ -51,6 +51,12 @@
               <div class="aui-list-item-right"><img :src="timiUser.pic" class="avatar aui-img-round" style="float: right"></div>
             </div>
           </li>
+          <router-link :to="{ name: 'message', params: messageList}" tag="li" class="aui-list-item" style="background-color: #fff;">
+            <div class="aui-list-item-inner aui-list-item-arrow">
+              <div class="aui-list-item-title">消息</div>
+              <div class="aui-list-item-right">共{{messageList.length}}条未读消息</div>
+            </div>
+          </router-link>
           <li class="aui-list-item" style="background-color: #fff;">
             <div class="aui-list-item-inner aui-list-item-arrow">
               <div class="aui-list-item-title">我的帖子</div>
@@ -107,7 +113,8 @@
         isShow: true,
         timiUser: {},
         msg: '',
-        isShowMsg: false
+        isShowMsg: false,
+        messageList: []
       }
     },
     mounted: function(){
@@ -117,6 +124,7 @@
       this.post('/timizhuo/user/isLogin', {userToken: userToken}, function (res) {
         if (res.data.code == '200') {;
           app.timiUser = res.data.data;
+          app.loadMessage();
           app.isShow = true;
         } else {
           app.$router.push({name:'login'});
@@ -124,13 +132,12 @@
       }, function (err) {
         toast.hide();
         app.errorAlert('系统异常');
-      })
+      });
     },
     methods: {
       logout: function () {
         var app = this;
         this.post('/timizhuo/user/logout',{}, function (res) {
-          debugger;
           if (res.data.code == '200') {;
             app.isShow = false;
             location.reload();
@@ -138,6 +145,16 @@
           }
         }, function (err) {
           app.errorAlert('系统异常');
+        })
+      },
+      loadMessage: function () {
+        var app = this;
+        this.post('/timizhuo/userMessage/findUserMessage',{}, function (res) {
+          if (res.data.code == '200') {
+            app.messageList = res.data.data;
+          }
+        }, function (err) {
+
         })
       }
     }

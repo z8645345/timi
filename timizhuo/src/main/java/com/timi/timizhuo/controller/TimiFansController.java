@@ -8,6 +8,7 @@ import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.entity.TimiFans;
 import com.timi.timizhuo.entity.TimiUser;
 import com.timi.timizhuo.service.ITimiFansService;
+import com.timi.timizhuo.service.TimiUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +37,9 @@ public class TimiFansController extends BaseController {
     private static Logger logger = LoggerFactory.getLogger(TimiUserController.class);
     @Autowired
     private ITimiFansService timiFansService;
+
+    @Autowired
+    private TimiUserService timiUserService;
 
     /**
      * 当前登录用户是否关注指定用户
@@ -116,9 +122,15 @@ public class TimiFansController extends BaseController {
             if (timiUser != null) {
                 timiFans.setUserId(timiUser.getId());
             }
+
             List<TimiFans> result = timiFansService.list(new QueryWrapper<>(timiFans));
+            Collection<String> userIdList = new ArrayList<>();
+            for (TimiFans timiFans1 : result) {
+                userIdList.add(timiFans1.getParentId());
+            }
+            Collection<TimiUser> timiUserList = timiUserService.listByIds(userIdList);
             responseData.setSuccess();
-            responseData.setData(result);
+            responseData.setData(timiUserList);
         } catch (Exception e) {
             logger.error("m:updateTimiUser 获取婷迷关注列表/粉丝列表失败", e);
             responseData.setFial();
