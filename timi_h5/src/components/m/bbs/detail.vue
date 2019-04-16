@@ -54,7 +54,7 @@
           <div class="clear"></div>
         </div>
 
-        <div v-for="reply in replyList">
+        <div v-for="reply in replyList" :id="reply.timiReply.id">
           <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
             <div class="aui-card-list-user-avatar">
               <img :src="reply.timiReply.userImageUrl" class="aui-img-round">
@@ -70,7 +70,7 @@
               <img v-for="imageUrl in reply.timiReply.imagesUrl" :src="imageUrl" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
             </div>
             <div v-if="reply.subTimiReplyList.length > 0" style="background-color: #FFECEC; padding: 0.5rem">
-              <div v-for="subReply in reply.subTimiReplyList">
+              <div v-for="subReply in reply.subTimiReplyList" :id="subReply.id">
                 <a href="#">{{subReply.userName}}</a>
                 <span v-if="subReply.replyType==3">回复<a href="#">{{subReply.parentName}}</a></span>
                 : <span @click="showcontext(3, subReply.id)" v-html="subReply.replyContent"></span>
@@ -120,7 +120,7 @@
             <div @click="push2" style="position: fixed; top: 0.5rem; right: 0.5rem; font-size: 16px">发布</div>
           </header>
           <div>
-            <div id="context" contenteditable="true" style="height: auto; min-height: 5rem"">
+            <div id="replyContent" contenteditable="true" style="height: auto; min-height: 5rem"">
 
             </div>
             <div class="aui-card-list-content">
@@ -138,7 +138,7 @@
           </div>
         </div>
         <div class="aui-bar-tab" style="width: 100%; height: 2rem; line-height: 2rem">
-          <span style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem">@</span>
+          <span @click="at" style="margin-left: 1rem; font-size: 1rem; padding-left: 0.5rem;padding-right: 0.5rem">@</span>
         </div>
       </div>
     </div>
@@ -219,6 +219,10 @@
         selectionUserList: [],
         btnStatus: 'aui-btn-success',
         tempContext: '',
+        showcontextObj: {
+          type: 1,
+          parentId: ''
+        }
       }
     },
     mounted: function(){
@@ -312,12 +316,17 @@
         });
       },
       loadReplys: function(lookFloorHost) {
+        this.selectionUserList = [];
         this.findReply.lookFloorHost = lookFloorHost;
         var app = this;
         this.post('/timizhuo/reply/findReply',this.findReply, function (res) {
           if (res.data.code == '200') {
             app.replyList = res.data.data.list;
             app.forum.replyCount = app.replyList.length;
+            var replyId = app.$route.query.replyId;
+            if (replyId != undefined) {
+              setTimeout(()=>document.getElementById(replyId).scrollIntoView(true), 10);
+            }
           } else {
             var dialog = new auiDialog();
             dialog.alert({
@@ -332,6 +341,8 @@
         });
       },
       showcontext: function (replyType, parentId) {
+        this.showcontextObj.type = replyType;
+        this.showcontextObj.parentId = parentId;
         this.initReply();
         this.isShowcontext=true;
         this.contextStyle = '';
@@ -358,6 +369,11 @@
       },
       pushReply: function () {
         var app = this;
+        var friendIds = [];
+        for (var i = 0; i < this.selectionUserList.length; i ++) {
+          friendIds.push(this.selectionUserList[i].id);
+        }
+        this.reply.friendIds = friendIds;
         this.reply.replyContent = document.getElementById("replyContent").innerHTML;
         this.post('/timizhuo/reply/addReply', this.reply, function (res) {
           if (res.data.code == '200') {
@@ -385,7 +401,12 @@
       },
       push2: function() {
         var app = this;
-        this.reply.replyContent = document.getElementById("context").innerHTML;
+        var friendIds = [];
+        for (var i = 0; i < this.selectionUserList.length; i ++) {
+          friendIds.push(this.selectionUserList[i].id);
+        }
+        this.reply.friendIds = friendIds;
+        this.reply.replyContent = document.getElementById("replyContent").innerHTML;
         var imageUrl = '';
         this.imgs.forEach((img)=> {
           imageUrl += img + ',';
@@ -509,7 +530,7 @@
         var html = document.getElementById("replyContent").innerHTML;
         this.isReplyUI = true;
         setTimeout(()=>{
-          document.getElementById("context").innerHTML = html;
+          document.getElementById("replyContent").innerHTML = html;
           app.addImg();
         }, 10);
       },
@@ -554,7 +575,7 @@
       },
       at: function () {
         var app = this;
-        setTimeout(()=> {app.tempContext = document.getElementById("context").innerHTML }, 10);
+        setTimeout(()=> {app.tempContext = document.getElementById("replyContent").innerHTML }, 10);
         var app = this;
         app.post('/timizhuo/fans/followList', {}, function (res) {
           if (res.data.code == '200') {
@@ -609,7 +630,7 @@
         var app = this;
         this.selectionUserList = [];
         this.isShowAt = false;
-        setTimeout(()=> {document.getElementById("context").innerHTML = app.tempContext;
+        setTimeout(()=> {document.getElementById("replyContent").innerHTML = app.tempContext;
           app.setFocus();
         }, 10);
       },
@@ -669,8 +690,9 @@
           appendHtml += '<span>@' + this.selectionUserList[i].nickname + '</span>&nbsp;';
         }
         setTimeout(()=>{
-          document.getElementById("context").innerHTML = this.tempContext;
-          document.getElementById("context").innerHTML += appendHtml;
+          app.showcontext(this.showcontextObj.type, this.showcontextObj.parentId);
+          document.getElementById("replyContent").innerHTML = this.tempContext;
+          document.getElementById("replyContent").innerHTML += appendHtml;
           app.setFocus();
         }, 10);
 
@@ -685,7 +707,7 @@
       },
       setFocus: function () {
         setTimeout(()=>{
-          var obj = document.getElementById("context");
+          var obj = document.getElementById("replyContent");
           if (window.getSelection) { //ie11 10 9 ff safari
             obj.focus(); //解决ff不获取焦点无法定位问题
             var range = window.getSelection(); //创建range

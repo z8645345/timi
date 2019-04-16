@@ -122,6 +122,7 @@ public class TimiReplyServiceImpl implements TimiReplyService {
             TimiUserMessage timiUserMessage = new TimiUserMessage();
             timiUserMessage.setUserId(id);
             timiUserMessage.setForumId(forumId);
+            timiUserMessage.setReplyId(timiReply.getId());
             timiUserMessage.setContentType(type);
             timiUserMessage.setMessageState(UserMessageEnum.MessageStateEnum.UNREAD.getValue());
             timiUserMessage.setCreateTime(new Date());

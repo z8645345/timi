@@ -35,11 +35,11 @@
             app.messageList = res.data.data;
             for (var i = 0; i < app.messageList.length; i ++) {
               if (app.messageList[i].contentType == 1) {
-                app.messageList[i].text = '有人回复你发的帖子'
+                app.messageList[i].text = '有人回复时@了你'
               } else if (app.messageList[i].contentType == 2) {
-                app.messageList[i].text = '有人回复你发表的评论'
+                app.messageList[i].text = '有人回复时@了你'
               } else if (app.messageList[i].contentType == 3) {
-                app.messageList[i].text = '有人回复你发表的评论'
+                app.messageList[i].text = '有人回复时@了你'
               } else if (app.messageList[i].contentType == 4) {
                 app.messageList[i].text = '有人发帖时@了你'
               }
@@ -55,11 +55,11 @@
         },
         readMessage: function (message) {
           if (message.contentType == 1) {
-
+            this.$router.push({name:'detail', query: {id: message.forumId, replyId: message.replyId}});
           } else if (message.contentType == 2) {
-
+            this.$router.push({name:'detail', query: {id: message.forumId, replyId: message.replyId}});
           } else if (message.contentType == 3) {
-
+            this.$router.push({name:'detail', query: {id: message.forumId, replyId: message.replyId}});
           } else if (message.contentType == 4) { // 主贴消息
             this.$router.push({name:'detail', query: {id: message.forumId}});
           }
