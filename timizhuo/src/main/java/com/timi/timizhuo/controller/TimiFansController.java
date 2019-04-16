@@ -13,15 +13,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -124,13 +122,17 @@ public class TimiFansController extends BaseController {
             }
 
             List<TimiFans> result = timiFansService.list(new QueryWrapper<>(timiFans));
-            Collection<String> userIdList = new ArrayList<>();
-            for (TimiFans timiFans1 : result) {
-                userIdList.add(timiFans1.getParentId());
-            }
-            Collection<TimiUser> timiUserList = timiUserService.listByIds(userIdList);
             responseData.setSuccess();
-            responseData.setData(timiUserList);
+            if (CollectionUtils.isEmpty(result)) {
+                responseData.setData(Collections.EMPTY_LIST);
+            } else {
+                Collection<String> userIdList = new ArrayList<>();
+                for (TimiFans timiFans1 : result) {
+                    userIdList.add(timiFans1.getParentId());
+                }
+                Collection<TimiUser> timiUserList = timiUserService.listByIds(userIdList);
+                responseData.setData(timiUserList);
+            }
         } catch (Exception e) {
             logger.error("m:updateTimiUser 获取婷迷关注列表/粉丝列表失败", e);
             responseData.setFial();
