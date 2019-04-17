@@ -42,6 +42,12 @@
                 app.messageList[i].text = '有人回复时@了你'
               } else if (app.messageList[i].contentType == 4) {
                 app.messageList[i].text = '有人发帖时@了你'
+              } else if (app.messageList[i].contentType == 5) {
+                app.messageList[i].text = '有人回复了你发布的帖子'
+              } else if (app.messageList[i].contentType == 6) {
+                app.messageList[i].text = '有人回复了你发表的评论'
+              } else if (app.messageList[i].contentType == 7) {
+                app.messageList[i].text = '有人回复了你发表的评论'
               }
             }
           }
@@ -54,14 +60,18 @@
           this.$router.go(-1);
         },
         readMessage: function (message) {
-          if (message.contentType == 1) {
-            this.$router.push({name:'detail', query: {id: message.forumId, replyId: message.replyId}});
-          } else if (message.contentType == 2) {
-            this.$router.push({name:'detail', query: {id: message.forumId, replyId: message.replyId}});
-          } else if (message.contentType == 3) {
-            this.$router.push({name:'detail', query: {id: message.forumId, replyId: message.replyId}});
-          } else if (message.contentType == 4) { // 主贴消息
+          var data = {
+            id: message.id
+          }
+          this.post('/timizhuo/userMessage/upReadState',data, function (res) {
+
+          }, function (err) {
+
+          })
+          if (message.contentType == 4) { // 主贴消息
             this.$router.push({name:'detail', query: {id: message.forumId}});
+          } else {
+            this.$router.push({name:'detail', query: {id: message.forumId, replyId: message.replyId}});
           }
         }
       }

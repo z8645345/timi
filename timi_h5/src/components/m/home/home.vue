@@ -338,7 +338,7 @@
         <div class="aui-bar-tab-label">婷迷论坛</div>
       </router-link>
       <router-link :to="{ name: 'userHome'}" tag="div" class="aui-bar-tab-item" tapmode>
-        <div class="aui-dot"></div>
+        <div v-if="msgNum > 0" class="aui-badge">{{msgNum}}</div>
         <i class="aui-iconfont aui-icon-my"></i>
         <div class="aui-bar-tab-label">我的</div>
       </router-link>
@@ -388,7 +388,8 @@
         isTouchStart: false,
         screenWidth: 0,//获取当前页面尺寸
         msg: '',
-        isShowMsg: false
+        isShowMsg: false,
+        msgNum: 0
       }
     },
     mounted: function(){
@@ -409,6 +410,7 @@
         this.loadWeiboData();
         this.loadTimiImgData();
         this.loadTimiVideoData();
+        this.message();
       },
       loadShowData: function() { // 加载演出数据
         var data = {
@@ -704,6 +706,27 @@
       moveBy: function () {
         this.styleObject.transform = `translate(${-this.index * 100}vw, 0)`;
         console.log(this.index)
+      },
+      message: function () {
+        var app = this;
+        app.post('/timizhuo/userMessage/findUserMessage',{}, function (res) {
+          if (res.data.code == '200') {
+            app.GLOBAL.msgNum = res.data.data.length;
+            app.msgNum = app.GLOBAL.msgNum;
+          }
+        }, function (err) {
+
+        })
+        setInterval(function () {
+          app.post('/timizhuo/userMessage/findUserMessage',{}, function (res) {
+            if (res.data.code == '200') {
+              app.GLOBAL.msgNum = res.data.data.length;
+              app.msgNum = app.GLOBAL.msgNum;
+            }
+          }, function (err) {
+
+          })
+        },10000);
       }
     }
   }

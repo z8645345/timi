@@ -73,7 +73,7 @@
               <div v-for="subReply in reply.subTimiReplyList" :id="subReply.id">
                 <a href="#">{{subReply.userName}}</a>
                 <span v-if="subReply.replyType==3">回复<a href="#">{{subReply.parentName}}</a></span>
-                : <span @click="showcontext(3, subReply.id)" v-html="subReply.replyContent"></span>
+                : <span @click="showcontext(3, reply.timiReply.id)" v-html="subReply.replyContent"></span>
                 <img v-for="imageUrl in subReply.imagesUrl" :src="imageUrl" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
               </div>
             </div>

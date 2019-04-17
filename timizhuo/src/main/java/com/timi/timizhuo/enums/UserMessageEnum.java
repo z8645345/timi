@@ -14,8 +14,11 @@ public class UserMessageEnum {
      */
     @AllArgsConstructor
     public enum ContentTypeEnum implements IEnum<Integer> {
-        //主回复1 楼层回复2 子回复3 帖子 4
-        MAIN(1),TIER(2),SON(3),POST(4);
+        //主回复1 楼层回复2 子回复3 帖子 4 @消息
+        MAIN_AT(1), TIER_AT(2), SON_AT(3), POST_AT(4),
+        //主回复5 楼层回复6 子回复7
+        MAIN(5), TIER(6), SON(7),
+        ;
         private Integer type;
 
         @Override

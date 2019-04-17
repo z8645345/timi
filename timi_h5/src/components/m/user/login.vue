@@ -52,7 +52,7 @@
         <div class="aui-bar-tab-label">婷迷论坛</div>
       </router-link>
       <div class="aui-bar-tab-item aui-active" tapmode>
-        <div class="aui-dot"></div>
+        <div v-if="GLOBAL.msgNum > 0" class="aui-badge">{{GLOBAL.msgNum}}</div>
         <i class="aui-iconfont aui-icon-my"></i>
         <div class="aui-bar-tab-label">我的</div>
       </div>

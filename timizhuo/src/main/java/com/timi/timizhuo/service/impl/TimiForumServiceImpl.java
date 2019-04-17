@@ -67,7 +67,7 @@ public class TimiForumServiceImpl extends ServiceImpl<TimiForumMapper, TimiForum
                 TimiUserMessage timiUserMessage = new TimiUserMessage();
                 timiUserMessage.setUserId(id);
                 timiUserMessage.setForumId(forumId);
-                timiUserMessage.setContentType(UserMessageEnum.ContentTypeEnum.POST.getValue());
+                timiUserMessage.setContentType(UserMessageEnum.ContentTypeEnum.POST_AT.getValue());
                 timiUserMessage.setMessageState(UserMessageEnum.MessageStateEnum.UNREAD.getValue());
                 timiUserMessage.setCreateTime(new Date());
                 timiUserMessage.setUpdateTime(timiUserMessage.getCreateTime());

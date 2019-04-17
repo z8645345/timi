@@ -113,7 +113,7 @@
         <div class="aui-bar-tab-label">婷迷论坛</div>
       </div>
       <router-link :to="{ name: 'userHome'}" tag="div" class="aui-bar-tab-item" tapmode>
-        <div class="aui-dot"></div>
+        <div v-if="GLOBAL.msgNum > 0" class="aui-badge">{{GLOBAL.msgNum}}</div>
         <i class="aui-iconfont aui-icon-my"></i>
         <div class="aui-bar-tab-label">我的</div>
       </router-link>
