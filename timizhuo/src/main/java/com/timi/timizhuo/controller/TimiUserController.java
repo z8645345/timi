@@ -9,7 +9,14 @@ import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.dto.request.EmaillDto;
+import com.timi.timizhuo.entity.TimiFans;
+import com.timi.timizhuo.entity.TimiForum;
 import com.timi.timizhuo.entity.TimiUser;
+import com.timi.timizhuo.entity.TimiUserMessage;
+import com.timi.timizhuo.enums.UserMessageEnum;
+import com.timi.timizhuo.service.ITimiFansService;
+import com.timi.timizhuo.service.TimiForumService;
+import com.timi.timizhuo.service.TimiUserMessageService;
 import com.timi.timizhuo.service.TimiUserService;
 import com.timi.timizhuo.util.EmaillUtils;
 import com.timi.timizhuo.util.RandomUtils;
@@ -43,6 +50,15 @@ public class TimiUserController extends BaseController {
 
     @Autowired
     private TimiUserService timiUserService;
+
+    @Autowired
+    private ITimiFansService timiFansService;
+
+    @Autowired
+    private TimiForumService timiForumService;
+
+    @Autowired
+    private TimiUserMessageService timiUserMessageService;
 
     @PostMapping("/sendEmall")
     public ResponseData sendEmall(TimiUser timiUser) {
@@ -208,6 +224,14 @@ public class TimiUserController extends BaseController {
         try {
             TimiUser timiUser = getLoginUser(request);
             if (timiUser != null) {
+                Integer fansCount = timiFansService.count(new QueryWrapper<TimiFans>().eq("parent_id", timiUser.getId()));
+                Integer followCount = timiFansService.count(new QueryWrapper<TimiFans>().eq("user_id", timiUser.getId()));
+                Integer forumCount = timiForumService.count(new QueryWrapper<TimiForum>().eq("user_id", timiUser.getId()));
+                Integer messageCount = timiUserMessageService.count(new QueryWrapper<TimiUserMessage>().eq("user_id", timiUser.getId()).eq("message_state", UserMessageEnum.MessageStateEnum.UNREAD.getValue()));
+                timiUser.setFansCount(fansCount);
+                timiUser.setFollowCount(followCount);
+                timiUser.setForumCount(forumCount);
+                timiUser.setMessageCount(messageCount);
                 responseData.setData(timiUser);
             } else {
                 responseData.setFial();

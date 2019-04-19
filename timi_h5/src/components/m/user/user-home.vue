@@ -29,12 +29,12 @@
           </div>
         </div>
         <div class="aui-row aui-margin-t-15">
-          <div class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
-            <span class="aui-text-danger aui-margin-r-5">0人</span>关注我
-          </div>
-          <div class="aui-col-xs-6 aui-text-left aui-padded-l-10">
-            我关注<span class="aui-text-danger aui-margin-l-5">100人</span>
-          </div>
+          <router-link :to="{ name: 'userFollowList', query: { userId: timiUser.id, type: 1 }}" class="aui-col-xs-6 aui-text-right aui-border-r aui-padded-r-10">
+            <span class="aui-text-danger aui-margin-r-5">{{timiUser.fansCount}}人</span>关注我
+          </router-link>
+          <router-link :to="{ name: 'userFollowList', query: { userId: timiUser.id, type: 2 }}" class="aui-col-xs-6 aui-text-left aui-padded-l-10">
+            我关注<span class="aui-text-danger aui-margin-l-5">{{timiUser.followCount}}人</span>
+          </router-link>
         </div>
       </section>
       <section class="aui-content">
@@ -45,32 +45,20 @@
               个人中心
             </div>
           </div>
-          <li class="aui-list-item" style="background-color: #fff;">
-            <div class="aui-list-item-inner aui-list-item-arrow">
-              <div class="aui-list-item-title">个人资料</div>
-              <div class="aui-list-item-right"><img :src="timiUser.pic" class="avatar aui-img-round" style="float: right"></div>
-            </div>
-          </li>
-          <router-link :to="{ name: 'message', params: messageList}" tag="li" class="aui-list-item" style="background-color: #fff;">
+          <router-link :to="{ name: 'message'}" tag="li" class="aui-list-item" style="background-color: #fff;">
             <div class="aui-list-item-inner aui-list-item-arrow">
               <div class="aui-list-item-title">消息</div>
-              <div class="aui-list-item-right">共{{messageList.length}}条未读消息</div>
+              <div class="aui-list-item-right">共{{timiUser.messageCount}}条未读消息</div>
             </div>
           </router-link>
-          <li class="aui-list-item" style="background-color: #fff;">
+          <router-link :to="{ name: 'userForumList', query: { userId: timiUser.id }}" tag="li" class="aui-list-item" style="background-color: #fff;">
             <div class="aui-list-item-inner aui-list-item-arrow">
               <div class="aui-list-item-title">我的帖子</div>
-              <div class="aui-list-item-right">共888贴</div>
+              <div class="aui-list-item-right">共{{timiUser.forumCount}}贴</div>
             </div>
-          </li>
-          <li class="aui-list-item" style="background-color: #fff;">
-            <div class="aui-list-item-inner aui-list-item-arrow">
-              <div class="aui-list-item-title">我收藏的视频</div>
-              <div class="aui-list-item-right">共888个</div>
-            </div>
-          </li>
+          </router-link>
         </ul>
-        <ul class="aui-list ">
+        <ul class="aui-list " style="position: fixed; bottom: 2.5rem; width: 100%">
           <div class="aui-list-header aui-btn aui-btn-block aui-btn-danger">
             <div class="aui-col-xs-12 aui-text-center aui-padded-r-10 aui-list-item-title" @click="logout">
               退出登录
@@ -124,7 +112,6 @@
       this.post('/timizhuo/user/isLogin', {userToken: userToken}, function (res) {
         if (res.data.code == '200') {;
           app.timiUser = res.data.data;
-          app.loadMessage();
           app.isShow = true;
         } else {
           app.$router.push({name:'login'});
@@ -145,16 +132,6 @@
           }
         }, function (err) {
           app.errorAlert('系统异常');
-        })
-      },
-      loadMessage: function () {
-        var app = this;
-        this.post('/timizhuo/userMessage/findUserMessage',{}, function (res) {
-          if (res.data.code == '200') {
-            app.messageList = res.data.data;
-          }
-        }, function (err) {
-
         })
       }
     }

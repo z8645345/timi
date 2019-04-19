@@ -14,8 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.tio.utils.json.Json;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ public class TimiForumController extends  BaseController{
      */
     @TimiLogin
     @PostMapping("/addForum")
-    public ResponseData findAll(TimiForum timiForumDto , HttpServletRequest request) {
+    public ResponseData addForum(TimiForum timiForumDto , HttpServletRequest request) {
         ResponseData responseData = new ResponseData();
         log.info("forum  addForum  timiForumDto :{}",timiForumDto );
         try {
@@ -218,6 +220,40 @@ public class TimiForumController extends  BaseController{
             responseData.setMessage(Constant.SYSTEM_ERROR);
         }
         return responseData;
+
+    }
+
+    /**
+     * 根据用户id查询
+     * request
+     */
+    @PostMapping("/findForumByUserId")
+    public String findForumByUserId(TimiForum timiForum) {
+        ResponseData responseData = new ResponseData();
+        try {
+
+            if (timiForum == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.PARAMS_NOT_NULL);
+                return JSONUtils.toJosnString(responseData, "yyyy-MM-dd");
+            }
+            if (StringUtil.isBlank(timiForum.getUserId())) {
+                responseData.setFial();
+                responseData.setMessage(Constant.ID_NOT_NULL);
+                return JSONUtils.toJosnString(responseData, "yyyy-MM-dd");
+            }
+            List<TimiForum> list = timiForumService.list(new QueryWrapper<TimiForum>(timiForum).orderByDesc("posted_time"));
+            if (list == null) {
+                list = Collections.emptyList();
+            }
+            responseData.setData(list);
+            responseData.setSuccess();
+        } catch (Exception e) {
+            log.error("forum findForumByUserId error ", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return JSONUtils.toJosnString(responseData, "yyyy-MM-dd");
 
     }
 }

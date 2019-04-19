@@ -38,5 +38,29 @@ public class TimiUser extends BaseEntity {
     @TableField(exist = false)
     private Integer msgType;
 
+    /**
+     * 粉丝数
+     */
+    @TableField(exist = false)
+    private Integer fansCount;
+
+    /**
+     * 关注数
+     */
+    @TableField(exist = false)
+    private Integer followCount;
+
+    /**
+     * 发帖数
+     */
+    @TableField(exist = false)
+    private Integer forumCount;
+
+    /**
+     * 未读消息数
+     */
+    @TableField(exist = false)
+    private Integer messageCount;
+
     private static final long serialVersionUID = 1L;
 }

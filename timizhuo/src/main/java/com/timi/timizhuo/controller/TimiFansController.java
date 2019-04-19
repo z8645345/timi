@@ -109,26 +109,23 @@ public class TimiFansController extends BaseController {
      * @return
      */
     @PostMapping("/followList")
-    @TimiLogin
     public ResponseData followList(HttpServletRequest request, TimiFans timiFans) {
         ResponseData responseData = new ResponseData();
         try {
-            if(timiFans==null){
-                timiFans = new TimiFans();
-            }
-            TimiUser timiUser = getLoginUser(request);
-            if (timiUser != null) {
-                timiFans.setUserId(timiUser.getId());
-            }
-
             List<TimiFans> result = timiFansService.list(new QueryWrapper<>(timiFans));
             responseData.setSuccess();
             if (CollectionUtils.isEmpty(result)) {
                 responseData.setData(Collections.EMPTY_LIST);
             } else {
                 Collection<String> userIdList = new ArrayList<>();
-                for (TimiFans timiFans1 : result) {
-                    userIdList.add(timiFans1.getParentId());
+                if (StringUtils.isNotEmpty(timiFans.getParentId())) {
+                    for (TimiFans timiFans1 : result) {
+                        userIdList.add(timiFans1.getUserId());
+                    }
+                } else {
+                    for (TimiFans timiFans1 : result) {
+                        userIdList.add(timiFans1.getParentId());
+                    }
                 }
                 Collection<TimiUser> timiUserList = timiUserService.listByIds(userIdList);
                 responseData.setData(timiUserList);

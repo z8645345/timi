@@ -12,6 +12,8 @@ const mVideo = r => require(['../components/m/video/video.vue'],r);
 const mReigst = r => require(['../components/m/user/reigst.vue'],r);
 const mLogin = r => require(['../components/m/user/login.vue'],r);
 const mUserHome = r => require(['../components/m/user/user-home.vue'],r);
+const mUserForumList = r => require(['../components/m/user/user-forum-list.vue'],r);
+const mUserFollowList = r => require(['../components/m/user/user-follow-list.vue'],r);
 const mMessage = r => require(['../components/m/user/message.vue'],r);
 const mBbs = r => require(['../components/m/bbs/bbs.vue'],r);
 const mPosting = r => require(['../components/m/bbs/posting.vue'],r);
@@ -34,6 +36,8 @@ var mRoutes = [
   {path: '/login', name: 'login', component: mLogin}, // 手机用户登录页
   {path: '/user-home', name: 'userHome', component: mUserHome}, // 手机用户主页
   {path: '/message', name: 'message', component: mMessage}, // 消息列表页面
+  {path: '/user-forum-list', name: 'userForumList', component: mUserForumList}, // 用户帖子列表页面
+  {path: '/user-follow-list', name: 'userFollowList', component: mUserFollowList}, // 用户关注列表页面
   {path: '/bbs', name: 'bbs', component: mBbs}, // 手机论坛页
   {path: '/posting', name: 'posting', component: mPosting}, // 手机论坛发帖页
   {path: '/detail', name: 'detail', component: mDetail}, // 手机论坛帖子详情页
