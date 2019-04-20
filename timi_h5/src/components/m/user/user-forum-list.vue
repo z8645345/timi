@@ -16,14 +16,14 @@
                                                     text-overflow: -o-ellipsis-lastline;
                                                     overflow: hidden;
                                                     text-overflow: ellipsis;;
-                                                    width: 80%">{{timiForum.forumTitle}}</div>
+                                                    width: 75%">{{timiForum.forumTitle}}</div>
             <div v-else class="aui-list-item-title" v-html="timiForum.forumContent" style="-webkit-box-orient: vertical;
                                                     display: -webkit-box;
                                                     -webkit-line-clamp: 1;
                                                     text-overflow: -o-ellipsis-lastline;
                                                     overflow: hidden;
                                                     text-overflow: ellipsis;;
-                                                    width: 80%"></div>
+                                                    width: 75%"></div>
             <div class="aui-list-item-right">{{timiForum.postedTime}}</div>
           </div>
         </router-link>

@@ -26,8 +26,14 @@
               </div>
             </div>
 
-            <div v-if="type==1" class="aui-font-size-14 text-light aui-btn aui-btn-info" style="width: 20%; float: right;">
+            <div v-if="type==1 && timiUser.isFollow" class="aui-font-size-14 text-light" style="width: 20%; float: right;">
+              互相关注
+            </div>
+            <div v-else-if="type==1 && !timiUser.isFollow" class="aui-font-size-14 text-light aui-btn aui-btn-info" style="width: 20%; float: right;">
               +关注
+            </div>
+            <div v-else-if="type==2 && timiUser.isFollowMe" class="aui-font-size-14 text-light" style="width: 20%; float: right;">
+              互相关注
             </div>
           </div>
         </li>

@@ -62,5 +62,17 @@ public class TimiUser extends BaseEntity {
     @TableField(exist = false)
     private Integer messageCount;
 
+    /**
+     * 是否关注当前登录用户
+     */
+    @TableField(exist = false)
+    private Boolean isFollowMe = false;
+
+    /**
+     * 当前用户是否关注该用户
+     */
+    @TableField(exist = false)
+    private Boolean isFollow = false;
+
     private static final long serialVersionUID = 1L;
 }

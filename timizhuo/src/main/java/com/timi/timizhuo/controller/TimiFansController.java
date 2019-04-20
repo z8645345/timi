@@ -118,16 +118,42 @@ public class TimiFansController extends BaseController {
                 responseData.setData(Collections.EMPTY_LIST);
             } else {
                 Collection<String> userIdList = new ArrayList<>();
+                TimiUser loginUser = getLoginUser(request);
                 if (StringUtils.isNotEmpty(timiFans.getParentId())) {
+                    // 粉丝列表
                     for (TimiFans timiFans1 : result) {
                         userIdList.add(timiFans1.getUserId());
                     }
                 } else {
+                    // 关注列表
                     for (TimiFans timiFans1 : result) {
                         userIdList.add(timiFans1.getParentId());
                     }
                 }
                 Collection<TimiUser> timiUserList = timiUserService.listByIds(userIdList);
+                if (loginUser != null) {
+                    if (StringUtils.isNotEmpty(timiFans.getParentId())) {
+                        // 查询粉丝是否被我关注
+                        List<TimiFans> timiFansList = timiFansService.list(new QueryWrapper<TimiFans>().eq("user_id", loginUser.getId()).in("parent_id", userIdList));
+                        timiUserList.forEach(timiUser -> {
+                            timiFansList.forEach(timiFans1 -> {
+                                if (timiFans1.getParentId().equals(timiUser.getId())) {
+                                    timiUser.setIsFollow(true);
+                                }
+                            });
+                        });
+                    } else {
+                        // 查询关注列表是否关注我
+                        List<TimiFans> timiFansList = timiFansService.list(new QueryWrapper<TimiFans>().eq("parent_id", loginUser.getId()).in("user_id", userIdList));
+                        timiUserList.forEach(timiUser -> {
+                            timiFansList.forEach(timiFans1 -> {
+                                if (timiFans1.getUserId().equals(timiUser.getId())) {
+                                    timiUser.setIsFollowMe(true);
+                                }
+                            });
+                        });
+                    }
+                }
                 responseData.setData(timiUserList);
             }
         } catch (Exception e) {
