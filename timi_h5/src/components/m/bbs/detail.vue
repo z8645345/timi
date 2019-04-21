@@ -17,11 +17,11 @@
         </div>
         <div style="padding-left: 0.5rem;padding-right: 0.5rem; margin-top: 1.6rem;  background-color: #fff;"><span v-if="forum.forumType==1" style="color: #0894ec;background-color: #fff;">精·</span>{{forum.forumTitle}}</div>
         <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff;">
-          <div class="aui-card-list-user-avatar">
+          <router-link :to="{ name: 'orterUserHome', query: { userId: forum.userId }}" class="aui-card-list-user-avatar">
             <img :src="forum.userImageUrl" class="aui-img-round">
-          </div>
+          </router-link>
           <div class="aui-card-list-user-name">
-            <div class="aui-text-info">{{forum.userName}}</div>
+            <router-link :to="{ name: 'orterUserHome', query: { userId: forum.userId }}" class="aui-text-info">{{forum.userName}}</router-link>
             <div v-if="!isFollow" @click="follow(forum.userId)" class="aui-font-size-14 text-light aui-btn aui-btn-info">+关注</div>
             <div v-else class="aui-font-size-14 text-light" style="color: #0062cc;">已关注</div>
           </div>
@@ -56,11 +56,11 @@
 
         <div v-for="reply in replyList" :id="reply.timiReply.id">
           <div class="aui-card-list-header aui-card-list-user" style="background-color: #fff; margin-top: 0.1rem">
-            <div class="aui-card-list-user-avatar">
+            <router-link :to="{ name: 'orterUserHome', query: { userId: reply.timiReply.userId }}" class="aui-card-list-user-avatar">
               <img :src="reply.timiReply.userImageUrl" class="aui-img-round">
-            </div>
+            </router-link>
             <div class="aui-card-list-user-name">
-              <div class="aui-text-info">{{reply.timiReply.userName}}</div>
+              <router-link :to="{ name: 'orterUserHome', query: { userId: reply.timiReply.userId }}" class="aui-text-info">{{reply.timiReply.userName}}</router-link>
             </div>
             <div class="aui-card-list-user-info text-light">第{{reply.timiReply.tierNum}}楼 | {{reply.timiReply.replyTime}}</div>
           </div>
@@ -71,8 +71,8 @@
             </div>
             <div v-if="reply.subTimiReplyList.length > 0" style="background-color: #FFECEC; padding: 0.5rem">
               <div v-for="subReply in reply.subTimiReplyList" :id="subReply.id">
-                <a href="#">{{subReply.userName}}</a>
-                <span v-if="subReply.replyType==3">回复<a href="#">{{subReply.parentName}}</a></span>
+                <router-link :to="{ name: 'orterUserHome', query: { userId: subReply.userId }}">{{subReply.userName}}</router-link>
+                <span v-if="subReply.replyType==3">回复<a>{{subReply.parentName}}</a></span>
                 : <span @click="showcontext(3, reply.timiReply.id)" v-html="subReply.replyContent"></span>
                 <img v-for="imageUrl in subReply.imagesUrl" :src="imageUrl" alt="" style="margin-top: 0.4rem; margin-bottom: 0.4rem">
               </div>
@@ -293,7 +293,22 @@
         }
         this.post('/timizhuo/forum/findForumById',data, function (res) {
           if (res.data.code == '200') {
-            app.forum = res.data.data;
+            var forumDTO = res.data.data;
+            var timestamp = (new Date()).getTime();
+            if (timestamp - forumDTO.postedTimeLong < 60 * 1000) {
+              // 1分钟以内
+              forumDTO.pushTime = "刚刚"
+            } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60) {
+              // 1小时以内
+              forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60)) + '分钟前';
+            } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60 * 24) {
+              forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60 / 60)) + '小时前';
+            } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60 * 24 * 7) {
+              forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60 / 60 / 24)) + '天前';
+            } else {
+              forumDTO.pushTime = forumDTO.postedTime;
+            }
+            app.forum = forumDTO;
             var imgs = app.forum.imageUrl.split(",");
             var imagesUrl = [];
             for (var i = 0; i < imgs.length; i ++) {
@@ -554,7 +569,7 @@
           } else {
             var toast = new auiToast();
             toast.fail({
-              title:"登陆后才能关注哦！",
+              title:"登录后才能关注哦！",
               duration:2000
             });
           }

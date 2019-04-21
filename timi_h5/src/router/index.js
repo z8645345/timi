@@ -12,6 +12,7 @@ const mVideo = r => require(['../components/m/video/video.vue'],r);
 const mReigst = r => require(['../components/m/user/reigst.vue'],r);
 const mLogin = r => require(['../components/m/user/login.vue'],r);
 const mUserHome = r => require(['../components/m/user/user-home.vue'],r);
+const mOrterUserHome = r => require(['../components/m/user/orter-user-home.vue'],r);
 const mUserForumList = r => require(['../components/m/user/user-forum-list.vue'],r);
 const mUserFollowList = r => require(['../components/m/user/user-follow-list.vue'],r);
 const mMessage = r => require(['../components/m/user/message.vue'],r);
@@ -35,6 +36,7 @@ var mRoutes = [
   {path: '/reigst', name: 'reigst', component: mReigst}, // 手机用户注册页
   {path: '/login', name: 'login', component: mLogin}, // 手机用户登录页
   {path: '/user-home', name: 'userHome', component: mUserHome}, // 手机用户主页
+  {path: '/orter-user-home', name: 'orterUserHome', component: mOrterUserHome}, // 其他用户主页
   {path: '/message', name: 'message', component: mMessage}, // 消息列表页面
   {path: '/user-forum-list', name: 'userForumList', component: mUserForumList}, // 用户帖子列表页面
   {path: '/user-follow-list', name: 'userFollowList', component: mUserFollowList}, // 用户关注列表页面

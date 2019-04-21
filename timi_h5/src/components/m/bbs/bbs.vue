@@ -44,7 +44,7 @@
 
       <section class="aui-content">
         <div class="aui-card-list" v-for="forum in list">
-          <div class="aui-card-list-header aui-card-list-user">
+          <router-link :to="{ name: 'orterUserHome', query: { userId: forum.userId }}" class="aui-card-list-header aui-card-list-user">
             <div class="aui-card-list-user-avatar">
               <img :src="forum.userImageUrl" class="aui-img-round">
             </div>
@@ -53,7 +53,7 @@
               <div class="aui-font-size-14 text-light">#话题</div>
             </div>
             <div class="aui-card-list-user-info text-light">{{forum.pushTime}}</div>
-          </div>
+          </router-link>
           <router-link :to="{ name: 'detail', query: {id: forum.id}}">
             <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;" v-html="forum.forumContent">
             </div>

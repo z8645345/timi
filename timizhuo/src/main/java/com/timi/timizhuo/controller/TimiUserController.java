@@ -257,4 +257,29 @@ public class TimiUserController extends BaseController {
         return responseData;
     }
 
+    @PostMapping("/getById")
+    public ResponseData getById(TimiUser findTimiUser) {
+        ResponseData responseData = new ResponseData();
+        try {
+            TimiUser timiUser = timiUserService.getById(findTimiUser.getId());
+            if (timiUser != null) {
+                Integer fansCount = timiFansService.count(new QueryWrapper<TimiFans>().eq("parent_id", timiUser.getId()));
+                Integer followCount = timiFansService.count(new QueryWrapper<TimiFans>().eq("user_id", timiUser.getId()));
+                Integer forumCount = timiForumService.count(new QueryWrapper<TimiForum>().eq("user_id", timiUser.getId()));
+                Integer messageCount = timiUserMessageService.count(new QueryWrapper<TimiUserMessage>().eq("user_id", timiUser.getId()).eq("message_state", UserMessageEnum.MessageStateEnum.UNREAD.getValue()));
+                timiUser.setFansCount(fansCount);
+                timiUser.setFollowCount(followCount);
+                timiUser.setForumCount(forumCount);
+                timiUser.setMessageCount(messageCount);
+                responseData.setData(timiUser);
+            } else {
+                responseData.setFial();
+            }
+        } catch (Exception e) {
+            logger.error("m:login 查询婷迷会员登录状态失败", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return responseData;
+    }
 }

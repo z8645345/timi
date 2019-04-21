@@ -11,7 +11,7 @@
       <ul class="aui-list aui-media-list">
         <li class="aui-list-item" v-for="timiUser in followList">
           <div class="aui-card-list-header ">
-            <div style="width: 70%; float: left;">
+            <router-link :to="{ name: 'orterUserHome', query: { userId: timiUser.id }}" style="width: 70%; float: left;">
               <div class="aui-card-list-user-avatar">
                 <img :src="timiUser.pic" class="aui-img-round" style="vertical-align: middle">
               </div>
@@ -22,14 +22,14 @@
                                                     text-overflow: -o-ellipsis-lastline;
                                                     overflow: hidden;
                                                     text-overflow: ellipsis;
-                                                    "> {{timiUser.nickname}}aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                                                    "> {{timiUser.nickname}}
               </div>
-            </div>
+            </router-link>
 
             <div v-if="type==1 && timiUser.isFollow" class="aui-font-size-14 text-light" style="width: 20%; float: right;">
               互相关注
             </div>
-            <div v-else-if="type==1 && !timiUser.isFollow" class="aui-font-size-14 text-light aui-btn aui-btn-info" style="width: 20%; float: right;">
+            <div v-else-if="type==1 && !timiUser.isFollow" @click="follow(timiUser.id)" class="aui-font-size-14 text-light aui-btn aui-btn-info" style="width: 20%; float: right;">
               +关注
             </div>
             <div v-else-if="type==2 && timiUser.isFollowMe" class="aui-font-size-14 text-light" style="width: 20%; float: right;">
@@ -76,6 +76,29 @@
             }
           }, function (err) {
 
+          });
+        },
+        follow: function (parentId) {
+          var data = {
+            parentId: parentId
+          }
+          var app = this;
+          this.post('/timizhuo/fans/follow', data, function (res) {
+            if (res.data.code == '200') {
+              app.isFollow = true;
+              var toast = new auiToast();
+              toast.success({
+                title:"关注成功",
+                duration:2000
+              });
+            } else {
+              var toast = new auiToast();
+              toast.fail({
+                title:"登录后才能关注哦！",
+                duration:2000
+              });
+            }
+          }, function (err) {
           });
         }
       }
