@@ -65,7 +65,6 @@ public class TimiUserServiceImpl extends ServiceImpl<TimiUserMapper, TimiUser> i
     @Override
     public ServiceResponseData<TimiUser> updateTimiUser(TimiUser timiUser) throws Exception {
         ServiceResponseData<TimiUser> serviceResponseData = new ServiceResponseData<>();
-        timiUser.setPassword(Md5Utils.encoderByMd5(timiUser.getPassword()));
         int i = timiUserMapper.updateById(timiUser);
         if (i == 0) {
             serviceResponseData.setFail();

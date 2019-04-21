@@ -210,111 +210,38 @@
           婷迷论坛<div class="aui-btn aui-btn-info">进入婷迷论坛</div>
         </li>
       </ul>
-      <div class="aui-card-list">
-        <div class="aui-card-list-header aui-card-list-user">
+      <div class="aui-card-list" v-for="forum in forums">
+        <router-link :to="{ name: 'orterUserHome', query: { userId: forum.userId }}" class="aui-card-list-header aui-card-list-user">
           <div class="aui-card-list-user-avatar">
-            <img src="../../../assets/images/timi.jpg" class="aui-img-round">
+            <img :src="forum.userImageUrl" class="aui-img-round">
           </div>
           <div class="aui-card-list-user-name">
-            <div class="aui-text-info">丁小酷同学</div>
-            <div class="aui-font-size-14 text-light">#比帅</div>
+            <div class="aui-text-info">{{forum.userName}}</div>
+            <div class="aui-font-size-14 text-light"></div>
           </div>
-          <div class="aui-card-list-user-info text-light">31分钟前</div>
-        </div>
-        <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-          timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
-        </div>
-        <div class="aui-card-list-content">
-          <div class="aui-row aui-row-padded">
-            <div class="aui-col-xs-4">
-              <img src="../../../assets/images/timi.jpg">
-            </div>
-            <div class="aui-col-xs-4">
-              <img src="../../../assets/images/timi.jpg">
-            </div>
-            <div class="aui-col-xs-4">
-              <img src="../../../assets/images/timi.jpg">
+          <div class="aui-card-list-user-info text-light">{{forum.pushTime}}</div>
+        </router-link>
+        <router-link :to="{ name: 'detail', query: {id: forum.id}}">
+          <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;" v-html="forum.forumContent">
+          </div>
+          <div class="aui-card-list-content">
+            <div class="aui-row aui-row-padded" v-for="imgs in forum.imgRows">
+              <div :class="imgs.colsNum" v-for="img in imgs.cols" :style="img.imgStyle">
+                <!--<div :style="img.imgStyle"></div>-->
+                <img :src="img.src" class="img-list">
+              </div>
             </div>
           </div>
-        </div>
+        </router-link>
         <div class="aui-card-list-footer text-light aui-font-size-14">
           <div>
-            <i class="aui-iconfont aui-icon-display"></i> 888
+            <i class="aui-iconfont aui-icon-display"></i> {{forum.readCount}}
           </div>
-          <div>
-            <i class="aui-iconfont aui-icon-comment"></i> 666
-          </div>
-          <div>
-            <i class="aui-iconfont aui-icon-laud"></i> 888
-          </div>
-        </div>
-      </div>
-      <div class="aui-card-list">
-        <div class="aui-card-list-header aui-card-list-user">
-          <div class="aui-card-list-user-avatar">
-            <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-          </div>
-          <div class="aui-card-list-user-name">
-            <div class="aui-text-info">董小星</div>
-            <div class="aui-font-size-14 text-light">#比帅</div>
-          </div>
-          <div class="aui-card-list-user-info text-light">31分钟前</div>
-        </div>
-        <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-          timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅，timi曾真帅
-        </div>
-        <div class="aui-card-list-content">
-          <div class="aui-row aui-row-padded">
-            <div class="aui-col-xs-12">
-              <img src="../../../assets/images/timi.jpg">
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list-footer text-light aui-font-size-14">
-          <div>
-            <i class="aui-iconfont aui-icon-display"></i> 888
-          </div>
-          <div>
-            <i class="aui-iconfont aui-icon-comment"></i> 666
-          </div>
-          <div>
-            <i class="aui-iconfont aui-icon-laud"></i> 888
-          </div>
-        </div>
-      </div>
-      <div class="aui-card-list">
-        <div class="aui-card-list-header aui-card-list-user">
-          <div class="aui-card-list-user-avatar">
-            <img src="../../../assets/images/timi.jpg" class="aui-img-round">
-          </div>
-          <div class="aui-card-list-user-name">
-            <div class="aui-text-info">蛋蛋的圈圈</div>
-            <div class="aui-font-size-14 text-light">#最美的人</div>
-          </div>
-          <div class="aui-card-list-user-info text-light">31分钟前</div>
-        </div>
-        <div class="aui-card-list-content-padded aui-padded-t-5 aui-padded-b-5 max-rows3" style="-webkit-box-orient: vertical; display: -webkit-box;">
-          依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美，依婷最美
-        </div>
-        <div class="aui-card-list-content">
-          <div class="aui-row aui-row-padded">
-            <div class="aui-col-xs-6">
-              <img src="../../../assets/images/timi.jpg">
-            </div>
-            <div class="aui-col-xs-6">
-              <img src="../../../assets/images/timi.jpg">
-            </div>
-          </div>
-        </div>
-        <div class="aui-card-list-footer text-light aui-font-size-14">
-          <div>
-            <i class="aui-iconfont aui-icon-display"></i> 888
-          </div>
-          <div>
-            <i class="aui-iconfont aui-icon-comment"></i> 666
-          </div>
-          <div>
-            <i class="aui-iconfont aui-icon-laud"></i> 888
+          <router-link :to="{ name: 'detail', query: {id: forum.id, isReply: true}}" style="color: #757575">
+            <i class="aui-iconfont aui-icon-comment"></i> {{forum.replyCount}}
+          </router-link>
+          <div @click="likeCountAdd(forum)" :style="forum.likeStyle">
+            <i class="aui-iconfont aui-icon-laud"></i> {{forum.likeCount}}
           </div>
         </div>
       </div>
@@ -372,6 +299,7 @@
         weiboData: [],
         timiImg: [],
         videoRaws: [],
+        forums: [],
         isShowWechatQrcode: false,
         isShowAuiBar: true,
         album: {},
@@ -410,6 +338,7 @@
         this.loadWeiboData();
         this.loadTimiImgData();
         this.loadTimiVideoData();
+        this.loadForumData();
         this.message();
       },
       loadShowData: function() { // 加载演出数据
@@ -564,6 +493,69 @@
             toast.hide();
             //bind(this)可以不用
           }.bind(this));
+      },
+      loadForumData: function () {
+        var self = this;
+        var data = {
+          forumType: null,
+          pageNum: 1,
+          pageSize: 3
+        }
+        this.post('/timizhuo/forum/findForum', data, function (res) {
+          if (res.data.code == '200') {
+            res.data.data.records.forEach((forumDTO)=> {
+              if (forumDTO.imageUrl != null && forumDTO.imageUrl != '') {
+                forumDTO.imagesUrl = forumDTO.imageUrl.split(",");
+                var timestamp = (new Date()).getTime();
+                if (timestamp - forumDTO.postedTimeLong < 60 * 1000) {
+                  // 1分钟以内
+                  forumDTO.pushTime = "刚刚"
+                } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60) {
+                  // 1小时以内
+                  forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60)) + '分钟前';
+                } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60 * 24) {
+                  forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60 / 60)) + '小时前';
+                } else if (timestamp - forumDTO.postedTimeLong < 60 * 1000 * 60 * 24 * 7) {
+                  forumDTO.pushTime = parseInt(((timestamp - forumDTO.postedTimeLong) / 1000 / 60 / 60 / 24)) + '天前';
+                } else {
+                  forumDTO.pushTime = forumDTO.postedTime;
+                }
+                forumDTO.imgRows = self.getImgRows(forumDTO.imagesUrl);
+
+              }
+              self.forums.push(forumDTO);
+            });
+          } else {
+          }
+        }, function (err) {
+
+        });
+      },
+      likeCountAdd: function(forum) {
+        var app = this;
+        var data = {
+          id : forum.id,
+          type: 1
+        }
+        this.post('/timizhuo/forum/updateLikeAndRead',data, function (res) {
+          var toast = new auiToast();
+          if (res.data.code == '200') {
+            toast.custom({
+              title:"点赞成功",
+              html:'<i class="aui-iconfont aui-icon-laud"></i>',
+              duration:1000
+            });
+            forum.likeCount ++;
+            forum.likeStyle = 'color: red; font-weight: 800'
+          } else {
+            toast.fail({
+              title:"登陆后才能点赞哦！",
+              duration:2000
+            });
+          }
+        }, function (err) {
+
+        });
       },
       getImgRows: function(imgs) {
         var num;

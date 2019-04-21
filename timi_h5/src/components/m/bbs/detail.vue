@@ -341,6 +341,14 @@
             var replyId = app.$route.query.replyId;
             if (replyId != undefined) {
               setTimeout(()=>document.getElementById(replyId).scrollIntoView(true), 10);
+            } else {
+              var isReply = app.$route.query.isReply;
+              if (isReply != undefined && isReply) {
+                setTimeout(()=>{
+                  app.isReplyUI = true;
+                  app.setFocus();
+                }, 10);
+              }
             }
           } else {
             var dialog = new auiDialog();

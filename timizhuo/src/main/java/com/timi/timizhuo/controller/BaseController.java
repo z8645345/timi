@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description TODO
@@ -20,5 +21,11 @@ public class BaseController {
         String token = request.getHeader("token");
         TimiUser timiUser = redisTemplate.boundValueOps("USER_TOKEN" + token).get();
         return timiUser;
+    }
+
+    protected  void updataLoginUser(HttpServletRequest request, TimiUser timiUser) {
+        String token = request.getHeader("token");
+        redisTemplate.boundValueOps("USER_TOKEN" + token).set(timiUser);
+        redisTemplate.boundValueOps("USER_TOKEN" + token).expire(15, TimeUnit.DAYS);
     }
 }

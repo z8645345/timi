@@ -50,7 +50,7 @@
             </div>
             <div class="aui-card-list-user-name">
               <div class="aui-text-info">{{forum.userName}}</div>
-              <div class="aui-font-size-14 text-light">#话题</div>
+              <div class="aui-font-size-14 text-light"></div>
             </div>
             <div class="aui-card-list-user-info text-light">{{forum.pushTime}}</div>
           </router-link>
@@ -70,10 +70,10 @@
             <div>
               <i class="aui-iconfont aui-icon-display"></i> {{forum.readCount}}
             </div>
-            <div>
+            <router-link :to="{ name: 'detail', query: {id: forum.id, isReply: true}}" style="color: #757575">
               <i class="aui-iconfont aui-icon-comment"></i> {{forum.replyCount}}
-            </div>
-            <div>
+            </router-link>
+            <div @click="likeCountAdd(forum)" :style="forum.likeStyle">
               <i class="aui-iconfont aui-icon-laud"></i> {{forum.likeCount}}
             </div>
           </div>
@@ -320,7 +320,33 @@
             app.loadListData();
           }
         });
-      }
+      },
+      likeCountAdd: function(forum) {
+        var app = this;
+        var data = {
+          id : forum.id,
+          type: 1
+        }
+        this.post('/timizhuo/forum/updateLikeAndRead',data, function (res) {
+          var toast = new auiToast();
+          if (res.data.code == '200') {
+            toast.custom({
+              title:"点赞成功",
+              html:'<i class="aui-iconfont aui-icon-laud"></i>',
+              duration:1000
+            });
+            forum.likeCount ++;
+            forum.likeStyle = 'color: red; font-weight: 800'
+          } else {
+            toast.fail({
+              title:"登陆后才能点赞哦！",
+              duration:2000
+            });
+          }
+        }, function (err) {
+
+        });
+      },
     }
   }
 </script>

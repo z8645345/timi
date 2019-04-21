@@ -149,20 +149,11 @@ public class TimiUserController extends BaseController {
         ResponseData responseData = new ResponseData();
         try {
             TimiUser loginUser = getLoginUser(request);
-            if (loginUser == null) {
-                responseData.setFial();
-                responseData.setMessage(Constant.UPDATE_USER_NOT_LOGIN);
-                return responseData;
-            }
-            loginUser.setLoveTimiDeclaration(timiUser.getLoveTimiDeclaration());
-            loginUser.setPersonalProfile(timiUser.getPersonalProfile());
-            ServiceResponseData<TimiUser> serviceResponseData = timiUserService.updateTimiUser(loginUser);
-            if (serviceResponseData.isSuccess()) {
-                responseData.setData(Constant.UPDATE_USER_OK);
-            } else {
-                responseData.setFial();
-                responseData.setMessage(serviceResponseData.getMessage());
-            }
+            timiUser.setId(loginUser.getId());
+            timiUserService.updateById(timiUser);
+            TimiUser newLoginUser = timiUserService.getById(loginUser.getId());
+            updataLoginUser(request, newLoginUser);
+            responseData.setData(Constant.UPDATE_USER_OK);
         } catch (Exception e) {
             logger.error("m:updateTimiUser 婷迷修改资料失败", e);
             responseData.setFial();
