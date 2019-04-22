@@ -120,6 +120,7 @@
         loveTimiDeclarationEdit: false,
         personalProfileEdit: false,
         cropper:'',
+        croppable:false,
         panel:false,
         url:'',
         picValue:'',
@@ -133,6 +134,7 @@
         if (res.data.code == '200') {;
           app.timiUser = res.data.data;
           app.isShow = true;
+          setTimeout(()=>app.init(), 10);
         } else {
           app.$router.push({name:'login'});
         }
@@ -140,21 +142,23 @@
         toast.hide();
         app.errorAlert('系统异常');
       });
-
-      //初始化这个裁剪框
-      var self = this;
-      var image = document.getElementById('image');
-      this.cropper = new Cropper(image, {
-        aspectRatio: 1,
-        viewMode: 1,
-        background:false,
-        zoomable:false,
-        ready: function () {
-          self.croppable = true;
-        }
-      });
     },
     methods: {
+      init: function() {
+
+        //初始化这个裁剪框
+        var self = this;
+        var image = document.getElementById('image');
+        this.cropper = new Cropper(image, {
+          aspectRatio: 1,
+          viewMode: 1,
+          background:false,
+          zoomable:false,
+          ready: function () {
+            self.croppable = true;
+          }
+        });
+      },
       logout: function () {
         var app = this;
         this.post('/timizhuo/user/logout',{}, function (res) {
