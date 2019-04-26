@@ -13,7 +13,7 @@
             </div>
             <div class="aui-list-item-input">
               <input type="text" id="pic" style="display: none">
-              <input type="text" v-model="timiUser.username" placeholder="注册时候的邮箱" @focus="hidefooter" @blur="showfooter">
+              <input type="text" v-model="timiUser.username" placeholder="手机号码" @focus="hidefooter" @blur="showfooter">
             </div>
           </div>
         </li>

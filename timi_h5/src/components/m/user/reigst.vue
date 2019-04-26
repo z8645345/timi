@@ -37,21 +37,22 @@
         <li class="aui-list-item">
           <div class="aui-list-item-inner">
             <div class="aui-list-item-label">
-              邮箱
+              手机号码
             </div>
             <div class="aui-list-item-input">
               <input type="text" id="pic" style="display: none">
-              <input type="text" v-model="timiUser.username" placeholder="请输入注册邮箱">
+              <input type="text" v-model="timiUser.username" placeholder="请输入手机号码" style="width: 60%; float: left;">
+              <div class="aui-btn aui-btn-info aui-btn-block aui-btn-outlined aui-btn-sm" @click="sendCheckCode" style="width: 40%; float: right; margin-top: 4px;">{{sendButText}}</div>
             </div>
           </div>
         </li>
-        <li class="aui-list-item" style="display: none">
+        <li class="aui-list-item">
           <div class="aui-list-item-inner">
             <div class="aui-list-item-label">
               验证码
             </div>
             <div class="aui-list-item-input">
-              <input type="text" v-model="timiUser.checkCode" placeholder="请输入邮箱验证码">
+              <input type="text" v-model="timiUser.checkCode" placeholder="请输入短信验证码">
             </div>
           </div>
         </li>
@@ -137,7 +138,9 @@
           loveTimiDeclaration: '',
           personalProfile: '',
           checkCode: ''
-        }
+        },
+        sendButText: '发送验证码',
+        isSend: true
       }
     },
     mounted () {
@@ -278,12 +281,24 @@
           return;
         }
         if (this.timiUser.username == null || this.timiUser.username == '') {
-          this.errorAlert("请输入您的注册邮箱!");
+          this.errorAlert("请输入您的手机号码!");
           return;
         }
-        var myReg=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-        if(!myReg.test(this.timiUser.username)){
-          this.errorAlert("请输入正确的邮箱格式!");
+        // var myReg=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+        // if(!myReg.test(this.timiUser.username)){
+        //   this.errorAlert("请输入正确的邮箱格式!");
+        //   return;
+        // }
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.timiUser.username))){
+          this.errorAlert("请输入正确的手机号码!");
+          return;
+        }
+        if (this.timiUser.checkCode == null || this.timiUser.checkCode == '') {
+          this.errorAlert("请输入短信验证码!");
+          return;
+        }
+        if (this.timiUser.checkCode.length != 6) {
+          this.errorAlert("短信验证码有误!");
           return;
         }
         if (this.timiUser.password == null || this.timiUser.password == '') {
@@ -306,10 +321,10 @@
           this.errorAlert("昵称不能超过10位!");
           return;
         }
-        this.sendCheckCode();
+        this.register();
       },
-      sendCheckCode() {
-        // this.loading("正在发送验证码……");
+      register: function() {
+        //this.loading("正在发送验证码……");
         var data = {
           username: this.timiUser.username,
           nickname: this.timiUser.nickname
@@ -403,6 +418,47 @@
         //     toast.hide();
         //     //bind(this)可以不用
         //   }.bind(this));
+      },
+      sendCheckCode: function() {
+        if (!this.isSend) {
+          return;
+        }
+        if (this.timiUser.username == null || this.timiUser.username == '') {
+          this.errorAlert("请输入您的手机号码!");
+          return;
+        }
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test(this.timiUser.username))){
+          this.errorAlert("请输入正确的手机号码!");
+          return;
+        }
+        var data = {
+          username: this.timiUser.username
+        }
+        var app = this;
+        this.post('/timizhuo/user/sendSms', data, function (res) {
+          if (res.data.code == '200') {;
+            app.errorAlert("验证码发送成功!");
+            app.isSend = false;
+            app.countDown(60);
+          } else {
+            app.errorAlert(res.data.message);
+          }
+        }, function (err) {
+          toast.hide();
+          app.errorAlert('系统异常');
+        });
+      },
+      countDown: function(i) {
+        var app = this;
+        setTimeout(function () {
+          app.sendButText = (i--) + '秒';
+          if (i >= 0) {
+            app.countDown(i);
+          } else {
+            app.sendButText = '发送验证码',
+            app.isSend = true;
+          }
+        }, 1000);
       },
       errorAlert: function (msg) {
         var dialog = new auiDialog();

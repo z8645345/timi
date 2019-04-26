@@ -1,6 +1,7 @@
 package com.timi.timizhuo.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.StringUtil;
 import com.qiniu.util.Auth;
@@ -9,17 +10,13 @@ import com.timi.timizhuo.common.ResponseData;
 import com.timi.timizhuo.common.ServiceResponseData;
 import com.timi.timizhuo.annotation.TimiLogin;
 import com.timi.timizhuo.dto.request.EmaillDto;
-import com.timi.timizhuo.entity.TimiFans;
-import com.timi.timizhuo.entity.TimiForum;
-import com.timi.timizhuo.entity.TimiUser;
-import com.timi.timizhuo.entity.TimiUserMessage;
+import com.timi.timizhuo.entity.*;
 import com.timi.timizhuo.enums.UserMessageEnum;
-import com.timi.timizhuo.service.ITimiFansService;
-import com.timi.timizhuo.service.TimiForumService;
-import com.timi.timizhuo.service.TimiUserMessageService;
-import com.timi.timizhuo.service.TimiUserService;
+import com.timi.timizhuo.service.*;
 import com.timi.timizhuo.util.EmaillUtils;
 import com.timi.timizhuo.util.RandomUtils;
+import com.timi.timizhuo.util.SmsUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +42,8 @@ public class TimiUserController extends BaseController {
 
     private static final String CHECO_CODE_FIX = "CHECO_CODE_FIX";
 
+    private static final String CHECO_CODE_FIX_SUCCESS = "CHECO_CODE_FIX_SUCCESS";
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -59,6 +58,9 @@ public class TimiUserController extends BaseController {
 
     @Autowired
     private TimiUserMessageService timiUserMessageService;
+
+    @Autowired
+    private ITimiSmsLogService timiSmsLogService;
 
     @PostMapping("/sendEmall")
     public ResponseData sendEmall(TimiUser timiUser) {
@@ -105,6 +107,56 @@ public class TimiUserController extends BaseController {
         return responseData;
     }
 
+    @PostMapping("/sendSms")
+    public ResponseData sendSms(TimiUser timiUser) {
+        ResponseData responseData = new ResponseData();
+        try {
+            if (timiUser == null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.PARAMS_NOT_NULL);
+                return responseData;
+            }
+            if (StringUtils.isEmpty(timiUser.getUsername())) {
+                responseData.setFial();
+                responseData.setMessage(Constant.USERNAME_NOT_NULL);
+                return responseData;
+            }
+            TimiUser dto = timiUserService.getOne(new QueryWrapper<TimiUser>().eq("username", timiUser.getUsername()));
+            if (dto != null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.USERNAME_EXIST);
+                return responseData;
+            }
+            String value = stringRedisTemplate.boundValueOps(CHECO_CODE_FIX_SUCCESS + timiUser.getUsername()).get();
+            if (value != null) {
+                responseData.setFial();
+                responseData.setMessage(Constant.SMS_SEND_FREQUENTLY);
+                return responseData;
+            }
+            new Thread(() -> {
+                String checkCode = RandomUtils.digit6();
+                String sendResult = SmsUtils.send(timiUser.getUsername(), checkCode);
+                TimiSmsLog timiSmsLog = JSONObject.parseObject(sendResult, TimiSmsLog.class);
+                if ("000000".equals(timiSmsLog.getCode())) {
+                    stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUser.getUsername()).set(checkCode);
+                    stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUser.getUsername()).expire(5, TimeUnit.MINUTES);
+
+                    stringRedisTemplate.boundValueOps(CHECO_CODE_FIX_SUCCESS + timiUser.getUsername()).set(checkCode);
+                    stringRedisTemplate.boundValueOps(CHECO_CODE_FIX_SUCCESS + timiUser.getUsername()).expire(1, TimeUnit.MINUTES);
+                } else {
+                    logger.error("短信发送失败",sendResult);
+                }
+                timiSmsLogService.save(timiSmsLog);
+            }).start();
+            return responseData;
+        } catch (Exception e) {
+            logger.error("m:sendSms 发送短信验证码失败", e);
+            responseData.setFial();
+            responseData.setMessage(Constant.SYSTEM_ERROR);
+        }
+        return responseData;
+    }
+
     @PostMapping("/register")
     public ResponseData register(TimiUser timiUser) {
         ResponseData responseData = new ResponseData();
@@ -119,6 +171,11 @@ public class TimiUserController extends BaseController {
                 responseData.setMessage(Constant.USERNAME_NOT_NULL);
                 return responseData;
             }
+            if (StringUtils.isEmpty(timiUser.getCheckCode())) {
+                responseData.setFial();
+                responseData.setMessage(Constant.CHECKCODE_ERROR);
+                return responseData;
+            }
             if (StringUtils.isEmpty(timiUser.getPassword())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.PASSWORD_NOT_NULL);
@@ -127,6 +184,12 @@ public class TimiUserController extends BaseController {
             if (StringUtils.isEmpty(timiUser.getNickname())) {
                 responseData.setFial();
                 responseData.setMessage(Constant.NICKNAME_NOT_NULL);
+                return responseData;
+            }
+            String value = stringRedisTemplate.boundValueOps(CHECO_CODE_FIX + timiUser.getUsername()).get();
+            if (ObjectUtils.notEqual(value, timiUser.getCheckCode())) {
+                responseData.setFial();
+                responseData.setMessage(Constant.CHECKCODE_ERROR);
                 return responseData;
             }
             ServiceResponseData<TimiUser> serviceResponseData = timiUserService.register(timiUser);

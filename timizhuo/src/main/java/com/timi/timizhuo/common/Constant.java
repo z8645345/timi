@@ -64,7 +64,7 @@ public class Constant {
 	/**
 	 * 用户名已经被注册
 	 */
-	public static final String USERNAME_EXIST = "邮箱已经被注册";
+	public static final String USERNAME_EXIST = "手机号已经被注册";
 	
 	/**
 	 * 昵称已经被使用
@@ -99,4 +99,6 @@ public class Constant {
 	 * 修改资料失败
 	 */
 	public static final String UPDATE_USER_FAIL="主修改资料失败";
+
+	public static final String SMS_SEND_FREQUENTLY="短信发送过于频繁";
 }
