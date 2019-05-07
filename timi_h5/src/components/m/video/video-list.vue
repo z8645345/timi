@@ -58,7 +58,7 @@
         years: [],
         msg: '',
         isShowMsg: false,
-        columnType: "'1','2'"
+        columnType: "1,2"
       }
     },
     mounted: function(){
@@ -76,11 +76,15 @@
         var tab = new auiTab({
           element:document.getElementById("tab")
         },function(ret){
-          if(ret.index == 2) {
-            app.columnType = "'1'";
+          app.resert();
+          if(ret.index == 1) {
+            app.columnType = "1,2";
+            app.loadVideoList(app.columnType);
+          } else if(ret.index == 2) {
+            app.columnType = "1";
             app.loadVideoList(app.columnType);
           } else if (ret.index == 3) {
-            app.columnType = "'2'";
+            app.columnType = "2";
             app.loadVideoList(app.columnType);
           }
         });
@@ -127,6 +131,10 @@
             app.loadVideoList(app.columnType);
           }
         });
+      },
+      resert: function () {
+        this.years = [];
+        this.pageNum = 1;
       }
     }
   }

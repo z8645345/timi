@@ -68,7 +68,7 @@ public class TimiVideoServiceImpl extends ServiceImpl<TimiVideoMapper, TimiVideo
         List<TimiColumn> timiColumnList = timiColumnMapper.selectPage(
                 new Page<TimiColumn>().setCurrent(timiColumn.getPageNum())
                         .setSize(timiColumn.getPageSize()).setDesc("column_time"),
-                new QueryWrapper<TimiColumn>().inSql("column_type", timiColumn.getColumnType())).getRecords();
+                new QueryWrapper<TimiColumn>().in("column_type", timiColumn.getColumnType().split(","))).getRecords();
         List<FindByColumnLimitResDTO> findByColumnLimitResDTOS = Lists.newArrayList();
         timiColumnList.forEach(timiColumn1 -> {
             TimiVideo findTimiVideo = new TimiVideo();
