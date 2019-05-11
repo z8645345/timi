@@ -73,7 +73,7 @@ public class TimiVideoServiceImpl extends ServiceImpl<TimiVideoMapper, TimiVideo
         timiColumnList.forEach(timiColumn1 -> {
             TimiVideo findTimiVideo = new TimiVideo();
             findTimiVideo.setColumnNo(timiColumn1.getColumnNo());
-            List<TimiVideo> timiVideos = timiVideoMapper.selectList(new QueryWrapper<TimiVideo>().eq("column_no", timiColumn1.getColumnNo()));
+            List<TimiVideo> timiVideos = timiVideoMapper.selectList(new QueryWrapper<TimiVideo>().eq("column_no", timiColumn1.getColumnNo()).orderByAsc("create_time"));
             String year = DateUtils.dateFormat(timiColumn1.getColumnTime(), "yyyy年");
             String data = DateUtils.dateFormat(timiColumn1.getColumnTime(), "MM月dd日");
             FindByColumnLimitResDTO dto = yearContainData(findByColumnLimitResDTOS, year);

@@ -149,9 +149,6 @@
 
   .video-list {
     width:100%;
-    height: 100%;
-    object-fit: cover;
-    height: 140px;
   }
 
   .video {

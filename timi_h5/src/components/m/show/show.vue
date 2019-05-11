@@ -19,7 +19,9 @@
       <section class="aui-content">
         <div class="aui-card-list aui-border-t aui-border-b">
             <img :src="timiShow.showImgs" v-if="timiShow.showVideo==''" />
-            <iframe style="width: 100%; height: 10rem" :src="timiShow.showVideo" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" v-if="timiShow.showVideo!=''"> </iframe>
+            <!--<iframe style="width: 100%; height: 10rem" :src="timiShow.showVideo" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" v-if="timiShow.showVideo!=''"> </iframe>-->
+          <video v-if="timiShow.showVideo!=''" :src="timiShow.showVideo" controls preload="auto" width="100%">
+          </video>
           <!--</div>-->
           <div class="aui-card-list-header aui-padded-t-5 aui-padded-b-5">
             {{timiShow.showTitle}}

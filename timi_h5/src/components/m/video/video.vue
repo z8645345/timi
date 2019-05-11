@@ -15,16 +15,15 @@
       </header>
       <div class="aui-card-list aui-border-t aui-border-b">
 
-        <div class="aui-card-list-content">
-          <iframe style="width: 100%; height: 12rem" :src="video.videoContentUrl" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"">
-          </iframe>
-        </div>
+        <video :src="video.videoContentUrl" controls preload="auto" width="100%">
+        </video>
         <div class="aui-card-list-header aui-padded-t-5 aui-padded-b-5">
           {{video.videoTitle}}
         </div>
         <div class="aui-card-list-footer aui-font-size-12" style="color:#999;">
           <div>
-            <span>2048 赞</span> - <span>295 评论</span> - <span>去往栏目</span>
+            <!--<span>2048 赞</span> - <span>295 评论</span> - <span>去往栏目</span>-->
+            光盘提取源文件较大，需要加载一定时间，请耐心等待
           </div>
         </div>
       </div>
