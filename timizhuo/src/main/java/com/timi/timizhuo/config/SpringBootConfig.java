@@ -1,5 +1,6 @@
 package com.timi.timizhuo.config;
 
+import com.timi.timizhuo.interceptor.AccessInterceptor;
 import com.timi.timizhuo.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SpringBootConfig implements WebMvcConfigurer {
     @Autowired
     private LoginInterceptor loginInterceptor;
+    @Autowired
+    private AccessInterceptor accessInterceptor;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -23,6 +26,7 @@ public class SpringBootConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**").order(9999);
+        registry.addInterceptor(accessInterceptor).addPathPatterns("/**");
     }
 
     private CorsConfiguration corsConfig() {

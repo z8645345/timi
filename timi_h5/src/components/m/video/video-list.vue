@@ -29,13 +29,15 @@
                 <div class="aui-card-list-header aui-border-b">{{date.title}}</div>
                 <div class="aui-card-list-content-padded">
                   <div class="aui-row aui-row-padded">
-                    <router-link class="aui-col-xs-12" v-for="video in date.videoDtoList" :to="{ name: 'video', query: { videoId: video.id }}">
-                      <div class="video">
-                        <img :src="video.videoCover" class="video-list" />
-                        <div class="video-time">{{ video.videoTime }}</div>
-                      </div>
-                      <div>{{video.videoTitle}}</div>
-                    </router-link>
+                    <div class="aui-col-xs-12" v-for="video in date.videoDtoList">
+                      <a :href="video.videoContentUrl">
+                        <div class="video">
+                          <img :src="video.videoCover" class="video-list" />
+                          <div class="video-time">{{ video.videoTime }}</div>
+                        </div>
+                        <div>{{video.videoTitle}}</div>
+                      </a>
+                    </div>
                   </div>
 
                 </div>

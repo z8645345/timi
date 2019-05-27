@@ -40,7 +40,7 @@ public class TimiShowController {
                 responseData.setMessage(Constant.PARAMS_NOT_NULL);
             } else {
                 Date date = DateUtil.toDay(new Date());
-                List<TimiShow> newShowList = timiShowService.list(new QueryWrapper<TimiShow>().gt("show_time", date).orderByAsc("show_time"));
+                List<TimiShow> newShowList = timiShowService.list(new QueryWrapper<TimiShow>().ge("show_time", date).orderByAsc("show_time"));
                 List<TimiShow> oldShowList = timiShowService.list(new QueryWrapper<TimiShow>().lt("show_time", date).orderByDesc("show_time"));
                 newShowList.addAll(oldShowList);
                 List<TimiShow> relustList = new ArrayList<>();
