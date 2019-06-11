@@ -2,9 +2,13 @@ package com.timi.timizhuo.weibo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.timi.timizhuo.entity.TimiKvConfig;
 import com.timi.timizhuo.entity.TimiSinaWeibo;
 import com.timi.timizhuo.mapper.TimiSinaWeiboMapper;
+import com.timi.timizhuo.service.ITimiKvConfigService;
 import com.timi.timizhuo.service.TimiImagesService;
+import com.timi.timizhuo.util.HttpAsyncUtil;
 import com.timi.timizhuo.util.WeiboUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,5 +138,47 @@ public class WeiboHandle {
 			return true;
 		}
 		return false;
+	}
+
+	@Autowired
+	private ITimiKvConfigService timiKvConfigService;
+	/**
+	 * 检查是否需要通知婷迷依婷更新微博了
+	 */
+	public void timiWeiboCheckHandle() {
+		try {
+			String url = "https://m.weibo.cn/api/container/getIndex?type=uid&value=1254461195&containerid=1076031254461195";
+			JSONObject jsonObject = HttpAsyncUtil.getRequestFromUrl(url);
+			System.out.println(jsonObject.toJSONString());
+			int ok = jsonObject.getIntValue("ok");
+			if (ok == 1) {
+				String id = jsonObject.getJSONObject("data").getJSONArray("cards").getJSONObject(0).getJSONObject("mblog").getString("id");
+				TimiKvConfig timiKvConfig = timiKvConfigService.getOne(new QueryWrapper<TimiKvConfig>().eq("p_key","WB_ID"));
+				if (!timiKvConfig.getPValue().equals(id)) {
+					String text = jsonObject.getJSONObject("data").getJSONArray("cards").getJSONObject(0).getJSONObject("mblog").getString("text");
+					String originalUrl = "https://m.weibo.cn/detail/" + id;
+					// 飞鸽发通知
+					com.timi.timizhuo.feige.SendWechatMsgUtils.sendMsg("卓依婷微博更新通知", "依婷发布新微博啦", text,originalUrl);
+					System.out.println("通知成功……");
+					timiKvConfig.setPValue(id);
+					timiKvConfigService.updateById(timiKvConfig);
+				}
+			} else {
+				try {
+					com.timi.timizhuo.feige.SendWechatMsgUtils.sendMsg("微博抓取异常", "微博抓取失败", jsonObject.toJSONString(), "https://www.baidu.com", "6072ff4e6bf55c9a72966d428c95fbe6");
+				} catch (Exception e1) {
+					logger.error("", e1);
+				}
+			}
+
+		} catch (Exception e) {
+			logger.error("获取微博信息失败", e);
+			try {
+				com.timi.timizhuo.feige.SendWechatMsgUtils.sendMsg("微博抓取异常", "微博抓取异常", e.getMessage(), "https://www.baidu.com", "6072ff4e6bf55c9a72966d428c95fbe6");
+			} catch (Exception e1) {
+				logger.error("", e1);
+			}
+
+		}
 	}
 }

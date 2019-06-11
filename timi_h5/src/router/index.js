@@ -24,6 +24,7 @@ const mChatroom = r => require(['../components/m/chatroom/chatroom.vue'],r);
 
 // PC端页面
 const pcHome = r => require(['../components/pc/home/home.vue'],r);
+const tankBattle = r => require(['../components/pc/game/tank-battle/tankBattle.vue'],r);
 
 var mRoutes = [
   { path: '/', redirect: { name: 'home' } }, //重定向
@@ -49,6 +50,7 @@ var mRoutes = [
 var pcRoutes = [
   { path: '/', redirect: { name: 'home' } }, //重定向
   {path: '/home', name: 'home', component: pcHome}, // PC首页
+  {path: '/tank-battle', name: 'tankBattle', component: tankBattle}, // 坦克大战
 ]
 
 var routes = mRoutes;

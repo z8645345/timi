@@ -27,4 +27,9 @@ public class Scheduling implements SchedulingConfigurer {
 		weiboHandle.timiWeiboDataHandle();
 		System.out.println("同步完成");
 	}
+
+	@Scheduled(cron = "1/10 * * * * ?")
+	public void timiWeiboCheckJob() {
+		weiboHandle.timiWeiboCheckHandle();
+	}
 }

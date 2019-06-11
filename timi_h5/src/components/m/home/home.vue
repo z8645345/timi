@@ -275,7 +275,7 @@
     <div class="wechatQrcode" v-if="isShowWechatQrcode" @click="hideWechatQrcode">
 
       <div class="context">
-        <img src="../../../assets/images/qrcode.jpg">
+        <img src="../../../assets/images/qrcode.png">
       </div>
     </div>
 
