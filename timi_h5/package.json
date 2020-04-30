@@ -17,7 +17,7 @@
     "axios": "^0.18.0",
     "bootstrap-loader": "^3.0.2",
     "cropperjs": "^1.4.3",
-    "jquery": "^2.2.3",
+    "jquery": "^3.5.0",
     "lrz": "^4.9.40",
     "node-sass": "^4.11.0",
     "resolve-url-loader": "^3.0.0",
